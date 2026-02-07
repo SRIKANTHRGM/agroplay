@@ -1,0 +1,21 @@
+services:
+  # Backend API
+  - type: web
+    name: agroplay-api
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+
+  # Frontend (alternative to Vercel)
+  # - type: static
+  #   name: agroplay-frontend
+  #   buildCommand: npm install && npm run build
+  #   staticPublishPath: ./dist

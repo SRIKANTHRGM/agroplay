@@ -1,0 +1,387 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwtConfig = require('../config/jwt');
+const { userDb, tokenDb } = require('../config/database');
+
+/**
+ * Calculate token expiration date
+ */
+const getExpirationDate = (duration) => {
+    const units = { h: 3600000, d: 86400000, m: 60000 };
+    const match = duration.match(/^(\d+)([hdm])$/);
+    if (!match) return new Date(Date.now() + 86400000); // Default 24h
+    const [, value, unit] = match;
+    return new Date(Date.now() + parseInt(value) * units[unit]);
+};
+
+/**
+ * Generate access and refresh tokens
+ */
+const generateTokens = (user) => {
+    const payload = {
+        uid: user.uid,
+        email: user.email,
+        name: user.name,
+        role: user.role || 'Farmer'
+    };
+
+    const accessToken = jwt.sign(payload, jwtConfig.secret, {
+        expiresIn: jwtConfig.expiresIn
+    });
+
+    const refreshToken = jwt.sign(
+        { uid: user.uid, type: 'refresh' },
+        jwtConfig.secret,
+        { expiresIn: jwtConfig.refreshExpiresIn }
+    );
+
+    // Save refresh token to database
+    const expiresAt = getExpirationDate(jwtConfig.refreshExpiresIn);
+    tokenDb.save(refreshToken, user.uid, expiresAt.toISOString());
+
+    return { accessToken, refreshToken };
+};
+
+/**
+ * Register a new user
+ */
+const register = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email and password are required.'
+            });
+        }
+
+        // Check if user already exists
+        const existingUser = userDb.findByEmail(email);
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
+                message: 'User already exists with this email.'
+            });
+        }
+
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create user
+        const uid = `u-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const userData = {
+            uid,
+            name: name || email.split('@')[0],
+            email,
+            password: hashedPassword,
+            role: 'Farmer',
+            points: 1250,
+            ecoPoints: 0,
+            badges: [],
+            location: 'India',
+            soilType: 'Alluvial Soil',
+            phone: '',
+            farmSize: '0',
+            cropPreferences: [],
+            sustainabilityGoals: [],
+            irrigationPreference: 'Drip Irrigation',
+            languagePreference: 'English',
+            onboardingComplete: false,
+            createdAt: new Date().toISOString()
+        };
+
+        userDb.create(userData);
+
+        // Generate tokens
+        const tokens = generateTokens(userData);
+
+        // Return user profile without password
+        const { password: _, ...userProfile } = userData;
+
+        res.status(201).json({
+            success: true,
+            message: 'Registration successful.',
+            user: userProfile,
+            ...tokens
+        });
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during registration.'
+        });
+    }
+};
+
+/**
+ * Login user
+ */
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email and password are required.'
+            });
+        }
+
+        // Find user
+        const user = userDb.findByEmail(email);
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid email or password.'
+            });
+        }
+
+        // Verify password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid email or password.'
+            });
+        }
+
+        // Generate tokens
+        const tokens = generateTokens(user);
+
+        // Return user profile without password
+        const { password: _, ...userProfile } = user;
+
+        res.json({
+            success: true,
+            message: 'Login successful.',
+            user: userProfile,
+            ...tokens
+        });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during login.'
+        });
+    }
+};
+
+/**
+ * Google OAuth simulation (for demo - returns mock user with JWT)
+ */
+const googleAuth = async (req, res) => {
+    try {
+        const email = 'farmer@agroplay.nexus';
+
+        // Check if user exists
+        let user = userDb.findByEmail(email);
+
+        if (!user) {
+            // Create mock Google user
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash('google_oauth_user', salt);
+
+            const userData = {
+                uid: 'uid-google-' + Date.now(),
+                name: 'Modern Farmer',
+                email,
+                password: hashedPassword,
+                role: 'Farmer',
+                points: 1250,
+                ecoPoints: 100,
+                badges: [],
+                location: 'India',
+                soilType: 'Alluvial Soil',
+                phone: '',
+                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=AgroPlay`,
+                farmSize: 'Ready to map',
+                cropPreferences: [],
+                sustainabilityGoals: ['Reduce Water Usage'],
+                irrigationPreference: 'Drip Irrigation',
+                languagePreference: 'English',
+                onboardingComplete: false,
+                createdAt: new Date().toISOString()
+            };
+
+            userDb.create(userData);
+            user = userData;
+        }
+
+        const tokens = generateTokens(user);
+        const { password: _, ...userProfile } = user;
+
+        res.json({
+            success: true,
+            message: 'Google authentication successful.',
+            user: userProfile,
+            ...tokens
+        });
+    } catch (error) {
+        console.error('Google auth error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during Google authentication.'
+        });
+    }
+};
+
+/**
+ * Refresh access token
+ */
+const refreshToken = async (req, res) => {
+    try {
+        const { refreshToken: token } = req.body;
+
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message: 'Refresh token is required.'
+            });
+        }
+
+        // Check if token exists in database
+        const storedToken = tokenDb.find(token);
+        if (!storedToken) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid refresh token.'
+            });
+        }
+
+        // Verify token
+        let decoded;
+        try {
+            decoded = jwt.verify(token, jwtConfig.secret);
+        } catch {
+            tokenDb.delete(token);
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid or expired refresh token.'
+            });
+        }
+
+        // Find user
+        const user = userDb.findByUid(decoded.uid);
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'User not found.'
+            });
+        }
+
+        // Remove old refresh token and generate new tokens
+        tokenDb.delete(token);
+        const tokens = generateTokens(user);
+
+        res.json({
+            success: true,
+            message: 'Token refreshed successfully.',
+            ...tokens
+        });
+    } catch (error) {
+        console.error('Refresh token error:', error);
+        res.status(401).json({
+            success: false,
+            message: 'Invalid or expired refresh token.'
+        });
+    }
+};
+
+/**
+ * Get current user from token
+ */
+const getMe = async (req, res) => {
+    try {
+        const { uid } = req.user;
+        const user = userDb.findByUid(uid);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found.'
+            });
+        }
+
+        const { password: _, ...userProfile } = user;
+
+        res.json({
+            success: true,
+            user: userProfile
+        });
+    } catch (error) {
+        console.error('Get me error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error.'
+        });
+    }
+};
+
+/**
+ * Update user profile
+ */
+const updateProfile = async (req, res) => {
+    try {
+        const { uid } = req.user;
+        const updates = req.body;
+
+        const updatedUser = userDb.update(uid, updates);
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found or no valid fields to update.'
+            });
+        }
+
+        const { password: _, ...userProfile } = updatedUser;
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully.',
+            user: userProfile
+        });
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error.'
+        });
+    }
+};
+
+/**
+ * Logout - invalidate refresh token
+ */
+const logout = async (req, res) => {
+    try {
+        const { refreshToken: token } = req.body;
+
+        if (token) {
+            tokenDb.delete(token);
+        }
+
+        res.json({
+            success: true,
+            message: 'Logged out successfully.'
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during logout.'
+        });
+    }
+};
+
+module.exports = {
+    register,
+    login,
+    googleAuth,
+    refreshToken,
+    getMe,
+    updateProfile,
+    logout
+};

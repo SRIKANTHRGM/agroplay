@@ -1,0 +1,9 @@
+{
+  "name": "AgroPlay: Smart Farming, Made Easy",
+  "description": "An elite AI-powered platform for modern agriculture. Experience precision crop planning, advanced plant diagnostics, and localized community intelligence.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

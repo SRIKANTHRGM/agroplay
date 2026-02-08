@@ -17,7 +17,7 @@ const getExpirationDate = (duration) => {
 /**
  * Generate access and refresh tokens
  */
-const generateTokens = (user) => {
+const generateTokens = async (user) => {
     const payload = {
         uid: user.uid,
         email: user.email,
@@ -37,7 +37,7 @@ const generateTokens = (user) => {
 
     // Save refresh token to database
     const expiresAt = getExpirationDate(jwtConfig.refreshExpiresIn);
-    tokenDb.save(refreshToken, user.uid, expiresAt.toISOString());
+    await tokenDb.save(refreshToken, user.uid, expiresAt.toISOString());
 
     return { accessToken, refreshToken };
 };
@@ -98,12 +98,12 @@ const register = async (req, res) => {
             createdAt: new Date().toISOString()
         };
 
-        userDb.create(userData);
+        await userDb.create(userData);
         console.log('[Auth] User created successfully');
 
         // Generate tokens
         console.log('[Auth] Generating tokens...');
-        const tokens = generateTokens(userData);
+        const tokens = await generateTokens(userData);
 
         // Return user profile without password
         const { password: _, ...userProfile } = userData;
@@ -158,7 +158,7 @@ const login = async (req, res) => {
         }
 
         // Generate tokens
-        const tokens = generateTokens(user);
+        const tokens = await generateTokens(user);
 
         // Return user profile without password
         const { password: _, ...userProfile } = user;
@@ -215,11 +215,11 @@ const googleAuth = async (req, res) => {
                 createdAt: new Date().toISOString()
             };
 
-            userDb.create(userData);
+            await userDb.create(userData);
             user = userData;
         }
 
-        const tokens = generateTokens(user);
+        const tokens = await generateTokens(user);
         const { password: _, ...userProfile } = user;
 
         res.json({
@@ -282,8 +282,8 @@ const refreshToken = async (req, res) => {
         }
 
         // Remove old refresh token and generate new tokens
-        tokenDb.delete(token);
-        const tokens = generateTokens(user);
+        await tokenDb.delete(token);
+        const tokens = await generateTokens(user);
 
         res.json({
             success: true,
@@ -337,7 +337,7 @@ const updateProfile = async (req, res) => {
         const { uid } = req.user;
         const updates = req.body;
 
-        const updatedUser = userDb.update(uid, updates);
+        const updatedUser = await userDb.update(uid, updates);
 
         if (!updatedUser) {
             return res.status(404).json({
@@ -370,7 +370,7 @@ const logout = async (req, res) => {
         const { refreshToken: token } = req.body;
 
         if (token) {
-            tokenDb.delete(token);
+            await tokenDb.delete(token);
         }
 
         res.json({

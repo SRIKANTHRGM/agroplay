@@ -100,11 +100,15 @@ const initDatabase = async () => {
 };
 
 // Save database to file
-const saveDatabase = () => {
+const saveDatabase = async () => {
     if (db) {
-        const data = db.export();
-        const buffer = Buffer.from(data);
-        fs.writeFileSync(dbPath, buffer);
+        try {
+            const data = db.export();
+            const buffer = Buffer.from(data);
+            await fs.promises.writeFile(dbPath, buffer);
+        } catch (error) {
+            console.error('[SQLite] Error saving database:', error);
+        }
     }
 };
 
@@ -114,7 +118,7 @@ const getDb = () => db;
 // User operations
 const userDb = {
     // Create a new user
-    create: (userData) => {
+    create: async (userData) => {
         const stmt = db.prepare(`
       INSERT INTO users (uid, name, email, password, phone, role, points, eco_points, badges, 
         location, soil_type, farm_size, crop_preferences, sustainability_goals, 
@@ -144,7 +148,7 @@ const userDb = {
             userData.createdAt || new Date().toISOString()
         ]);
         stmt.free();
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
@@ -175,7 +179,7 @@ const userDb = {
     },
 
     // Update user
-    update: (uid, updates) => {
+    update: async (uid, updates) => {
         const allowedFields = {
             name: 'name',
             phone: 'phone',
@@ -219,7 +223,7 @@ const userDb = {
 
         values.push(uid);
         db.run(`UPDATE users SET ${setClauses.join(', ')} WHERE uid = ?`, values);
-        saveDatabase();
+        await saveDatabase();
 
         return userDb.findByUid(uid);
     }
@@ -228,14 +232,14 @@ const userDb = {
 // Refresh token operations
 const tokenDb = {
     // Save refresh token
-    save: (token, userUid, expiresAt) => {
+    save: async (token, userUid, expiresAt) => {
         const stmt = db.prepare(`
       INSERT INTO refresh_tokens (token, user_uid, expires_at)
       VALUES (?, ?, ?)
     `);
         stmt.run([token, userUid, expiresAt]);
         stmt.free();
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
@@ -253,23 +257,23 @@ const tokenDb = {
     },
 
     // Delete refresh token
-    delete: (token) => {
+    delete: async (token) => {
         db.run('DELETE FROM refresh_tokens WHERE token = ?', [token]);
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
     // Delete all tokens for user
-    deleteAllForUser: (userUid) => {
+    deleteAllForUser: async (userUid) => {
         db.run('DELETE FROM refresh_tokens WHERE user_uid = ?', [userUid]);
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
     // Clean expired tokens
-    cleanExpired: () => {
+    cleanExpired: async () => {
         db.run('DELETE FROM refresh_tokens WHERE expires_at < ?', [new Date().toISOString()]);
-        saveDatabase();
+        await saveDatabase();
         return true;
     }
 };
@@ -302,7 +306,7 @@ function mapRowToUser(row) {
 // Activity operations - for tracking user progress across app sections
 const activityDb = {
     // Save or update an activity
-    save: (userUid, activityType, activityKey, activityData) => {
+    save: async (userUid, activityType, activityKey, activityData) => {
         const now = new Date().toISOString();
         const dataStr = JSON.stringify(activityData);
 
@@ -314,7 +318,7 @@ const activityDb = {
             DO UPDATE SET activity_data = ?, updated_at = ?
         `, [userUid, activityType, activityKey, dataStr, now, now, dataStr, now]);
 
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
@@ -367,10 +371,10 @@ const activityDb = {
     },
 
     // Delete an activity
-    delete: (userUid, activityType, activityKey) => {
+    delete: async (userUid, activityType, activityKey) => {
         db.run('DELETE FROM user_activities WHERE user_uid = ? AND activity_type = ? AND activity_key = ?',
             [userUid, activityType, activityKey]);
-        saveDatabase();
+        await saveDatabase();
         return true;
     }
 };
@@ -378,7 +382,7 @@ const activityDb = {
 // Journey operations - for cultivation journeys
 const journeyDb = {
     // Create a new journey
-    create: (userUid, journeyData) => {
+    create: async (userUid, journeyData) => {
         const now = new Date().toISOString();
         const stmt = db.prepare(`
             INSERT INTO user_journeys (user_uid, journey_id, crop_id, crop_name, start_date, status, 
@@ -399,7 +403,7 @@ const journeyDb = {
             now
         ]);
         stmt.free();
-        saveDatabase();
+        await saveDatabase();
         return true;
     },
 
@@ -430,7 +434,7 @@ const journeyDb = {
     },
 
     // Update journey
-    update: (journeyId, updates) => {
+    update: async (journeyId, updates) => {
         const now = new Date().toISOString();
         const setClauses = ['updated_at = ?'];
         const values = [now];
@@ -454,15 +458,15 @@ const journeyDb = {
 
         values.push(journeyId);
         db.run(`UPDATE user_journeys SET ${setClauses.join(', ')} WHERE journey_id = ?`, values);
-        saveDatabase();
+        await saveDatabase();
 
         return journeyDb.getById(journeyId);
     },
 
     // Delete journey
-    delete: (journeyId) => {
+    delete: async (journeyId) => {
         db.run('DELETE FROM user_journeys WHERE journey_id = ?', [journeyId]);
-        saveDatabase();
+        await saveDatabase();
         return true;
     }
 };

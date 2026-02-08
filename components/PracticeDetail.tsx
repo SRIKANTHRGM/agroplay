@@ -77,7 +77,7 @@ const PracticeDetail: React.FC = () => {
       </div>
 
       {/* AI Tutor Chat Widget */}
-      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-[650px] group/tutor">
+      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-[500px] md:h-[650px] group/tutor">
         <div className="p-8 border-b bg-slate-50/50 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-100 group-hover/tutor:rotate-12 transition-transform">

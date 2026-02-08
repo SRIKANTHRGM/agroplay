@@ -278,7 +278,7 @@ const App: React.FC = () => {
             </div>
           </header>
 
-          <main className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-12 relative bg-slate-900">
+          <main className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-12 relative bg-slate-900">
             <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
 
             {/* HUD Corner Elements */}

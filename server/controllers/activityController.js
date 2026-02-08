@@ -15,7 +15,7 @@ const saveActivity = async (req, res) => {
             });
         }
 
-        activityDb.save(uid, activityType, activityKey, data || {});
+        await activityDb.save(uid, activityType, activityKey, data || {});
 
         res.json({
             success: true,
@@ -124,7 +124,7 @@ const deleteActivity = async (req, res) => {
         const { uid } = req.user;
         const { activityType, activityKey } = req.params;
 
-        activityDb.delete(uid, activityType, activityKey);
+        await activityDb.delete(uid, activityType, activityKey);
 
         res.json({
             success: true,
@@ -154,12 +154,12 @@ const createJourney = async (req, res) => {
             });
         }
 
-        journeyDb.create(uid, journeyData);
+        await journeyDb.create(uid, journeyData);
 
         res.status(201).json({
             success: true,
             message: 'Journey created successfully.',
-            journey: journeyDb.getById(journeyData.id)
+            journey: await journeyDb.getById(journeyData.id)
         });
     } catch (error) {
         console.error('Create journey error:', error);
@@ -199,7 +199,7 @@ const updateJourney = async (req, res) => {
         const { journeyId } = req.params;
         const updates = req.body;
 
-        const journey = journeyDb.update(journeyId, updates);
+        const journey = await journeyDb.update(journeyId, updates);
 
         if (!journey) {
             return res.status(404).json({
@@ -229,7 +229,7 @@ const deleteJourney = async (req, res) => {
     try {
         const { journeyId } = req.params;
 
-        journeyDb.delete(journeyId);
+        await journeyDb.delete(journeyId);
 
         res.json({
             success: true,
@@ -257,27 +257,30 @@ const syncActivities = async (req, res) => {
 
         // Sync activities
         if (activities && typeof activities === 'object') {
+            const syncPromises = [];
             Object.entries(activities).forEach(([activityType, items]) => {
                 if (typeof items === 'object') {
                     Object.entries(items).forEach(([activityKey, data]) => {
-                        activityDb.save(uid, activityType, activityKey, data);
+                        syncPromises.push(activityDb.save(uid, activityType, activityKey, data));
                         savedActivities++;
                     });
                 }
             });
+            await Promise.all(syncPromises);
         }
 
         // Sync journeys
         if (Array.isArray(journeys)) {
-            journeys.forEach(journey => {
+            const journeyPromises = journeys.map(async (journey) => {
                 const existing = journeyDb.getById(journey.id);
                 if (existing) {
-                    journeyDb.update(journey.id, journey);
+                    await journeyDb.update(journey.id, journey);
                 } else {
-                    journeyDb.create(uid, journey);
+                    await journeyDb.create(uid, journey);
                 }
                 savedJourneys++;
             });
+            await Promise.all(journeyPromises);
         }
 
         res.json({

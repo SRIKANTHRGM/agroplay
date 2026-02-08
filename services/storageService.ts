@@ -82,7 +82,7 @@ export const clearAllAppData = (): void => {
         clearUserData(uid);
     }
 
-    // Clear shared keys that should be reset on logout
+    // Shared keys that should be reset on logout
     const sharedKeysToRemove = [
         'kisaanmitra_farm_plots',
         'km_farm_irrigation',
@@ -93,10 +93,25 @@ export const clearAllAppData = (): void => {
         'km_user_profile',
         'km_auth',
         'km_access_token',
-        'km_refresh_token'
+        'km_refresh_token',
+        'kisaanmitra_daily_challenges',
+        'kisaanmitra_challenges_date'
     ];
 
     sharedKeysToRemove.forEach(key => localStorage.removeItem(key));
+
+    // Fallback: Clear any other user-specific data that might have been missed
+    // ONLY if we didn't have a UID (to handle cases where profile was already cleared)
+    if (!uid) {
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && (key.includes('_u-') || key.includes('_uid-'))) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+    }
 };
 
 /**

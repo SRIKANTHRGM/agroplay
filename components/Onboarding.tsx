@@ -86,7 +86,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 relative overflow-hidden font-inter">
       <div className="absolute inset-0 grid-bg opacity-10" />
 
-      <div className="w-full max-w-2xl bg-white rounded-[4rem] shadow-[0_0_120px_rgba(34,197,94,0.15)] relative overflow-hidden animate-in zoom-in-95 duration-700">
+      <div className="w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[4rem] shadow-[0_0_120px_rgba(34,197,94,0.15)] relative overflow-hidden animate-in zoom-in-95 duration-700">
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 w-full h-2 bg-slate-100">
           <div
@@ -95,20 +95,20 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
           />
         </div>
 
-        <div className="p-12 md:p-20 space-y-12">
+        <div className="p-6 md:p-20 space-y-8 md:space-y-12">
           {/* Step Indicators */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-100">
-                <User size={24} />
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-green-600 text-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg shadow-green-100">
+                <User size={20} className="md:w-6 md:h-6" />
               </div>
               <div>
-                <h2 className="text-3xl font-black text-slate-800 outfit tracking-tighter">Profile Protocol</h2>
+                <h2 className="text-xl md:text-3xl font-black text-slate-800 outfit tracking-tighter">Profile Protocol</h2>
                 <p className="text-[10px] font-black text-green-600 uppercase tracking-widest">Phase {step} of {totalSteps} • Identification</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-black text-slate-200 outfit leading-none">{progress}%</p>
+              <p className="text-xl md:text-2xl font-black text-slate-200 outfit leading-none">{progress}%</p>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
                   <input
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-8 py-6 bg-slate-50 border-none rounded-[2rem] text-xl font-bold focus:ring-4 focus:ring-green-500/10 shadow-inner outline-none"
+                    className="w-full px-6 md:px-8 py-4 md:py-6 bg-slate-50 border-none rounded-2xl md:rounded-[2rem] text-lg md:text-xl font-bold focus:ring-4 focus:ring-green-500/10 shadow-inner outline-none"
                     placeholder="Enter full name"
                   />
                 </div>
@@ -150,7 +150,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
                     <input
                       value={formData.location}
                       onChange={e => setFormData({ ...formData, location: e.target.value })}
-                      className="w-full pl-16 pr-8 py-6 bg-slate-50 border-none rounded-[2rem] text-xl font-bold focus:ring-4 focus:ring-green-500/10 shadow-inner outline-none"
+                      className="w-full pl-14 md:pl-16 pr-6 md:pr-8 py-4 md:py-6 bg-slate-50 border-none rounded-2xl md:rounded-[2rem] text-lg md:text-xl font-bold focus:ring-4 focus:ring-green-500/10 shadow-inner outline-none"
                       placeholder="City, State, Country"
                     />
                   </div>
@@ -204,7 +204,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
                     </select>
                   </div>
                 </div>
-                <div className="bg-slate-900 rounded-[3rem] p-10 text-white relative overflow-hidden group">
+                <div className="bg-slate-900 rounded-2xl md:rounded-[3rem] p-6 md:p-10 text-white relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-1000"><ShieldCheck size={160} /></div>
                   <h5 className="text-xl font-black outfit text-green-400 mb-2">Security Verification</h5>
                   <p className="text-slate-400 text-xs font-medium leading-relaxed uppercase tracking-widest">Profile data is encrypted and synced with the AgroPlay neural network.</p>
@@ -225,7 +225,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
             <button
               disabled={!isStepValid() || isSaving}
               onClick={() => step < totalSteps ? setStep(step + 1) : handleFinish()}
-              className="flex-[2] py-6 bg-green-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl shadow-green-100 transition-all hover:bg-green-700 active:scale-95 disabled:opacity-50"
+              className="flex-[2] py-4 md:py-6 bg-green-600 text-white rounded-2xl md:rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl shadow-green-100 transition-all hover:bg-green-700 active:scale-95 disabled:opacity-50"
             >
               {isSaving ? <Loader2 className="animate-spin" size={20} /> : step === totalSteps ? 'Activate Profile' : 'Confirm & Continue'}
               <ChevronRight size={18} />

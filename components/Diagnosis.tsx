@@ -315,8 +315,8 @@ const Diagnosis: React.FC<Props> = ({ user, setUser }) => {
           <div className="inline-flex items-center gap-2 px-6 py-2 bg-green-500/10 text-green-500 rounded-full font-black text-[10px] tracking-widest uppercase border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]">
             <FlaskConical size={14} className="animate-pulse" /> NEURAL DIAGNOSIS v5.2 PRO
           </div>
-          <h2 className="text-3xl md:text-6xl font-black text-white outfit tracking-tighter uppercase italic text-shadow-glow">Specimen Analysis</h2>
-          <p className="text-slate-300 max-w-2xl text-xl font-medium uppercase tracking-tight italic">Professional-grade AI diagnostics with high-integrity spectral checks.</p>
+          <h2 className="text-xl md:text-6xl font-black text-white outfit tracking-tighter uppercase italic text-shadow-glow">Specimen Analysis</h2>
+          <p className="text-slate-300 max-w-2xl text-base md:text-xl font-medium uppercase tracking-tight italic">Professional-grade AI diagnostics with high-integrity spectral checks.</p>
         </div>
         <button onClick={() => setShowHistory(!showHistory)} className="flex items-center gap-3 px-8 py-4 bg-slate-900 rounded-[2rem] border border-green-500/20 shadow-xl font-black text-xs uppercase tracking-widest text-green-500 hover:bg-slate-800 transition-all active:scale-95">
           <History size={18} className="text-green-500/60" /> {showHistory ? 'TERMINATE HISTORY' : 'ACCESS RECORDS'}
@@ -552,7 +552,7 @@ const Diagnosis: React.FC<Props> = ({ user, setUser }) => {
                     <button onClick={() => fileInputRef.current?.click()} className="w-32 h-32 bg-slate-900 rounded-[2.5rem] shadow-2xl flex items-center justify-center text-blue-500 border-2 border-blue-500/20 hover:border-blue-500/50 hover:scale-110 hover:rotate-3 transition-all"><Smartphone size={48} /></button>
                   </div>
                   <div className="space-y-3">
-                    <p className="text-2xl md:text-4xl font-black text-white outfit tracking-tighter uppercase italic">Engage Neural Scanner</p>
+                    <p className="text-xl md:text-4xl font-black text-white outfit tracking-tighter uppercase italic">Engage Neural Scanner</p>
                     <p className="text-green-500/40 text-[10px] font-black uppercase tracking-[0.4em]">{scanMode === 'photo' ? 'Strict Integrity Specimen Capture' : '360° Volumetric pathogen Discovery'}</p>
                   </div>
                   <div className="absolute bottom-[-100px] left-[-100px] w-64 h-64 bg-green-500/5 rounded-full blur-[100px] animate-pulse" />

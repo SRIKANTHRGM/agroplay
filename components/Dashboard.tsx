@@ -38,8 +38,12 @@ import {
 } from 'lucide-react';
 import { chatFast, predictHarvestYield, verifyTaskCompletion } from '../services/geminiService';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  getUserItem,
+  setUserItem,
+  removeUserItem
+} from '../services/storageService';
 import VoiceAssistant from './VoiceAssistant';
-import { getUserItem } from '../services/storageService';
 
 interface Props {
   user: UserProfile;
@@ -132,9 +136,14 @@ const Dashboard: React.FC<Props> = ({ user, setUser }) => {
         g.id === 'g-1' && activePlot.progress > 20 ? { ...g, status: 'Completed' } : g
       ));
 
-      // Trigger prediction if not already loaded
+      // Load cached prediction first
       if (!prediction && !loadingPrediction) {
-        handleGetPrediction(activePlot.crop!.name);
+        const cached = getUserItem(`km_pred_${activePlot.crop!.name}`);
+        if (cached) {
+          setPrediction(JSON.parse(cached));
+        } else {
+          handleGetPrediction(activePlot.crop!.name);
+        }
       }
     }
   }, [activePlot, prediction, loadingPrediction]);
@@ -287,6 +296,8 @@ const Dashboard: React.FC<Props> = ({ user, setUser }) => {
     try {
       const data = await predictHarvestYield(cropName, user.location, user.soilType);
       setPrediction(data);
+      // Cache the result using the storage service for consistent keys
+      setUserItem(`km_pred_${cropName}`, JSON.stringify(data));
     } catch (e) {
       console.error("Prediction failed", e);
     } finally {

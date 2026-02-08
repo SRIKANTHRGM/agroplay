@@ -317,13 +317,13 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Step Rail */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white rounded-[3.5rem] p-10 border border-slate-100 shadow-xl space-y-10">
-            <div className="flex items-center justify-between border-b border-slate-50 pb-8">
-              <h3 className="font-black text-slate-800 outfit text-3xl tracking-tighter">Workflow Rail</h3>
-              <div className="px-4 py-2 bg-slate-100 rounded-2xl text-[10px] font-black text-slate-500 uppercase tracking-widest tabular-nums">{selectedStepIndex + 1} / {cropData?.workflow?.length}</div>
+        <div className="lg:col-span-4 space-y-6 lg:block">
+          <div className="bg-white rounded-3xl md:rounded-[3.5rem] p-6 md:p-10 border border-slate-100 shadow-xl space-y-6 md:space-y-10">
+            <div className="flex items-center justify-between border-b border-slate-50 pb-4 md:pb-8">
+              <h3 className="font-black text-slate-800 outfit text-xl md:text-3xl tracking-tighter">Workflow Rail</h3>
+              <div className="px-3 py-1.5 bg-slate-100 rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest tabular-nums">{selectedStepIndex + 1} / {cropData?.workflow?.length}</div>
             </div>
-            <div className="space-y-4">
+            <div className="flex lg:flex-col gap-3 md:gap-4 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 custom-scrollbar -mx-2 px-2 lg:mx-0 lg:px-0">
               {cropData?.workflow?.map((step, i) => {
                 const locked = i > activeJourney.currentStepIndex;
                 const verified = activeJourney.steps[i]?.verified;
@@ -334,20 +334,20 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                     key={step.id}
                     disabled={locked}
                     onClick={() => setSelectedStepIndex(i)}
-                    className={`w-full text-left p-6 rounded-[2.5rem] transition-all flex items-center gap-6 group relative overflow-hidden ${selectedStepIndex === i
+                    className={`shrink-0 lg:w-full text-left p-4 md:p-6 rounded-2xl md:rounded-[2.5rem] transition-all flex items-center gap-4 md:gap-6 group relative overflow-hidden ${selectedStepIndex === i
                       ? 'bg-slate-900 text-white shadow-2xl scale-[1.05] z-10'
                       : locked
                         ? 'bg-slate-50 text-slate-300 opacity-60 grayscale'
                         : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-100'
                       }`}
                   >
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-lg flex-shrink-0 transition-all shadow-inner ${selectedStepIndex === i ? 'bg-white/10 text-white' : verified ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
+                    <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center font-black text-sm md:text-lg flex-shrink-0 transition-all shadow-inner ${selectedStepIndex === i ? 'bg-white/10 text-white' : verified ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
                       }`}>
                       {verified ? <CheckCircle2 size={28} strokeWidth={3} /> : locked ? <Lock size={24} /> : <Icon size={28} />}
                     </div>
-                    <div className="flex-1">
-                      <span className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-1 ${selectedStepIndex === i ? 'text-green-400' : 'text-slate-400'}`}>PHASE {i + 1}</span>
-                      <span className="text-xl font-black leading-tight outfit">{step.title}</span>
+                    <div className="pr-2 hidden md:block">
+                      <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 md:mb-1 ${selectedStepIndex === i ? 'text-green-400' : 'text-slate-400'}`}>PHASE {i + 1}</span>
+                      <span className="text-base md:text-xl font-black leading-tight outfit truncate block w-24 md:w-auto">{step.title}</span>
                     </div>
                     {verified && (
                       <div className="absolute top-4 right-4 animate-in zoom-in">
@@ -360,7 +360,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
             </div>
           </div>
 
-          <div className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100 relative overflow-hidden group">
+          <div className="hidden md:block bg-amber-50 p-6 md:p-10 rounded-2xl md:rounded-[3rem] border border-amber-100 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-1000"><Award size={160} /></div>
             <h4 className="text-xl font-black text-amber-900 outfit mb-2">Rewards Active</h4>
             <p className="text-amber-800/70 text-sm font-medium leading-relaxed">Each verified step adds points to your global standing and regional rank.</p>
@@ -370,7 +370,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
         {/* Action Zone */}
         <div className="lg:col-span-8 space-y-10">
           {currentStep && (
-            <div className="bg-white rounded-[4.5rem] overflow-hidden border-8 border-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.1)] relative animate-in zoom-in-95 duration-700">
+            <div className="bg-white rounded-3xl md:rounded-[4.5rem] overflow-hidden border-4 md:border-8 border-white shadow-2xl relative animate-in zoom-in-95 duration-700">
               <div className="aspect-video bg-slate-900 relative group overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                 {isVerified && activeJourney.steps[selectedStepIndex].proofImageUrl ? (
@@ -389,7 +389,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                 </div>
               </div>
 
-              <div className="p-16 space-y-16">
+              <div className="p-6 md:p-16 space-y-8 md:space-y-16">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-10">
                   <div className="flex items-center gap-8">
                     <div className="w-24 h-24 bg-green-50 text-green-600 rounded-[2.2rem] flex items-center justify-center shadow-inner animate-float">
@@ -397,9 +397,9 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center gap-4">
-                        <h3 className="text-6xl font-black text-slate-800 outfit tracking-tighter leading-none">{currentStep.title}</h3>
+                        <h3 className="text-2xl md:text-6xl font-black text-slate-800 outfit tracking-tighter leading-none">{currentStep.title}</h3>
                         <button onClick={handleTTS} className={`p-5 rounded-2xl transition-all shadow-xl hover:scale-110 active:scale-90 ${isSpeaking ? 'bg-amber-100 text-amber-600 ring-2 ring-amber-200 animate-pulse' : 'bg-slate-50 text-slate-400 hover:text-green-600'}`}>
-                          {isSpeaking ? <Loader2 className="animate-spin" size={32} /> : <Volume2 size={32} />}
+                          {isSpeaking ? <Loader2 size={20} className="animate-spin md:w-8 md:h-8" /> : <Volume2 size={20} className="md:w-8 md:h-8" />}
                         </button>
                       </div>
                       <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em] pt-1">Implementation Protocol Phase {selectedStepIndex + 1}</p>
@@ -413,7 +413,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
 
                 <div className="p-12 bg-slate-50/50 rounded-[3.5rem] border border-slate-100 relative overflow-hidden group">
                   <div className="absolute -top-10 -right-10 opacity-5 pointer-events-none group-hover:rotate-12 transition-transform duration-[2s]"><Zap size={300} /></div>
-                  <p className="text-3xl text-slate-600 leading-relaxed font-medium relative z-10 italic">"{currentStep.description}"</p>
+                  <p className="text-lg md:text-3xl text-slate-600 leading-relaxed font-medium relative z-10 italic">"{currentStep.description}"</p>
                 </div>
 
                 {/* Watch Tutorial Button */}
@@ -488,8 +488,8 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                       className="flex-1 py-10 bg-slate-900 text-white rounded-[3.5rem] font-black text-3xl hover:bg-green-600 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.3)] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-8 group overflow-hidden relative"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1.2s]" />
-                      <Camera size={48} className="group-hover:rotate-12 transition-transform" />
-                      VERIFY PHASE {selectedStepIndex + 1}
+                      <Camera size={32} className="md:w-12 md:h-12 group-hover:rotate-12 transition-transform" />
+                      <span className="text-xl md:text-3xl">VERIFY PHASE {selectedStepIndex + 1}</span>
                     </button>
                   )}
                 </div>

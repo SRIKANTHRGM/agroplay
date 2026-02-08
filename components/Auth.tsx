@@ -74,13 +74,13 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
 
 
   return (
-    <div className="min-h-screen mesh-gradient flex items-center justify-center p-6 relative overflow-hidden font-inter">
+    <div className="min-h-screen mesh-gradient flex items-center justify-center p-4 md:p-6 relative overflow-hidden font-inter">
       <div className="absolute inset-0 grid-bg opacity-20 z-0" />
 
       <div className={`w-full max-w-md bg-slate-900/80 backdrop-blur-2xl rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden border border-white/10 transition-all duration-700 ${shake ? 'shake' : ''}`}>
 
         {(isLoading) && (
-          <div className="absolute inset-0 z-50 overflow-hidden bg-slate-950/40 backdrop-blur-sm flex flex-col items-center justify-center gap-6">
+          <div className="absolute inset-0 z-50 overflow-hidden bg-slate-950/60 flex flex-col items-center justify-center gap-6 animate-in fade-in duration-300">
             <div className="scanning-line" />
             <div className="w-20 h-20 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin shadow-[0_0_30px_rgba(34,197,94,0.4)]" />
             <p className="text-[10px] font-black text-green-500 uppercase tracking-[0.5em] animate-pulse text-center px-10">
@@ -89,16 +89,16 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
           </div>
         )}
 
-        <div className="p-8 md:p-12 space-y-10 relative z-10">
+        <div className="p-6 md:p-12 space-y-8 md:space-y-10 relative z-10">
           <div className="text-center space-y-6">
-            <div className="relative group mx-auto w-24 h-24">
+            <div className="relative group mx-auto w-20 h-20 md:w-24 md:h-24">
               <div className="absolute inset-0 bg-green-500/20 rounded-[2.5rem] blur-2xl" />
               <div className="absolute inset-0 bg-green-600 text-white rounded-[2.2rem] flex items-center justify-center shadow-[0_0_40px_rgba(34,197,94,0.5)] neon-flicker">
-                <Leaf size={48} className="group-hover:rotate-12 transition-transform" />
+                <Leaf size={32} className="group-hover:rotate-12 transition-transform md:w-12 md:h-12" />
               </div>
             </div>
             <div className="space-y-1">
-              <h2 className="text-3xl md:text-5xl font-black text-white outfit tracking-tighter">AgroPlay</h2>
+              <h2 className="text-2xl md:text-5xl font-black text-white outfit tracking-tighter">AgroPlay</h2>
               <p className="text-[9px] font-black text-green-500 uppercase tracking-[0.5em] ml-1 opacity-80">Autonomous Farming Nexus</p>
             </div>
           </div>
@@ -182,7 +182,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                 disabled={isLoading}
                 className="w-full group bg-green-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(22,101,52,0.4)] hover:bg-green-500 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 mt-6 relative overflow-hidden"
               >
-                <span>{isLogin ? 'Establish Link' : 'Register Operator'}</span>
+                <span className="text-[11px] md:text-xs">{isLogin ? 'Establish Link' : 'Register Operator'}</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>

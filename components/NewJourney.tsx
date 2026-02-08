@@ -25,7 +25,7 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
     crop.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const checkAndStartJourney = async (crop: Crop) => {
+  const checkAndStartJourney = (crop: Crop) => {
     // Check if journey already exists
     const savedJourneys = localStorage.getItem(`km_journeys_${user.uid}`);
     if (savedJourneys) {
@@ -39,15 +39,6 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
 
     setSelectedCrop(crop);
     setIsConfirmOpen(true);
-    setLoadingSummary(true);
-    try {
-      const aiSummary = await generateJourneySummary(crop.name);
-      setSummary(aiSummary);
-    } catch (error) {
-      setSummary("Expert cultivation roadmap ready for deployment.");
-    } finally {
-      setLoadingSummary(false);
-    }
   };
 
   const handleConfirmStart = async () => {
@@ -189,19 +180,7 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
                 </div>
               </div>
 
-              <div className="bg-green-50 p-6 md:p-8 rounded-2xl md:rounded-[2.5rem] border-2 border-green-100 shadow-inner relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:rotate-12 transition-transform duration-1000"><BrainCircuit size={100} /></div>
-                {loadingSummary ? (
-                  <div className="flex flex-col items-center gap-4 py-4">
-                    <Loader2 className="animate-spin text-green-600" size={32} />
-                    <p className="text-[10px] text-green-600 font-black uppercase tracking-widest">Architecting Roadmap...</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4 relative z-10">
-                    <p className="text-green-800 text-base md:text-lg leading-relaxed font-bold italic text-center">"{summary}"</p>
-                  </div>
-                )}
-              </div>
+              {/* Summary box removed as per user request */}
             </div>
 
             {/* Sticky Footer */}

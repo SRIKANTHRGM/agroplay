@@ -188,21 +188,24 @@ const client = new OAuth2Client();
  * Real Google OAuth verification
  */
 const googleAuth = async (req, res) => {
-    console.log('[Auth] Google Auth request received');
+    console.log('[Auth] [v2] Google Auth request received');
     try {
         const { idToken } = req.body;
 
         if (!idToken) {
-            console.log('[Auth] Missing idToken');
+            console.log('[Auth] [v2] Missing idToken');
             return res.status(400).json({
                 success: false,
                 message: 'ID Token is required'
             });
         }
 
-        console.log('[Auth] Verifying ID token with audience: agroplay-4c1fc');
-        // Verify Google ID Token
-        // For Firebase ID tokens, the audience is the Firebase Project ID
+        // DEBUG: Manual decode to see what we're working with
+        const decodedToken = jwt.decode(idToken);
+        console.log('[Auth] [v2] Decoded Payload:', JSON.stringify(decodedToken));
+
+        console.log('[Auth] [v2] Verifying ID token with audience: agroplay-4c1fc');
+
         try {
             const ticket = await client.verifyIdToken({
                 idToken,
@@ -210,21 +213,20 @@ const googleAuth = async (req, res) => {
             });
 
             const payload = ticket.getPayload();
-            console.log('[Auth] Google token verified for:', payload.email);
+            console.log('[Auth] [v2] Google token verified for:', payload.email);
             const { email, name, picture, sub: googleId } = payload;
 
             // Check if user exists
-            console.log('[Auth] Checking if user exists in DB...');
+            console.log('[Auth] [v2] Checking if user exists in DB...');
             let user = userDb.findByEmail(email);
 
             if (!user) {
-                console.log('[Auth] Creating new user for:', email);
-                // Create new Google user
+                console.log('[Auth] [v2] Creating new user for:', email);
                 const userData = {
                     uid: 'uid-g-' + googleId.substring(0, 10),
                     name: name || 'Modern Farmer',
                     email: email,
-                    password: 'google_oauth_protected', // Placeholder
+                    password: 'google_oauth_protected',
                     role: 'Farmer',
                     points: 0,
                     ecoPoints: 0,
@@ -233,25 +235,20 @@ const googleAuth = async (req, res) => {
                     soilType: 'Alluvial Soil',
                     phone: '',
                     avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name || 'Farmer'}`,
-                    farmSize: 'Ready to map',
-                    cropPreferences: [],
-                    sustainabilityGoals: ['Sustainable Farming'],
-                    irrigationPreference: 'Drip Irrigation',
-                    languagePreference: 'English',
                     onboardingComplete: false,
                     createdAt: new Date().toISOString()
                 };
 
                 await userDb.create(userData);
                 user = userData;
-                console.log('[Auth] New user created');
+                console.log('[Auth] [v2] New user created');
             }
 
-            console.log('[Auth] Generating tokens for user:', user.email);
+            console.log('[Auth] [v2] Generating tokens for user:', user.email);
             const tokens = await generateTokens(user);
             const { password: _, ...userProfile } = user;
 
-            console.log('[Auth] Google auth successful');
+            console.log('[Auth] [v2] Google auth successful');
             res.json({
                 success: true,
                 message: 'Google authentication successful.',
@@ -259,18 +256,19 @@ const googleAuth = async (req, res) => {
                 ...tokens
             });
         } catch (verifyError) {
-            console.error('[Auth] Token verification failed:', verifyError);
+            console.error('[Auth] [v2] Token verification failed:', verifyError);
             return res.status(401).json({
                 success: false,
-                message: 'Invalid Google token',
-                error: verifyError.message
+                message: '[v2] Invalid Google token',
+                error: verifyError.message,
+                debug_payload: decodedToken
             });
         }
     } catch (error) {
-        console.error('[Auth] General Google auth error:', error);
+        console.error('[Auth] [v2] General Google auth error:', error);
         res.status(500).json({
             success: false,
-            message: 'Server error during Google authentication.',
+            message: '[v2] Server error during Google authentication.',
             error: error.message
         });
     }

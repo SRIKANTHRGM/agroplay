@@ -199,6 +199,7 @@ export const googleLogin = async (): Promise<any> => {
         });
 
         const data = await response.json();
+        console.log('[Auth] Backend response:', data);
 
         if (!response.ok) {
             const errorMessage = data.error ? `${data.message}: ${data.error}` : (data.message || 'Secure Google verification failed');

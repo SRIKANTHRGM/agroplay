@@ -135,6 +135,8 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                 <p className="text-rose-400 text-xs font-bold">{error}</p>
                 {/* @ts-ignore */}
                 {error.includes(':') && <p className="text-[10px] text-rose-300/70 font-medium italic">{error.split(':').slice(1).join(':')}</p>}
+                {/* @ts-ignore */}
+                {error.includes('debug') && <p className="text-[9px] text-white/40 font-mono mt-2 bg-black/20 p-2 rounded">{error}</p>}
               </div>
             </div>
           )}

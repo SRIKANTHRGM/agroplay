@@ -183,7 +183,7 @@ const login = async (req, res) => {
  */
 const googleAuth = async (req, res) => {
     try {
-        const email = 'farmer@agroplay.nexus';
+        const { email = 'farmer@agroplay.nexus', name = 'Modern Farmer' } = req.body;
 
         // Check if user exists
         let user = userDb.findByEmail(email);
@@ -195,12 +195,12 @@ const googleAuth = async (req, res) => {
 
             const userData = {
                 uid: 'uid-google-' + Date.now(),
-                name: 'Modern Farmer',
+                name,
                 email,
                 password: hashedPassword,
                 role: 'Farmer',
-                points: 1250,
-                ecoPoints: 100,
+                points: 0, // Fresh start for new users
+                ecoPoints: 0,
                 badges: [],
                 location: 'India',
                 soilType: 'Alluvial Soil',

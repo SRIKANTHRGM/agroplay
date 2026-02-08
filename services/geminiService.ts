@@ -1089,21 +1089,17 @@ export const generatePriceForecast = async (cropName: string): Promise<any> => {
 };
 
 export const generateJourneySummary = async (crop: string): Promise<string> => {
-  const prompt = `Provide a concise, encouraging 2-sentence summary of a farmer's journey growing ${crop} in India.`;
+  const prompt = `Generate exactly ONE short, punchy, and impactful sentence (max 15 words) for a farmer starting a new ${crop} journey. Make it encouraging and expert-level.`;
 
   try {
     const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
-      contents: prompt,
+      contents: prompt
     });
-    return response.text || "Your farming journey with this crop shows great potential and dedication.";
-  } catch (error) {
-    return withGroqFallback(
-      () => Promise.reject(error),
-      prompt,
-      "You are KisaanMitra, an encouraging agricultural mentor."
-    ).catch(() => "Your farming journey with this crop shows great potential and dedication.");
+    return response.text?.replace(/[""]/g, '').trim() || "Expert roadmap ready for deployment.";
+  } catch {
+    return "Precision cultivation strategy initialized.";
   }
 };
 

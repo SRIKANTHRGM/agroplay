@@ -9,7 +9,7 @@ import {
   ArrowRight,
   AlertCircle
 } from 'lucide-react';
-import { login, register, googleLogin } from '../services/authService';
+import { login, register, googleLogin, API_BASE } from '../services/authService';
 import { UserProfile } from '../types';
 
 interface Props {
@@ -29,7 +29,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
   useEffect(() => {
     const checkServer = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/health');
+        const res = await fetch(`${API_BASE}/api/health`);
         if (res.ok) setServerStatus('online');
         else setServerStatus('offline');
       } catch (e) {
@@ -77,7 +77,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
     <div className="min-h-screen mesh-gradient flex items-center justify-center p-6 relative overflow-hidden font-inter">
       <div className="absolute inset-0 grid-bg opacity-20 z-0" />
 
-      <div className={`w-full max-w-md bg-slate-900/80 backdrop-blur-2xl rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden border border-white/10 transition-all duration-700 ${shake ? 'shake' : ''}`}>
+      <div className={`w-full max-w-md bg-slate-900/80 backdrop-blur-2xl rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden border border-white/10 transition-all duration-700 ${shake ? 'shake' : ''}`}>
 
         {(isLoading) && (
           <div className="absolute inset-0 z-50 overflow-hidden bg-slate-950/40 backdrop-blur-sm flex flex-col items-center justify-center gap-6">
@@ -89,7 +89,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
           </div>
         )}
 
-        <div className="p-12 space-y-10 relative z-10">
+        <div className="p-8 md:p-12 space-y-10 relative z-10">
           <div className="text-center space-y-6">
             <div className="relative group mx-auto w-24 h-24">
               <div className="absolute inset-0 bg-green-500/20 rounded-[2.5rem] blur-2xl" />
@@ -98,7 +98,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
               </div>
             </div>
             <div className="space-y-1">
-              <h2 className="text-5xl font-black text-white outfit tracking-tighter">AgroPlay</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-white outfit tracking-tighter">AgroPlay</h2>
               <p className="text-[9px] font-black text-green-500 uppercase tracking-[0.5em] ml-1 opacity-80">Autonomous Farming Nexus</p>
             </div>
           </div>
@@ -108,7 +108,12 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
               <AlertCircle className="text-red-400 flex-shrink-0" size={20} />
               <div className="space-y-1">
                 <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">System Offline</p>
-                <p className="text-white/60 text-[9px] font-medium leading-relaxed">Backend server at port 3001 is unreachable. Ensure 'npm start' is running in the server directory.</p>
+                <p className="text-white/60 text-[9px] font-medium leading-relaxed italic">
+                  Critical uplink failure at {API_BASE}.
+                  {API_BASE.includes('localhost')
+                    ? " Ensure 'npm start' is running in the server directory."
+                    : " Verify the backend service is active on Render."}
+                </p>
               </div>
             </div>
           )}

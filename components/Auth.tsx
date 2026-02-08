@@ -131,7 +131,11 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
           {error && (
             <div className="flex items-center gap-3 bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 animate-in slide-in-from-top-2">
               <AlertCircle className="text-rose-400 flex-shrink-0" size={20} />
-              <p className="text-rose-400 text-xs font-bold">{error}</p>
+              <div className="space-y-1">
+                <p className="text-rose-400 text-xs font-bold">{error}</p>
+                {/* @ts-ignore */}
+                {error.includes(':') && <p className="text-[10px] text-rose-300/70 font-medium italic">{error.split(':').slice(1).join(':')}</p>}
+              </div>
             </div>
           )}
 

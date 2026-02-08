@@ -199,13 +199,14 @@ const googleAuth = async (req, res) => {
         }
 
         // Verify Google ID Token
+        // For Firebase ID tokens, the audience is the Firebase Project ID
         const ticket = await client.verifyIdToken({
             idToken,
-            // Audience would normally be the Client ID, but for Firebase tokens 
-            // verified via google-auth-library, we can check the payload.
+            audience: 'agroplay-4c1fc'
         });
 
         const payload = ticket.getPayload();
+        console.log('[Auth] Google token verified for:', payload.email);
         const { email, name, picture, sub: googleId } = payload;
 
         // Check if user exists

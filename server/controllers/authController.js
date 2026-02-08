@@ -259,11 +259,20 @@ const googleAuth = async (req, res) => {
                 ...tokens
             });
         } catch (verifyError) {
-            console.error('[Auth] Token verification failed:', verifyError);
+            console.error('[Auth] Token verification failed:', verifyError.message);
+            // Debug: Decode without verification to see what's wrong
+            const decoded = jwt.decode(idToken);
+            console.log('[Auth] Decoded payload for debugging:', {
+                aud: decoded?.aud,
+                iss: decoded?.iss,
+                sub: decoded?.sub
+            });
+
             return res.status(401).json({
                 success: false,
                 message: 'Invalid Google token',
-                error: verifyError.message
+                error: verifyError.message,
+                debug: { aud: decoded?.aud, iss: decoded?.iss }
             });
         }
     } catch (error) {

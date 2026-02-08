@@ -202,11 +202,20 @@ const googleAuth = async (req, res) => {
 
         // 1. Decode and inspect token without verification first
         const decoded = jwt.decode(idToken);
-        console.log('[Auth] Decoded token claims:', { aud: decoded?.aud, iss: decoded?.iss });
-
         const projectId = 'agroplay-4c1fc';
         const expectedIss = `https://securetoken.google.com/${projectId}`;
         const expectedAud = projectId;
+
+        console.log('[Auth] --- DEBUG START ---');
+        console.log('[Auth] Full decoded token:', JSON.stringify(decoded, null, 2));
+        console.log('[Auth] Checking claims:', {
+            aud: decoded?.aud,
+            expectedAud,
+            iss: decoded?.iss,
+            expectedIss,
+            matchAud: decoded?.aud === expectedAud,
+            matchIss: decoded?.iss === expectedIss
+        });
 
         let payload;
 
@@ -231,10 +240,17 @@ const googleAuth = async (req, res) => {
                     success: false,
                     message: 'Invalid Google token',
                     error: libError.message,
-                    debug: { aud: decoded?.aud, iss: decoded?.iss, expectedAud }
+                    debug: {
+                        aud: decoded?.aud,
+                        iss: decoded?.iss,
+                        expectedAud,
+                        expectedIss,
+                        idToken_snippet: idToken.substring(0, 20) + '...'
+                    }
                 });
             }
         }
+        console.log('[Auth] --- DEBUG END ---');
 
         const { email, name, picture, sub: googleId } = payload;
 

@@ -201,7 +201,9 @@ export const googleLogin = async (): Promise<any> => {
         const data = await response.json();
 
         if (!response.ok) {
-            const errorMessage = data.error ? `${data.message}: ${data.error}` : (data.message || 'Secure Google verification failed');
+            let errorMessage = data.message || 'Secure Google verification failed';
+            if (data.error) errorMessage += `: ${data.error}`;
+            if (data.debug) errorMessage += ` (debug: ${JSON.stringify(data.debug)})`;
             throw new Error(errorMessage);
         }
 

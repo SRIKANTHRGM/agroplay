@@ -188,72 +188,90 @@ const client = new OAuth2Client();
  * Real Google OAuth verification
  */
 const googleAuth = async (req, res) => {
+    console.log('[Auth] Google Auth request received');
     try {
         const { idToken } = req.body;
 
         if (!idToken) {
+            console.log('[Auth] Missing idToken');
             return res.status(400).json({
                 success: false,
                 message: 'ID Token is required'
             });
         }
 
+        console.log('[Auth] Verifying ID token with audience: agroplay-4c1fc');
         // Verify Google ID Token
         // For Firebase ID tokens, the audience is the Firebase Project ID
-        const ticket = await client.verifyIdToken({
-            idToken,
-            audience: 'agroplay-4c1fc'
-        });
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken,
+                audience: 'agroplay-4c1fc'
+            });
 
-        const payload = ticket.getPayload();
-        console.log('[Auth] Google token verified for:', payload.email);
-        const { email, name, picture, sub: googleId } = payload;
+            const payload = ticket.getPayload();
+            console.log('[Auth] Google token verified for:', payload.email);
+            const { email, name, picture, sub: googleId } = payload;
 
-        // Check if user exists
-        let user = userDb.findByEmail(email);
+            // Check if user exists
+            console.log('[Auth] Checking if user exists in DB...');
+            let user = userDb.findByEmail(email);
 
-        if (!user) {
-            // Create new Google user
-            const userData = {
-                uid: 'uid-g-' + googleId.substring(0, 10),
-                name: name || 'Modern Farmer',
-                email: email,
-                password: 'google_oauth_protected', // Placeholder as they login via Google
-                role: 'Farmer',
-                points: 0,
-                ecoPoints: 0,
-                badges: [],
-                location: 'India',
-                soilType: 'Alluvial Soil',
-                phone: '',
-                avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
-                farmSize: 'Ready to map',
-                cropPreferences: [],
-                sustainabilityGoals: ['Sustainable Farming'],
-                irrigationPreference: 'Drip Irrigation',
-                languagePreference: 'English',
-                onboardingComplete: false,
-                createdAt: new Date().toISOString()
-            };
+            if (!user) {
+                console.log('[Auth] Creating new user for:', email);
+                // Create new Google user
+                const userData = {
+                    uid: 'uid-g-' + googleId.substring(0, 10),
+                    name: name || 'Modern Farmer',
+                    email: email,
+                    password: 'google_oauth_protected', // Placeholder
+                    role: 'Farmer',
+                    points: 0,
+                    ecoPoints: 0,
+                    badges: [],
+                    location: 'India',
+                    soilType: 'Alluvial Soil',
+                    phone: '',
+                    avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name || 'Farmer'}`,
+                    farmSize: 'Ready to map',
+                    cropPreferences: [],
+                    sustainabilityGoals: ['Sustainable Farming'],
+                    irrigationPreference: 'Drip Irrigation',
+                    languagePreference: 'English',
+                    onboardingComplete: false,
+                    createdAt: new Date().toISOString()
+                };
 
-            await userDb.create(userData);
-            user = userData;
+                await userDb.create(userData);
+                user = userData;
+                console.log('[Auth] New user created');
+            }
+
+            console.log('[Auth] Generating tokens for user:', user.email);
+            const tokens = await generateTokens(user);
+            const { password: _, ...userProfile } = user;
+
+            console.log('[Auth] Google auth successful');
+            res.json({
+                success: true,
+                message: 'Google authentication successful.',
+                user: userProfile,
+                ...tokens
+            });
+        } catch (verifyError) {
+            console.error('[Auth] Token verification failed:', verifyError);
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid Google token',
+                error: verifyError.message
+            });
         }
-
-        const tokens = await generateTokens(user);
-        const { password: _, ...userProfile } = user;
-
-        res.json({
-            success: true,
-            message: 'Google authentication successful.',
-            user: userProfile,
-            ...tokens
-        });
     } catch (error) {
-        console.error('Google auth error:', error);
+        console.error('[Auth] General Google auth error:', error);
         res.status(500).json({
             success: false,
-            message: 'Server error during Google authentication.'
+            message: 'Server error during Google authentication.',
+            error: error.message
         });
     }
 };

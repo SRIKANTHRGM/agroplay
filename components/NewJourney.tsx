@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, Sprout, Loader2, X, Star, Zap, Sparkles, BrainCircuit, Droplets, Wind, Calendar } from 'lucide-react';
 import { Crop, CULTIVATION_LIBRARY, UserCultivationJourney, UserProfile } from '../types';
-import { generateJourneySummary, generateCropImage, generateCropMetadata } from '../services/geminiService';
+import { generateCropImage, generateCropMetadata } from '../services/geminiService';
 
 interface Props {
   user: UserProfile;
@@ -15,8 +15,6 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [summary, setSummary] = useState("");
-  const [loadingSummary, setLoadingSummary] = useState(false);
   const [isGeneratingCustom, setIsGeneratingCustom] = useState(false);
 
   const categories = Array.from(new Set(CULTIVATION_LIBRARY.map(c => c.category)));

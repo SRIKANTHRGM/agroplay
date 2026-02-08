@@ -177,32 +177,48 @@ export const login = async (email: string, password: string): Promise<any> => {
     return data;
 };
 
+import { auth, googleProvider, signInWithPopup } from './firebase';
+
 /**
- * Google OAuth login
+ * Real Google OAuth login using Firebase and secure backend verification
  */
 export const googleLogin = async (): Promise<any> => {
-    const response = await fetch(`${API_URL}/google`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+        // 1. Authenticate with Google on the frontend
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
 
-    const data = await response.json();
+        // 2. Get the ID token from Firebase
+        const idToken = await user.getIdToken();
 
-    if (!response.ok) {
-        throw new Error(data.message || 'Google login failed');
+        // 3. Send ID token to our backend for verification and session creation
+        const response = await fetch(`${API_URL}/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Secure Google verification failed');
+        }
+
+        // Clear any previous user data
+        clearAllAppData();
+
+        // Store secure tokens
+        setTokens(data.accessToken, data.refreshToken);
+
+        // Store user profile
+        localStorage.setItem('km_user_profile', JSON.stringify(data.user));
+        localStorage.setItem('km_auth', 'true');
+
+        return data;
+    } catch (error: any) {
+        console.error("Google Auth error:", error);
+        throw new Error(error.message || 'Google authentication failed');
     }
-
-    // Clear any previous user data first
-    clearAllAppData();
-
-    // Store tokens
-    setTokens(data.accessToken, data.refreshToken);
-
-    // Store user profile for compatibility
-    localStorage.setItem('km_user_profile', JSON.stringify(data.user));
-    localStorage.setItem('km_auth', 'true');
-
-    return data;
 };
 
 /**

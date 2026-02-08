@@ -15,6 +15,7 @@
         "dotenv": "^16.3.1",
         "sql.js": "^1.10.2",
         "swagger-ui-express": "^5.0.0",
-        "swagger-jsdoc": "^6.2.8"
+        "swagger-jsdoc": "^6.2.8",
+        "google-auth-library": "^9.4.1"
     }
 }

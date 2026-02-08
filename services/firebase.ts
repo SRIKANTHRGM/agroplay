@@ -1,62 +1,29 @@
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Mock Firebase Service to support offline usage and resolve API Key errors
-// in environments without specific Firebase credentials.
-
-// Session-aware mock storage for "synced" feel
-const mockStorage: Record<string, any> = {};
-
-export const auth: any = {
-  currentUser: null,
+const firebaseConfig = {
+  apiKey: "AIzaSyDmEs3duNXjMnl8OFPG69G-ESQZB3QGyTg",
+  authDomain: "agroplay-4c1fc.firebaseapp.com",
+  projectId: "agroplay-4c1fc",
+  storageBucket: "agroplay-4c1fc.firebasestorage.app",
+  messagingSenderId: "443292960467",
+  appId: "1:443292960467:web:7c3c9a6f8fd9319bcaf626",
+  measurementId: "G-H43GFKKXD8"
 };
 
-export const db: any = {};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
-export const googleProvider: any = {};
-
-// Mock Auth Functions
-export const signInWithPopup = async (authInstance: any, provider: any) => {
-  await new Promise(r => setTimeout(r, 1200));
-  return {
-    user: {
-      uid: 'uid-test-farmer',
-      displayName: 'Modern Farmer',
-      email: 'farmer@agroplay.nexus',
-      photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=AgroPlay`,
-      emailVerified: true
-    }
-  };
+export {
+  app,
+  auth,
+  db,
+  googleProvider,
+  signInWithPopup,
+  GoogleAuthProvider
 };
-
-// Mock Firestore Functions - Supports multi-segment paths
-export const doc = (dbInstance: any, ...pathSegments: string[]) => {
-  const path = pathSegments.filter(Boolean).join('/');
-  return {
-    id: pathSegments[pathSegments.length - 1],
-    path: path,
-  };
-};
-
-export const setDoc = async (docRef: any, data: any) => {
-  console.log(`[Firebase Mock] Writing to: ${docRef.path}`, data);
-  mockStorage[docRef.path] = { 
-    ...data, 
-    _lastSynced: new Date().toISOString() 
-  };
-  return Promise.resolve();
-};
-
-export const getDoc = async (docRef: any) => {
-  const data = mockStorage[docRef.path];
-  return {
-    exists: () => !!data,
-    data: () => data || null
-  };
-};
-
-export const serverTimestamp = () => new Date().toISOString();
-
-// Mock initialization
-export const initializeApp = () => ({});
-export const getAuth = () => auth;
-export const getFirestore = () => db;
-export const GoogleAuthProvider = function() { return googleProvider; };
+export default app;

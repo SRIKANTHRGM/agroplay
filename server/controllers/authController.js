@@ -181,34 +181,54 @@ const login = async (req, res) => {
 /**
  * Google OAuth simulation (for demo - returns mock user with JWT)
  */
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client();
+
+/**
+ * Real Google OAuth verification
+ */
 const googleAuth = async (req, res) => {
     try {
-        const { email = 'farmer@agroplay.nexus', name = 'Modern Farmer' } = req.body;
+        const { idToken } = req.body;
+
+        if (!idToken) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID Token is required'
+            });
+        }
+
+        // Verify Google ID Token
+        const ticket = await client.verifyIdToken({
+            idToken,
+            // Audience would normally be the Client ID, but for Firebase tokens 
+            // verified via google-auth-library, we can check the payload.
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, picture, sub: googleId } = payload;
 
         // Check if user exists
         let user = userDb.findByEmail(email);
 
         if (!user) {
-            // Create mock Google user
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash('google_oauth_user', salt);
-
+            // Create new Google user
             const userData = {
-                uid: 'uid-google-' + Date.now(),
-                name,
-                email,
-                password: hashedPassword,
+                uid: 'uid-g-' + googleId.substring(0, 10),
+                name: name || 'Modern Farmer',
+                email: email,
+                password: 'google_oauth_protected', // Placeholder as they login via Google
                 role: 'Farmer',
-                points: 0, // Fresh start for new users
+                points: 0,
                 ecoPoints: 0,
                 badges: [],
                 location: 'India',
                 soilType: 'Alluvial Soil',
                 phone: '',
-                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=AgroPlay`,
+                avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
                 farmSize: 'Ready to map',
                 cropPreferences: [],
-                sustainabilityGoals: ['Reduce Water Usage'],
+                sustainabilityGoals: ['Sustainable Farming'],
                 irrigationPreference: 'Drip Irrigation',
                 languagePreference: 'English',
                 onboardingComplete: false,

@@ -1,14 +1,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, MessageSquare, Send, Loader2, Sparkles, User, Bot, BookOpen } from 'lucide-react';
+import { ArrowLeft, MessageSquare, Send, Loader2, Sparkles, User, Bot, BookOpen, ShieldCheck } from 'lucide-react';
 import { PRACTICES } from './Practices';
 import { askAITutor } from '../services/geminiService';
 
 const PracticeDetail: React.FC = () => {
   const { slug } = useParams();
   const practice = PRACTICES.find(p => p.slug === slug);
-  const [messages, setMessages] = useState<{role: 'user' | 'bot', text: string}[]>([]);
+  const [messages, setMessages] = useState<{ role: 'user' | 'bot', text: string }[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -77,80 +77,106 @@ const PracticeDetail: React.FC = () => {
       </div>
 
       {/* AI Tutor Chat Widget */}
-      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-[600px]">
+      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-[650px] group/tutor">
         <div className="p-8 border-b bg-slate-50/50 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-100">
-              <Sparkles size={24} />
+            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-100 group-hover/tutor:rotate-12 transition-transform">
+              <Sparkles size={28} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-800 outfit">Module AI Tutor</h3>
-              <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Ask anything about this module</p>
+              <h3 className="text-2xl font-black text-slate-800 outfit tracking-tight">Kisaan Mitra AI Tutor</h3>
+              <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Personalized Learning Assistant</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-xl text-xs font-bold">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> ONLINE
+          <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-xl text-[10px] font-black uppercase tracking-widest border border-green-100">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> NEURAL LINK ACTIVE
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50/30">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-8 bg-slate-50/20 custom-scrollbar">
           {messages.length === 0 && (
-            <div className="text-center space-y-4 py-20 text-slate-400">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare size={32} />
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-6 opacity-60">
+              <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center shadow-sm border border-slate-100">
+                <Bot size={48} className="text-slate-300" />
               </div>
-              <p className="font-bold outfit">No questions yet!</p>
-              <p className="text-sm px-10">I've read this module carefully. Ask me to clarify any concepts or provide more details based on the text above.</p>
+              <div className="space-y-2 max-w-sm">
+                <p className="text-xl font-black outfit text-slate-800">Ready to help!</p>
+                <p className="text-sm font-medium text-slate-500 leading-relaxed">I've analyzed this module. Ask me about specific techniques, soil types, or implementation tips.</p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 pt-4">
+                {['Explain key concepts', 'Give me a summary', 'Practical tips'].map((suggestion, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setInput(suggestion); }}
+                    className="px-4 py-2 bg-white border border-slate-100 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-green-600 hover:border-green-200 transition-all shadow-sm"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
+
           {messages.map((m, i) => (
-            <div key={i} className={`flex items-start gap-4 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${m.role === 'user' ? 'bg-slate-800 text-white' : 'bg-green-600 text-white'}`}>
-                {m.role === 'user' ? <User size={20} /> : <Bot size={20} />}
+            <div key={i} className={`flex items-start gap-4 ${m.role === 'user' ? 'flex-row-reverse' : ''} animate-in slide-in-from-bottom-2 duration-500`}>
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${m.role === 'user' ? 'bg-slate-900 text-white' : 'bg-white border border-slate-100 text-green-600'}`}>
+                {m.role === 'user' ? <User size={24} /> : <Sparkles size={24} />}
               </div>
-              <div className={`p-4 rounded-3xl max-w-[80%] text-sm leading-relaxed ${
-                m.role === 'user' 
-                  ? 'bg-slate-800 text-white rounded-tr-none' 
-                  : 'bg-white border border-slate-100 shadow-sm text-slate-700 rounded-tl-none'
-              }`}>
+              <div className={`p-6 rounded-[2rem] max-w-[85%] text-base leading-relaxed shadow-sm ${m.role === 'user'
+                ? 'bg-slate-900 text-white rounded-tr-none'
+                : 'bg-white border border-slate-100 text-slate-700 rounded-tl-none font-medium'
+                }`}>
                 {m.text}
               </div>
             </div>
           ))}
+
           {loading && (
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center">
-                <Bot size={20} />
+              <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 text-green-600 flex items-center justify-center shadow-sm">
+                <Sparkles size={24} className="animate-spin" />
               </div>
-              <div className="p-4 bg-white border border-slate-100 shadow-sm text-slate-700 rounded-3xl rounded-tl-none flex items-center gap-2">
-                <Loader2 size={16} className="animate-spin text-green-600" />
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Tutor is thinking...</span>
+              <div className="p-6 bg-white border border-slate-100 shadow-sm text-slate-400 rounded-[2rem] rounded-tl-none flex items-center gap-3">
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-bounce" />
+                </div>
+                <span className="text-xs font-black uppercase tracking-[0.2em]">Consulting Knowledge Base...</span>
               </div>
             </div>
           )}
         </div>
 
         <div className="p-8 border-t bg-white">
-          <div className="relative group">
-            <input 
-              type="text" 
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Type your question about this practice..."
-              className="w-full pl-6 pr-16 py-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500 transition-all text-sm font-medium outfit"
-            />
-            <button 
-              onClick={handleSend}
-              disabled={!input.trim() || loading}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 text-white rounded-xl flex items-center justify-center hover:bg-green-700 transition-all shadow-lg shadow-green-100 disabled:opacity-50"
-            >
-              <Send size={20} />
-            </button>
+          <div className="relative group/input flex items-center gap-4">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Ask your questions here..."
+                className="w-full pl-8 pr-16 py-6 bg-slate-50 border-none rounded-[2rem] focus:ring-4 focus:ring-green-500/10 transition-all text-lg font-medium outfit shadow-inner placeholder:text-slate-300"
+              />
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || loading}
+                className={`absolute right-3 top-1/2 -translate-y-1/2 w-14 h-14 rounded-2xl flex items-center justify-center transition-all shadow-xl disabled:opacity-50 ${!input.trim() || loading ? 'bg-slate-200 text-slate-400' : 'bg-green-600 text-white hover:bg-green-700 hover:scale-110 active:scale-95'}`}
+              >
+                <Send size={24} />
+              </button>
+            </div>
           </div>
-          <p className="mt-4 text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">
-            Tutor knowledge is strictly limited to this module's content
-          </p>
+          <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+              <ShieldCheck size={12} /> Privacy Guaranteed
+            </div>
+            <div className="h-1 w-1 bg-slate-300 rounded-full" />
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+              <Bot size={12} /> Agricultural Expert AI
+            </div>
+          </div>
         </div>
       </div>
     </div>

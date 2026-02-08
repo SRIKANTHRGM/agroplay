@@ -46,10 +46,12 @@ const generateTokens = (user) => {
  * Register a new user
  */
 const register = async (req, res) => {
+    console.log('[Auth] Registration request received for:', req.body.email);
     try {
         const { name, email, password } = req.body;
 
         if (!email || !password) {
+            console.log('[Auth] Missing email or password');
             return res.status(400).json({
                 success: false,
                 message: 'Email and password are required.'
@@ -57,8 +59,10 @@ const register = async (req, res) => {
         }
 
         // Check if user already exists
+        console.log('[Auth] Checking existing user...');
         const existingUser = userDb.findByEmail(email);
         if (existingUser) {
+            console.log('[Auth] User already exists');
             return res.status(409).json({
                 success: false,
                 message: 'User already exists with this email.'
@@ -66,10 +70,12 @@ const register = async (req, res) => {
         }
 
         // Hash password
+        console.log('[Auth] Hashing password...');
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user
+        console.log('[Auth] Creating user in DB...');
         const uid = `u-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         const userData = {
             uid,
@@ -93,13 +99,16 @@ const register = async (req, res) => {
         };
 
         userDb.create(userData);
+        console.log('[Auth] User created successfully');
 
         // Generate tokens
+        console.log('[Auth] Generating tokens...');
         const tokens = generateTokens(userData);
 
         // Return user profile without password
         const { password: _, ...userProfile } = userData;
 
+        console.log('[Auth] Sending success response');
         res.status(201).json({
             success: true,
             message: 'Registration successful.',
@@ -107,10 +116,11 @@ const register = async (req, res) => {
             ...tokens
         });
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('[Auth] Registration error:', error);
         res.status(500).json({
             success: false,
-            message: 'Server error during registration.'
+            message: 'Server error during registration.',
+            error: error.message
         });
     }
 };

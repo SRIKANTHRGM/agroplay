@@ -22,12 +22,14 @@ const Forum: React.FC = () => {
   const [topic, setTopic] = useState('');
   const [keywords, setKeywords] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [sources, setSources] = useState<any[]>([]);
 
   const handleAiPost = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic || !keywords) return;
     setIsGenerating(true);
+    setError(null);
     try {
       const result = await generateGroundedForumPost(topic, keywords);
       const newPost: ForumPost = {
@@ -45,8 +47,10 @@ const Forum: React.FC = () => {
       setSources(result.sources);
       setTopic('');
       setKeywords('');
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setError("AI generation paused. Check your API keys in the .env file.");
+      setTimeout(() => setError(null), 5000);
     } finally {
       setIsGenerating(false);
     }
@@ -57,15 +61,16 @@ const Forum: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start gap-8">
         {/* Main Feed */}
         <div className="flex-1 space-y-6">
-          <h2 className="text-3xl font-bold text-slate-800 outfit">Community Discussions</h2>
+          <h2 className="text-3xl font-black text-white outfit uppercase italic tracking-tighter">Community Discussions</h2>
           {posts.map(post => (
-            <div key={post.id} className={`bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-100 space-y-4 hover:shadow-md transition-shadow ${post.isAiGenerated ? 'ring-2 ring-blue-100 bg-blue-50/10' : ''}`}>
-              <div className="flex items-center justify-between">
+            <div key={post.id} className={`bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl border border-white/5 space-y-4 hover:shadow-green-500/5 transition-all relative overflow-hidden ${post.isAiGenerated ? 'ring-2 ring-blue-500/20 bg-blue-500/5' : ''}`}>
+              <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+              <div className="flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-3">
-                  <img src={post.authorAvatar} className="w-10 h-10 rounded-full border" alt={post.author} />
+                  <img src={post.authorAvatar} className="w-10 h-10 rounded-full border border-white/10" alt={post.author} />
                   <div>
-                    <p className="font-bold text-slate-800 text-sm">{post.author}</p>
-                    <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold uppercase">
+                    <p className="font-black text-white text-sm uppercase italic">{post.author}</p>
+                    <div className="flex items-center gap-1 text-slate-400 text-[10px] font-black uppercase tracking-widest">
                       <Clock size={12} /> {post.timestamp}
                     </div>
                   </div>
@@ -76,19 +81,19 @@ const Forum: React.FC = () => {
                   </span>
                 )}
               </div>
-              <h3 className="text-xl font-bold text-slate-800 outfit">{post.title}</h3>
-              <p className="text-slate-600 leading-relaxed whitespace-pre-wrap">{post.content}</p>
-              
+              <h3 className="text-xl font-black text-white outfit relative z-10 uppercase italic">{post.title}</h3>
+              <p className="text-slate-300 leading-relaxed whitespace-pre-wrap relative z-10 font-medium uppercase tracking-wide text-sm">{post.content}</p>
+
               {post.isAiGenerated && sources.length > 0 && (
                 <div className="pt-4 border-t border-blue-50">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Verification Sources</p>
                   <div className="flex flex-wrap gap-2">
                     {sources.map((src, i) => (
-                      <a 
-                        key={i} 
-                        href={src.web?.uri} 
-                        target="_blank" 
-                        rel="noreferrer" 
+                      <a
+                        key={i}
+                        href={src.web?.uri}
+                        target="_blank"
+                        rel="noreferrer"
                         className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors"
                       >
                         <ExternalLink size={12} /> {src.web?.title || 'Grounding Data'}
@@ -98,14 +103,14 @@ const Forum: React.FC = () => {
                 </div>
               )}
 
-              <div className="pt-4 flex items-center gap-6 border-t border-slate-50">
-                <button className="flex items-center gap-2 text-slate-500 hover:text-green-600 transition-colors text-sm font-bold">
+              <div className="pt-4 flex items-center gap-6 border-t border-white/5 relative z-10">
+                <button className="flex items-center gap-2 text-slate-400 hover:text-green-400 transition-all text-xs font-black uppercase tracking-widest italic">
                   <ThumbsUp size={18} /> {post.upvotes}
                 </button>
-                <button className="flex items-center gap-2 text-slate-500 hover:text-green-600 transition-colors text-sm font-bold">
+                <button className="flex items-center gap-2 text-slate-400 hover:text-green-400 transition-all text-xs font-black uppercase tracking-widest italic">
                   <MessageSquare size={18} /> {post.comments}
                 </button>
-                <button className="flex items-center gap-2 text-slate-500 hover:text-green-600 transition-colors text-sm font-bold ml-auto">
+                <button className="flex items-center gap-2 text-slate-400 hover:text-green-400 transition-all text-xs font-black uppercase tracking-widest italic ml-auto">
                   <Share2 size={18} /> Share
                 </button>
               </div>
@@ -120,30 +125,37 @@ const Forum: React.FC = () => {
               <Sparkles size={100} />
             </div>
             <div className="relative z-10">
-              <h3 className="text-xl font-bold outfit mb-2">AI Topic Generator</h3>
-              <p className="text-slate-400 text-xs leading-relaxed mb-6">Now using <b>Google Search Grounding</b> for real-world factual accuracy.</p>
+              <h3 className="text-xl font-bold outfit mb-2 text-white">AI Topic Generator</h3>
+              <p className="text-slate-300 text-xs leading-relaxed mb-6">Now using <b>Google Search Grounding</b> for real-world factual accuracy.</p>
               <form onSubmit={handleAiPost} className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2 block">General Topic</label>
-                  <input 
-                    type="text" 
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2 block">General Topic</label>
+                  <input
+                    type="text"
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
                     placeholder="e.g. Subsidy Changes 2025"
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all placeholder:text-slate-600"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all placeholder:text-slate-500 text-white"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2 block">Keywords</label>
-                  <input 
-                    type="text" 
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2 block">Keywords</label>
+                  <input
+                    type="text"
                     value={keywords}
                     onChange={(e) => setKeywords(e.target.value)}
                     placeholder="e.g. tractor, kisan portal, news"
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all placeholder:text-slate-600"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all placeholder:text-slate-500 text-white"
                   />
                 </div>
-                <button 
+
+                {error && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-[10px] font-bold text-red-400 uppercase tracking-widest text-center animate-in fade-in zoom-in-95">
+                    {error}
+                  </div>
+                )}
+
+                <button
                   type="submit"
                   disabled={isGenerating || !topic || !keywords}
                   className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"

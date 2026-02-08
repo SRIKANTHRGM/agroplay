@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Book, Droplets, Leaf, Recycle, Search, Sprout, Wind, ArrowRight } from 'lucide-react';
+import { Book, Droplets, Leaf, Recycle, Search, Sprout, Wind, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Practice } from '../types';
 
 export const PRACTICES: Practice[] = [
@@ -71,14 +71,84 @@ Pest management doesn't always require chemicals. Integrated Pest Management (IP
 ## Trap Cropping
 Planting a crop that pests prefer more than your main crop on the perimeter of your field. This draws pests away from your high-value produce.
     `
+  },
+  {
+    slug: 'crop-rotation',
+    title: 'Sustainable Crop Rotation',
+    category: 'Regenerative',
+    icon: 'Recycle',
+    description: 'Master the sequence of success that fixes nitrogen and breaks pest cycles.',
+    image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=600',
+    content: `
+# Sustainable Crop Rotation
+
+Crop rotation is the practice of growing a series of different types of crops in the same area across a sequence of growing seasons.
+
+## Why Rotate?
+1. **Nitrogen Fixation:** Legumes like peas and beans take nitrogen from the air and store it in their roots.
+2. **Break Pest Cycles:** Changing the crop removes the host plant specifically needed by certain pests.
+3. **Soil Structure:** Different root lengths (deep vs shallow) improve soil aeration and prevent compaction.
+
+## Ideal 4-Year Sequence
+- **Year 1 (Leaf):** Cabbage, Lettuce, Spinach (Need high nitrogen).
+- **Year 2 (Fruit):** Tomatoes, Peppers, Squash (Need phosphorus).
+- **Year 3 (Root):** Carrots, Onions, Potatoes (Need potassium).
+- **Year 4 (Legume):** Peas, Beans (Replace the nitrogen).
+    `
+  },
+  {
+    slug: 'agro-forestry',
+    title: 'Integrated Agro-Forestry',
+    category: 'Biodiversity',
+    icon: 'Sprout',
+    description: 'Combine trees and shrubs with crops to create a resilient, multi-story farm.',
+    image: 'https://images.unsplash.com/photo-1502012628453-9118c7ea9080?auto=format&fit=crop&q=80&w=600',
+    content: `
+# Integrated Agro-Forestry
+
+Agro-forestry is a land management system where trees or shrubs are grown around or among crops or pastureland.
+
+## Core Advantages
+1. **Micro-climate Control:** Trees provide shade, reducing soil temperature and evaporation.
+2. **Windbreaks:** Tall trees protect delicate crops from physical damage by high winds.
+3. **Alternative Income:** Trees can provide timber, fruit, or fodder during off-seasons for crops.
+
+## Implementation Guide
+- **Alley Cropping:** Planting crops between wide rows of trees.
+- **Boundary Planting:** Growing trees on farm perimeters to improve security and prevent erosion.
+- **Silvopasture:** Integrating trees with livestock grazing areas.
+    `
+  },
+  {
+    slug: 'post-harvest',
+    title: 'Post-Harvest Loss Prevention',
+    category: 'Efficiency',
+    icon: 'ShieldCheck',
+    description: 'Master storage and handling techniques to ensure your hard work pays off.',
+    image: 'https://images.unsplash.com/photo-1595113316349-9fa4ee24f884?auto=format&fit=crop&q=80&w=600',
+    content: `
+# Post-Harvest Loss Prevention
+
+Up to 30% of agricultural weight is lost after harvest in developing nations. Prevention is profit.
+
+## Critical Handling Steps
+1. **Timing:** Harvest at the right maturity stage for the specific crop.
+2. **Temperature Control:** Remove field heat as quickly as possible.
+3. **Proper Packaging:** Use ventilated crates instead of sacks for delicate fruits/vegetables.
+
+## Storage Principles
+- **Cleanliness:** Thoroughly clean storage areas to prevent fungal spores.
+- **Ventilation:** Ensure airflow to prevent heat buildup and rot.
+- **Zero-Energy Cool Chambers (ZECC):** Low-cost brick structures that stay cool via evaporation.
+    `
   }
 ];
 
 const Practices: React.FC = () => {
   const [search, setSearch] = useState('');
 
-  const filteredPractices = PRACTICES.filter(p => 
-    p.title.toLowerCase().includes(search.toLowerCase()) || 
+  const filteredPractices = PRACTICES.filter(p =>
+    p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -91,8 +161,8 @@ const Practices: React.FC = () => {
 
       <div className="relative max-w-xl mx-auto">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="Search practices (e.g., Soil, Water, Organic)..."
           className="w-full pl-12 pr-4 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-green-500 transition-all outfit text-lg"
           value={search}
@@ -102,8 +172,8 @@ const Practices: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredPractices.map(practice => (
-          <Link 
-            to={`/practices/${practice.slug}`} 
+          <Link
+            to={`/practices/${practice.slug}`}
             key={practice.slug}
             className="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all group flex flex-col"
           >

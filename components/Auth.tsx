@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Leaf,
   Mail,
@@ -17,14 +17,27 @@ interface Props {
 }
 
 const Auth: React.FC<Props> = ({ onLogin }) => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [shake, setShake] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [serverStatus, setServerStatus] = useState<'checking' | 'online' | 'offline'>('checking');
+
+  useEffect(() => {
+    const checkServer = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/health');
+        if (res.ok) setServerStatus('online');
+        else setServerStatus('offline');
+      } catch (e) {
+        setServerStatus('offline');
+      }
+    };
+    checkServer();
+  }, []);
 
   const triggerShake = () => {
     setShake(true);
@@ -58,20 +71,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true);
-    setError(null);
 
-    try {
-      const result = await googleLogin();
-      onLogin(result.user as UserProfile);
-    } catch (err: any) {
-      setError(err.message || 'Google login failed. Please try again.');
-      triggerShake();
-    } finally {
-      setIsGoogleLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen mesh-gradient flex items-center justify-center p-6 relative overflow-hidden font-inter">
@@ -79,7 +79,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
 
       <div className={`w-full max-w-md bg-slate-900/80 backdrop-blur-2xl rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden border border-white/10 transition-all duration-700 ${shake ? 'shake' : ''}`}>
 
-        {(isLoading || isGoogleLoading) && (
+        {(isLoading) && (
           <div className="absolute inset-0 z-50 overflow-hidden bg-slate-950/40 backdrop-blur-sm flex flex-col items-center justify-center gap-6">
             <div className="scanning-line" />
             <div className="w-20 h-20 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin shadow-[0_0_30px_rgba(34,197,94,0.4)]" />
@@ -103,6 +103,16 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
             </div>
           </div>
 
+          {serverStatus === 'offline' && (
+            <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-2xl p-4 animate-in slide-in-from-top-2">
+              <AlertCircle className="text-red-400 flex-shrink-0" size={20} />
+              <div className="space-y-1">
+                <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">System Offline</p>
+                <p className="text-white/60 text-[9px] font-medium leading-relaxed">Backend server at port 3001 is unreachable. Ensure 'npm start' is running in the server directory.</p>
+              </div>
+            </div>
+          )}
+
           {error && (
             <div className="flex items-center gap-3 bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 animate-in slide-in-from-top-2">
               <AlertCircle className="text-rose-400 flex-shrink-0" size={20} />
@@ -111,17 +121,6 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
           )}
 
           <div className="space-y-8">
-            <button
-              onClick={handleGoogleLogin}
-              disabled={isLoading || isGoogleLoading}
-              className="relative w-full py-5 rounded-2xl font-black text-[11px] tracking-widest text-slate-800 transition-all active:scale-95 disabled:opacity-50 overflow-hidden bg-white hover:bg-slate-50 shadow-xl flex items-center justify-center gap-4 group"
-            >
-              <div className="w-8 h-8 flex items-center justify-center p-1.5 transition-transform group-hover:scale-110">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-full h-full" />
-              </div>
-              <span className="uppercase">Continue with Google Account</span>
-            </button>
-
             <div className="relative flex items-center gap-4 py-2">
               <div className="flex-1 h-px bg-white/10" />
               <span className="text-[8px] font-black text-slate-500 uppercase tracking-[0.4em]">JWT Secure Uplink</span>
@@ -175,7 +174,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
 
               <button
                 type="submit"
-                disabled={isLoading || isGoogleLoading}
+                disabled={isLoading}
                 className="w-full group bg-green-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(22,101,52,0.4)] hover:bg-green-500 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 mt-6 relative overflow-hidden"
               >
                 <span>{isLogin ? 'Establish Link' : 'Register Operator'}</span>

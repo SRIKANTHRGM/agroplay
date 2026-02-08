@@ -139,16 +139,25 @@ const Groups: React.FC = () => {
     setDonationAmount(100);
   };
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleAiChallenge = async () => {
     if (!selectedGroup) return;
     setIsGeneratingChallenge(true);
+    setError(null);
     try {
       const challenge = await generateGroupChallenge(selectedGroup.name, selectedGroup.category);
       const newChallenge: Challenge = { ...challenge, id: 'c' + Date.now(), status: 'active' };
       const updated = groups.map(g => g.id === selectedGroup.id ? { ...g, challenges: [newChallenge, ...(g.challenges ?? [])] } : g);
       setGroups(updated);
       setSelectedGroup({ ...selectedGroup, challenges: [newChallenge, ...(selectedGroup.challenges ?? [])] });
-    } catch (e) { console.error(e); } finally { setIsGeneratingChallenge(false); }
+    } catch (e) {
+      console.error(e);
+      setError("Grid Mission generation paused. Check API status.");
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setIsGeneratingChallenge(false);
+    }
   };
 
   return (
@@ -199,7 +208,7 @@ const Groups: React.FC = () => {
         <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-10 duration-700 pb-24">
           {selectedGroup ? (
             <div className="space-y-10">
-              <button onClick={() => setSelectedGroup(null)} className="flex items-center gap-3 text-slate-500 font-bold hover:text-green-600 group"><ArrowLeft size={20} /> Back to Nexus</button>
+              <button onClick={() => setSelectedGroup(null)} className="flex items-center gap-3 text-slate-600 font-bold hover:text-green-600 group"><ArrowLeft size={20} /> Back to Nexus</button>
               <div className="bg-white rounded-[4rem] border border-slate-100 shadow-2xl overflow-hidden flex flex-col lg:flex-row h-[750px]">
                 <div className="lg:w-80 bg-slate-900 text-white p-10 flex flex-col justify-between">
                   <div className="space-y-10 text-center lg:text-left">
@@ -211,12 +220,12 @@ const Groups: React.FC = () => {
                         { id: 'challenges', label: 'Grid Missions', icon: Zap },
                         { id: 'fund', label: 'Stability Fund', icon: Heart }
                       ].map(item => (
-                        <button key={item.id} onClick={() => setViewMode(item.id as any)} className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all ${viewMode === item.id ? 'bg-green-600' : 'text-slate-400 hover:bg-white/5'}`}><item.icon size={20} /> {item.label}</button>
+                        <button key={item.id} onClick={() => setViewMode(item.id as any)} className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all ${viewMode === item.id ? 'bg-green-600' : 'text-slate-300 hover:bg-white/5'}`}><item.icon size={20} /> {item.label}</button>
                       ))}
                     </nav>
                   </div>
                   <div className="pt-10 border-t border-white/5 space-y-4">
-                    <div className="flex justify-between text-[10px] font-black text-slate-500 uppercase tracking-widest"><span>Fund Reserve</span><span className="text-amber-400">{selectedGroup.stabilityFund ?? 0} XP</span></div>
+                    <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest"><span>Fund Reserve</span><span className="text-amber-400">{selectedGroup.stabilityFund ?? 0} XP</span></div>
                     <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden"><div className="h-full bg-amber-500" style={{ width: '40%' }} /></div>
                   </div>
                 </div>
@@ -224,8 +233,25 @@ const Groups: React.FC = () => {
                 <div className="flex-1 p-12 flex flex-col relative overflow-y-auto custom-scrollbar">
                   {viewMode === 'chat' && (
                     <div className="flex flex-col h-full">
-                      <div className="flex-1 space-y-8">{(selectedGroup.messages ?? []).map(m => <div key={m.id} className={`flex flex-col ${m.sender === 'You' ? 'items-end' : 'items-start'}`}><div className={`p-6 rounded-[1.8rem] ${m.sender === 'You' ? 'bg-green-50' : 'bg-slate-50'}`}>{m.text}</div></div>)}</div>
-                      <div className="mt-10 relative"><input value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSendMessage()} className="w-full bg-slate-50 border-none rounded-[2rem] px-8 py-6 outline-none" placeholder="Localized intel..." /><button onClick={handleSendMessage} className="absolute right-3 top-1/2 -translate-y-1/2 w-14 h-14 bg-green-600 text-white rounded-[1.5rem] flex items-center justify-center"><Send size={24} /></button></div>
+                      <div className="flex-1 space-y-8">{(selectedGroup.messages ?? []).map(m => (
+                        <div key={m.id} className={`flex flex-col ${m.sender === 'You' ? 'items-end' : 'items-start'}`}>
+                          <div className={`p-6 rounded-[1.8rem] text-sm font-medium ${m.sender === 'You' ? 'bg-green-100 text-green-900' : 'bg-slate-100 text-slate-900 shadow-sm border border-slate-200'}`}>
+                            {m.text}
+                          </div>
+                        </div>
+                      ))}</div>
+                      <div className="mt-10 relative">
+                        <input
+                          value={chatInput}
+                          onChange={e => setChatInput(e.target.value)}
+                          onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+                          className="w-full bg-slate-100 border-none rounded-[2rem] px-8 py-6 outline-none text-slate-900 font-medium placeholder:text-slate-400"
+                          placeholder="Localized intel..."
+                        />
+                        <button onClick={handleSendMessage} className="absolute right-3 top-1/2 -translate-y-1/2 w-14 h-14 bg-green-600 text-white rounded-[1.5rem] flex items-center justify-center hover:bg-green-700 transition-all shadow-lg active:scale-95">
+                          <Send size={24} />
+                        </button>
+                      </div>
                     </div>
                   )}
                   {viewMode === 'fund' && (
@@ -248,6 +274,11 @@ const Groups: React.FC = () => {
                   )}
                   {viewMode === 'challenges' && (
                     <div className="space-y-8">
+                      {error && (
+                        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-[10px] font-black text-red-500 uppercase tracking-widest text-center animate-in fade-in zoom-in-95">
+                          {error}
+                        </div>
+                      )}
                       <button onClick={handleAiChallenge} disabled={isGeneratingChallenge} className="w-full py-6 bg-slate-900 text-white rounded-[1.8rem] font-black uppercase text-xs tracking-widest flex items-center justify-center gap-4 shadow-xl active:scale-95">{isGeneratingChallenge ? <Loader2 className="animate-spin" /> : <BrainCircuit size={20} className="text-green-400" />} Initiate Grid Mission</button>
                       <div className="grid grid-cols-1 gap-6">{(selectedGroup.challenges ?? []).map(c => <div key={c.id} className="p-8 bg-slate-50 rounded-[2.5rem] flex items-center justify-between"><div className="space-y-1"><p className="font-black text-xl outfit">{c.title}</p><p className="text-slate-500 text-sm">{c.description}</p></div><div className="text-right"><p className="text-amber-600 font-black text-xl">+{c.rewardPoints} XP</p><button className="mt-2 px-6 py-2 bg-green-600 text-white rounded-xl text-[10px] font-black uppercase">Commit</button></div></div>)}</div>
                     </div>

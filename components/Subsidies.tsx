@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  Award, 
-  Search, 
-  Filter, 
-  ExternalLink, 
-  Info, 
-  X, 
-  Landmark, 
-  Zap, 
-  Trophy, 
-  CheckCircle2, 
+import {
+  Award,
+  Search,
+  Filter,
+  ExternalLink,
+  Info,
+  X,
+  Landmark,
+  Zap,
+  Trophy,
+  CheckCircle2,
   ChevronRight,
   ShoppingCart,
   Wheat,
@@ -36,8 +36,8 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
   const [toast, setToast] = useState<string | null>(null);
 
   const filteredSchemes = MOCK_SUBSIDIES.filter(s => {
-    const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          s.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesState = filterState === 'All' || s.state.includes(filterState);
     return matchesSearch && matchesState;
   });
@@ -81,23 +81,21 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-4xl font-bold text-slate-800 outfit tracking-tight">Grants & Perks</h2>
-          <p className="text-slate-500 text-lg">Financial support for your real farm and rewards for your progress.</p>
+          <h2 className="text-4xl font-bold text-white outfit tracking-tight">Grants & Perks</h2>
+          <p className="text-slate-300 text-lg">Financial support for your real farm and rewards for your progress.</p>
         </div>
         <div className="flex p-1 bg-slate-200/50 rounded-[1.5rem] w-fit shrink-0">
           <button
             onClick={() => setActiveTab('schemes')}
-            className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-sm font-bold transition-all ${
-              activeTab === 'schemes' ? 'bg-white text-green-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-            }`}
+            className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === 'schemes' ? 'bg-white text-green-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              }`}
           >
             <Landmark size={18} /> Govt Schemes
           </button>
           <button
             onClick={() => setActiveTab('rewards')}
-            className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-sm font-bold transition-all ${
-              activeTab === 'rewards' ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-            }`}
+            className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === 'rewards' ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              }`}
           >
             <Trophy size={18} /> App Rewards
           </button>
@@ -110,17 +108,17 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="relative flex-1">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search by scheme name or description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-green-500 transition-all font-medium outfit"
+                className="w-full pl-14 pr-6 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-green-500 transition-all font-medium outfit text-slate-900"
               />
             </div>
             <div className="flex items-center gap-3 bg-white px-6 py-2 rounded-2xl border border-slate-100 shadow-sm">
               <Filter className="text-slate-400" size={18} />
-              <select 
+              <select
                 value={filterState}
                 onChange={(e) => setFilterState(e.target.value)}
                 className="bg-transparent border-none text-sm font-bold text-slate-700 focus:ring-0 cursor-pointer"
@@ -136,7 +134,7 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
           {/* Schemes Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSchemes.map(scheme => (
-              <div 
+              <div
                 key={scheme.id}
                 onClick={() => setSelectedSubsidy(scheme)}
                 className="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all cursor-pointer flex flex-col"
@@ -185,8 +183,8 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1.5 bg-white/95 backdrop-blur-md rounded-xl text-[9px] font-black text-slate-800 uppercase tracking-widest border border-white/20 shadow-xl flex items-center gap-2">
-                       {getRewardCategoryIcon(reward.category)}
-                       {reward.category || 'General'}
+                      {getRewardCategoryIcon(reward.category)}
+                      {reward.category || 'General'}
                     </span>
                   </div>
                 </div>
@@ -197,10 +195,10 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
                   </div>
                   <div className="pt-6 mt-auto border-t border-slate-50 flex items-center justify-between">
                     <div className="flex flex-col">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mastery Price</p>
-                       <p className="text-2xl font-black text-amber-600 outfit tabular-nums">{reward.pointsPrice} <span className="text-xs font-bold uppercase">XP</span></p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mastery Price</p>
+                      <p className="text-2xl font-black text-amber-600 outfit tabular-nums">{reward.pointsPrice} <span className="text-xs font-bold uppercase">XP</span></p>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setSelectedReward(reward)}
                       disabled={user.points < reward.pointsPrice}
                       className="w-14 h-14 bg-amber-500 text-white rounded-2xl flex items-center justify-center hover:bg-amber-600 transition-all shadow-xl shadow-amber-100 disabled:opacity-30 active:scale-95 group/btn"
@@ -223,7 +221,7 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
       {/* Subsidy Detail Modal */}
       {selectedSubsidy && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-3xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-300">
+          <div className="bg-white w-full max-w-3xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="p-10 border-b bg-slate-50 flex justify-between items-start">
               <div className="flex items-center gap-5">
                 <div className="w-16 h-16 bg-green-600 text-white rounded-3xl flex items-center justify-center shadow-xl shadow-green-100">
@@ -241,7 +239,7 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
                 <X size={28} />
               </button>
             </div>
-            
+
             <div className="flex-1 overflow-y-auto p-10 space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">
@@ -257,7 +255,7 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
                   <p className="text-slate-600 leading-relaxed font-medium">{selectedSubsidy.benefits}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Application Process</h4>
                 <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 border-dashed text-slate-700 leading-relaxed italic">
@@ -268,9 +266,9 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
 
             <div className="p-10 border-t bg-slate-50 flex flex-col sm:flex-row gap-4 items-center justify-between">
               <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Always verify on official portals</p>
-              <a 
-                href={selectedSubsidy.link} 
-                target="_blank" 
+              <a
+                href={selectedSubsidy.link}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-xl"
               >
@@ -292,17 +290,17 @@ const Subsidies: React.FC<Props> = ({ user, setUser }) => {
             <div className="space-y-4">
               <h3 className="text-4xl font-black text-slate-800 outfit tracking-tighter">Confirm Transaction</h3>
               <p className="text-slate-500 font-medium text-lg leading-relaxed px-4">
-                 Deduct <span className="font-black text-amber-600 text-2xl outfit">{selectedReward.pointsPrice} XP</span> from your account to unlock <span className="font-black text-slate-800 outfit">{selectedReward.name}</span>?
+                Deduct <span className="font-black text-amber-600 text-2xl outfit">{selectedReward.pointsPrice} XP</span> from your account to unlock <span className="font-black text-slate-800 outfit">{selectedReward.name}</span>?
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              <button 
+              <button
                 onClick={() => setSelectedReward(null)}
                 className="py-5 border-4 border-slate-50 bg-slate-50 hover:bg-slate-100 hover:border-slate-100 rounded-3xl font-black text-slate-500 transition-all uppercase text-xs tracking-widest active:scale-95"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleRedeem(selectedReward)}
                 className="py-5 bg-amber-500 text-white rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-amber-600 transition-all shadow-2xl shadow-amber-200 active:scale-95"
               >

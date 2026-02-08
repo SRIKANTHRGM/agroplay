@@ -300,21 +300,21 @@ const VirtualFarm: React.FC = () => {
 
   return (
     <div className="space-y-10 page-transition pb-24">
-      <div className="relative h-80 rounded-[4rem] overflow-hidden shadow-2xl group border-8 border-white">
+      <div className="relative h-80 rounded-[4rem] overflow-hidden shadow-2xl group border-[6px] border-slate-900">
         <img
           src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1200"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[4s]"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[4s] brightness-125"
           alt="Farm"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
         <div className="absolute bottom-12 left-12 text-white space-y-6">
           <div className="flex items-center gap-5">
-            <div className="p-4 bg-amber-400 rounded-3xl text-black shadow-2xl animate-float">
+            <div className="p-4 bg-amber-400 rounded-3xl text-slate-950 shadow-2xl animate-float">
               <CloudSun size={40} />
             </div>
             <div>
-              <h1 className="text-6xl font-black outfit tracking-tighter text-white">Virtual Acreage</h1>
-              <p className="text-white/70 font-black uppercase tracking-[0.4em] text-xs">SUSTAINABLE SANDBOX v2.5</p>
+              <h1 className="text-6xl font-black outfit tracking-tighter text-white uppercase italic leading-tight">Virtual Acreage</h1>
+              <p className="text-green-400 font-black uppercase tracking-[0.4em] text-[10px] italic">SUSTAINABLE SANDBOX v2.5</p>
             </div>
           </div>
         </div>
@@ -323,22 +323,24 @@ const VirtualFarm: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-8 space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm flex items-center gap-8 group hover:shadow-xl transition-all">
-              <div className="w-20 h-20 bg-green-50 text-green-600 rounded-[2rem] flex items-center justify-center shadow-inner group-hover:rotate-[15deg] transition-transform">
+            <div className="bg-slate-900 p-10 rounded-[3rem] border border-white/5 shadow-2xl flex items-center gap-8 group hover:shadow-green-500/5 transition-all relative overflow-hidden">
+              <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+              <div className="w-20 h-20 bg-green-500/10 text-green-400 rounded-[2rem] flex items-center justify-center shadow-inner group-hover:rotate-[15deg] transition-transform relative z-10 border border-green-500/20">
                 <Sprout size={44} />
               </div>
-              <div>
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-1">PLOTS OCCUPIED</p>
-                <p className="text-5xl font-black text-slate-800 outfit tabular-nums">{plotsUsed} <span className="text-xl text-slate-300">/ 12</span></p>
+              <div className="relative z-10">
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-1 italic">PLOTS OCCUPIED</p>
+                <p className="text-5xl font-black text-white outfit tabular-nums italic">{plotsUsed} <span className="text-xl text-slate-500">/ 12</span></p>
               </div>
             </div>
-            <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm flex items-center gap-8 group hover:shadow-xl transition-all">
-              <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-[2rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+            <div className="bg-slate-900 p-10 rounded-[3rem] border border-white/5 shadow-2xl flex items-center gap-8 group hover:shadow-blue-500/5 transition-all relative overflow-hidden">
+              <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+              <div className="w-20 h-20 bg-blue-500/10 text-blue-400 rounded-[2rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform relative z-10 border border-blue-500/20">
                 <Waves size={44} className="animate-pulse" />
               </div>
-              <div>
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-1">CONSERVATION EFFICIENCY</p>
-                <p className="text-5xl font-black text-slate-800 outfit tabular-nums">{waterSaved}% <span className="text-xl text-slate-300">SAVE</span></p>
+              <div className="relative z-10">
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-1 italic">CONSERVATION EFFICIENCY</p>
+                <p className="text-5xl font-black text-white outfit tabular-nums italic">{waterSaved}% <span className="text-xl text-slate-500 uppercase">SAVE</span></p>
               </div>
             </div>
           </div>
@@ -349,12 +351,13 @@ const VirtualFarm: React.FC = () => {
                 {!plot.crop ? (
                   <button
                     onClick={() => { setSelectedPlotIndex(idx); setIsPlantingOpen(true); }}
-                    className="w-full h-full rounded-[4rem] border-4 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center group hover:bg-white hover:border-green-400 transition-all hover:scale-[1.03] active:scale-95 duration-500 shadow-inner hover:shadow-2xl"
+                    className="w-full h-full rounded-[4rem] border-4 border-dashed border-white/5 bg-slate-900 flex flex-col items-center justify-center group hover:bg-slate-800 hover:border-green-500/50 transition-all hover:scale-[1.03] active:scale-95 duration-500 shadow-2xl relative overflow-hidden"
                   >
-                    <div className="w-20 h-20 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center text-slate-300 group-hover:text-green-500 transition-all group-hover:rotate-90 duration-700">
+                    <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+                    <div className="w-20 h-20 rounded-3xl bg-slate-800 border border-white/5 shadow-xl flex items-center justify-center text-slate-600 group-hover:text-green-400 transition-all group-hover:rotate-90 duration-700 relative z-10">
                       <Plus size={40} />
                     </div>
-                    <p className="mt-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">ZONE {idx + 1}</p>
+                    <p className="mt-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] relative z-10 italic">ZONE {idx + 1}</p>
                   </button>
                 ) : (
                   <div className="group h-full">
@@ -366,7 +369,7 @@ const VirtualFarm: React.FC = () => {
 
                     <div
                       onClick={() => handlePlotClick(idx)}
-                      className={`w-full h-full rounded-[4rem] bg-white shadow-xl border-8 border-white overflow-hidden relative cursor-pointer group-hover:scale-[1.05] group-hover:-translate-y-3 group-hover:shadow-[0_40px_80px_rgba(34,197,94,0.2)] transition-all duration-500 transform ${plot.isGeneratingImage ? 'cursor-wait shadow-inner' : ''} ${clickedPlot === idx ? 'scale-90 opacity-80' : 'scale-100 opacity-100'}`}
+                      className={`w-full h-full rounded-[4rem] bg-slate-900 shadow-2xl border-4 border-slate-800 overflow-hidden relative cursor-pointer group-hover:scale-[1.05] group-hover:-translate-y-3 group-hover:shadow-[0_40px_80px_rgba(34,197,94,0.1)] transition-all duration-500 transform ${plot.isGeneratingImage ? 'cursor-wait shadow-inner' : ''} ${clickedPlot === idx ? 'scale-90 opacity-80' : 'scale-100 opacity-100'}`}
                     >
                       <div className="absolute inset-0 z-0">
                         {plot.isGeneratingImage ? (
@@ -411,63 +414,64 @@ const VirtualFarm: React.FC = () => {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <div className="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-xl space-y-10 relative overflow-hidden group">
+          <div className="bg-slate-900 p-10 rounded-[3.5rem] border border-white/5 shadow-2xl space-y-10 relative overflow-hidden group">
+            <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:rotate-12 transition-transform duration-700">
-              <Settings2 size={160} />
+              <Settings2 size={160} className="text-white" />
             </div>
             <div className="relative z-10 space-y-8">
-              <div className="flex items-center justify-between border-b border-slate-50 pb-6">
+              <div className="flex items-center justify-between border-b border-white/5 pb-6">
                 <div className="space-y-1">
-                  <h3 className="font-black text-slate-800 outfit text-3xl tracking-tighter">Farm Settings</h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">GLOBAL OPERATING PROTOCOLS</p>
+                  <h3 className="font-black text-white outfit text-3xl tracking-tighter uppercase italic">Farm Settings</h3>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic leading-none">GLOBAL OPERATING PROTOCOLS</p>
                 </div>
-                <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-2xl">
+                <div className="w-12 h-12 bg-slate-800 text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/5">
                   <Monitor size={24} />
                 </div>
               </div>
               <div className="space-y-8">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between px-1">
-                    <label className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                      <Droplets size={16} className="text-blue-500" /> Irrigation Preference
+                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 italic">
+                      <Droplets size={16} className="text-blue-400" /> Irrigation Preference
                     </label>
-                    <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[9px] font-black uppercase">-{waterSaved}% Water</div>
+                    <div className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-[9px] font-black uppercase italic border border-blue-500/20">-{waterSaved}% Water</div>
                   </div>
                   <select
                     value={irrigation}
                     onChange={(e) => setIrrigation(e.target.value)}
-                    className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-100 rounded-2xl text-xs font-black py-5 px-6 focus:ring-4 focus:ring-blue-500/10 shadow-inner appearance-none cursor-pointer transition-all"
+                    className="w-full bg-slate-950 border-2 border-transparent focus:border-blue-500/30 rounded-2xl text-xs font-black py-5 px-6 focus:ring-4 focus:ring-blue-500/10 shadow-inner appearance-none cursor-pointer transition-all text-white uppercase italic tracking-widest"
                   >
-                    <option>Drip Irrigation</option>
-                    <option>Precision Sprinkler</option>
-                    <option>Flood Irrigation</option>
+                    <option className="bg-slate-900">Drip Irrigation</option>
+                    <option className="bg-slate-900">Precision Sprinkler</option>
+                    <option className="bg-slate-900">Flood Irrigation</option>
                   </select>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between px-1">
-                    <label className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                      <Leaf size={16} className="text-green-500" /> Nutrient Protocol
+                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 italic">
+                      <Leaf size={16} className="text-green-400" /> Nutrient Protocol
                     </label>
-                    <div className="px-3 py-1 bg-green-50 text-green-600 rounded-lg text-[9px] font-black uppercase">+{yieldBonus}% Yield</div>
+                    <div className="px-3 py-1 bg-green-500/10 text-green-400 rounded-lg text-[9px] font-black uppercase italic border border-green-500/20">+{yieldBonus}% Yield</div>
                   </div>
                   <select
                     value={enrichment}
                     onChange={(e) => setEnrichment(e.target.value)}
-                    className="w-full bg-slate-50 border-2 border-transparent focus:border-green-100 rounded-2xl text-xs font-black py-5 px-6 focus:ring-4 focus:ring-green-500/10 shadow-inner appearance-none cursor-pointer transition-all"
+                    className="w-full bg-slate-950 border-2 border-transparent focus:border-green-500/30 rounded-2xl text-xs font-black py-5 px-6 focus:ring-4 focus:ring-green-500/10 shadow-inner appearance-none cursor-pointer transition-all text-white uppercase italic tracking-widest"
                   >
-                    <option>Organic Compost</option>
-                    <option>Liquid Jeevamrut</option>
-                    <option>Chemical Fertilizer</option>
+                    <option className="bg-slate-900">Organic Compost</option>
+                    <option className="bg-slate-900">Liquid Jeevamrut</option>
+                    <option className="bg-slate-900">Chemical Fertilizer</option>
                   </select>
                 </div>
               </div>
-              <div className="pt-8 border-t border-slate-50 flex items-center gap-5">
-                <div className="w-14 h-14 bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-xl animate-pulse">
+              <div className="pt-8 border-t border-white/5 flex items-center gap-5">
+                <div className="w-14 h-14 bg-green-500/10 text-green-400 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.2)] animate-pulse border border-green-500/20">
                   <TrendingUp size={28} />
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black outfit text-slate-800 text-lg leading-none">Yield Multiplier Active</p>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">CURRENT STRATEGY: RATING A+</p>
+                  <p className="font-black outfit text-white text-lg leading-none uppercase italic">Yield Multiplier Active</p>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">CURRENT STRATEGY: RATING A+</p>
                 </div>
               </div>
             </div>
@@ -476,32 +480,34 @@ const VirtualFarm: React.FC = () => {
       </div>
 
       {isPlantingOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-2xl animate-in fade-in duration-500">
-          <div className="bg-white w-full max-w-4xl rounded-[4rem] shadow-[0_0_150px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-700">
-            <div className="p-12 border-b flex justify-between items-center bg-slate-50/50">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-2xl animate-in fade-in duration-500">
+          <div className="bg-slate-900 w-full max-w-4xl rounded-[4rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-700 border border-white/5 relative">
+            <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+            <div className="p-12 border-b border-white/5 flex justify-between items-center bg-slate-900/50 relative z-10">
               <div className="space-y-2">
-                <h3 className="text-5xl font-black text-slate-800 outfit tracking-tighter">Sow New Variety</h3>
-                <p className="text-slate-500 text-lg font-medium">Deploying {irrigation} for Zone {selectedPlotIndex! + 1}.</p>
+                <h3 className="text-5xl font-black text-white outfit tracking-tighter uppercase italic leading-tight">Sow New Variety</h3>
+                <p className="text-slate-400 text-lg font-medium uppercase tracking-wide italic leading-none">Deploying {irrigation} for Zone {selectedPlotIndex! + 1}.</p>
               </div>
-              <button onClick={() => setIsPlantingOpen(false)} className="p-5 hover:bg-slate-200 rounded-[2rem] transition-all group shadow-sm bg-white">
-                <X size={40} className="text-slate-400 group-hover:rotate-90 transition-transform duration-500" />
+              <button onClick={() => setIsPlantingOpen(false)} className="p-5 hover:bg-slate-800 rounded-[2rem] transition-all group shadow-2xl bg-slate-950 border border-white/5">
+                <X size={40} className="text-slate-500 group-hover:rotate-90 transition-transform duration-500" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-12 space-y-10 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-12 space-y-10 custom-scrollbar relative z-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-in">
                 {AVAILABLE_CROPS.map(crop => (
                   <button
                     key={crop.id}
                     onClick={() => handlePlantCrop(crop)}
-                    className="p-10 rounded-[3rem] border border-slate-100 bg-white text-left hover:bg-green-50 hover:border-green-400 transition-all group flex flex-col gap-6 shadow-sm hover:shadow-2xl hover:-translate-y-2 duration-500"
+                    className="p-10 rounded-[3rem] border border-white/5 bg-slate-950/50 text-left hover:bg-green-500/10 hover:border-green-500/30 transition-all group flex flex-col gap-6 shadow-sm hover:shadow-[0_0_30px_rgba(34,197,94,0.1)] hover:-translate-y-2 duration-500 relative overflow-hidden"
                   >
-                    <div className="w-20 h-20 bg-slate-50 rounded-[1.8rem] shadow-inner flex items-center justify-center text-slate-300 group-hover:text-green-600 transition-all group-hover:scale-110">
+                    <div className="absolute inset-0 grid-bg opacity-0 group-hover:opacity-5 pointer-events-none transition-opacity" />
+                    <div className="w-20 h-20 bg-slate-900 rounded-[1.8rem] shadow-inner flex items-center justify-center text-slate-600 group-hover:text-green-400 transition-all group-hover:scale-110 border border-white/5 relative z-10">
                       <Leaf size={40} />
                     </div>
-                    <div className="space-y-3">
-                      <p className="font-black text-slate-800 text-3xl group-hover:text-green-700 transition-colors outfit tracking-tighter leading-none">{crop.name}</p>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{crop.category}</p>
-                      <p className="text-sm text-slate-500 leading-relaxed line-clamp-3 font-medium">"{crop.funFact}"</p>
+                    <div className="space-y-3 relative z-10">
+                      <p className="font-black text-white text-3xl group-hover:text-green-400 transition-colors outfit tracking-tighter leading-none uppercase italic">{crop.name}</p>
+                      <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest italic leading-none">{crop.category}</p>
+                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 font-medium uppercase tracking-wide italic">"{crop.funFact}"</p>
                     </div>
                   </button>
                 ))}
@@ -512,12 +518,13 @@ const VirtualFarm: React.FC = () => {
       )}
 
       {isDetailOpen && selectedPlotIndex !== null && plots[selectedPlotIndex].crop && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-slate-900/90 backdrop-blur-3xl animate-in fade-in duration-700 overflow-hidden">
-          <div className="bg-white w-full max-w-5xl rounded-[4rem] shadow-[0_60px_120px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in zoom-in-90 slide-in-from-bottom-20 duration-[700ms] transition-all ease-[cubic-bezier(0.34,1.76,0.64,1)] border border-white/20">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-slate-950/95 backdrop-blur-3xl animate-in fade-in duration-700 overflow-hidden">
+          <div className="bg-slate-900 w-full max-w-5xl rounded-[4rem] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in zoom-in-90 slide-in-from-bottom-20 duration-[700ms] transition-all ease-[cubic-bezier(0.34,1.76,0.64,1)] border border-white/10 relative">
+            <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
             <div className="w-full md:w-2/5 relative h-96 md:h-auto overflow-hidden group/modalimg">
               <img
                 src={plots[selectedPlotIndex].imageUrl || plots[selectedPlotIndex].crop!.image}
-                className="w-full h-full object-cover transition-all duration-[1200ms] group-hover/modalimg:scale-105"
+                className="w-full h-full object-cover transition-all duration-[1200ms] group-hover/modalimg:scale-105 brightness-110"
                 alt={plots[selectedPlotIndex].crop!.name}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent pointer-events-none" />
@@ -543,31 +550,31 @@ const VirtualFarm: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex-1 p-12 md:p-16 flex flex-col relative bg-white">
-              <div className="flex justify-between items-start mb-12">
+            <div className="flex-1 p-12 md:p-16 flex flex-col relative bg-slate-900/50 backdrop-blur-xl">
+              <div className="flex justify-between items-start mb-12 relative z-10">
                 <div className="space-y-3 animate-in slide-in-from-left-6 duration-700 delay-200">
-                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.4em]">CULTIVATION ZONE {selectedPlotIndex + 1}</p>
-                  <h3 className="text-7xl font-black text-slate-800 outfit tracking-tighter leading-none">{plots[selectedPlotIndex].crop!.name}</h3>
+                  <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">CULTIVATION ZONE {selectedPlotIndex + 1}</p>
+                  <h3 className="text-7xl font-black text-white outfit tracking-tighter leading-none uppercase italic">{plots[selectedPlotIndex].crop!.name}</h3>
                 </div>
-                <button onClick={() => setIsDetailOpen(false)} className="p-4 text-slate-300 hover:text-slate-800 transition-all hover:rotate-90 duration-500 bg-slate-50 rounded-2xl">
+                <button onClick={() => setIsDetailOpen(false)} className="p-4 text-slate-500 hover:text-white transition-all hover:rotate-90 duration-500 bg-slate-950/50 rounded-2xl border border-white/5">
                   <X size={44} />
                 </button>
               </div>
 
-              <div className="space-y-10 flex-1 overflow-y-auto pr-6 custom-scrollbar animate-in fade-in duration-700 delay-300">
+              <div className="space-y-10 flex-1 overflow-y-auto pr-6 custom-scrollbar animate-in fade-in duration-700 delay-300 relative z-10">
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="p-8 bg-blue-50/50 rounded-[2.5rem] border border-blue-100/50 flex flex-col gap-4 group/stat hover:bg-white hover:shadow-xl transition-all duration-500 cursor-default">
-                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm transition-transform group-hover/stat:scale-110"><Droplets size={24} /></div>
+                  <div className="p-8 bg-blue-500/5 rounded-[2.5rem] border border-blue-500/10 flex flex-col gap-4 group/stat hover:bg-slate-800 hover:shadow-xl transition-all duration-500 cursor-default">
+                    <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-blue-400 shadow-sm transition-transform group-hover/stat:scale-110 border border-white/5"><Droplets size={24} /></div>
                     <div>
-                      <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Moisture</p>
-                      <p className="text-2xl font-black text-blue-900 outfit uppercase">Optimal</p>
+                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic mb-1">Moisture</p>
+                      <p className="text-2xl font-black text-white outfit uppercase italic">Optimal</p>
                     </div>
                   </div>
-                  <div className="p-8 bg-amber-50/50 rounded-[2.5rem] border border-amber-100/50 flex flex-col gap-4 group/stat hover:bg-white hover:shadow-xl transition-all duration-500 cursor-default">
-                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-600 shadow-sm transition-transform group-hover/stat:scale-110"><Activity size={24} /></div>
+                  <div className="p-8 bg-amber-500/5 rounded-[2.5rem] border border-amber-500/10 flex flex-col gap-4 group/stat hover:bg-slate-800 hover:shadow-xl transition-all duration-500 cursor-default">
+                    <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-amber-400 shadow-sm transition-transform group-hover/stat:scale-110 border border-white/5"><Activity size={24} /></div>
                     <div>
-                      <p className="text-[10px] font-black text-amber-400 uppercase tracking-widest">Integrity</p>
-                      <p className="text-2xl font-black text-amber-900 outfit uppercase">98% Solid</p>
+                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic mb-1">Integrity</p>
+                      <p className="text-2xl font-black text-white outfit uppercase italic">98% Solid</p>
                     </div>
                   </div>
                 </div>
@@ -584,31 +591,31 @@ const VirtualFarm: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <div className="space-y-8">
-                  <h4 className="flex items-center gap-4 font-black text-slate-800 text-[10px] outfit uppercase tracking-[0.3em]">
-                    <IndianRupee size={16} className="text-green-600" /> ACTIVE PERKS
+                <div className="space-y-8 relative z-10">
+                  <h4 className="flex items-center gap-4 font-black text-white text-[10px] outfit uppercase tracking-[0.3em] italic leading-none">
+                    <IndianRupee size={16} className="text-green-400" /> ACTIVE PERKS
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {plots[selectedPlotIndex].crop!.subsidies.map((sub, i) => (
-                      <div key={i} className="flex items-center gap-5 p-6 bg-slate-50 rounded-[2.2rem] border border-slate-100 hover:bg-green-50 transition-all shadow-sm">
-                        <CheckCircle size={24} className="text-green-500" />
-                        <span className="text-sm font-black text-slate-700 uppercase tracking-wide">{sub}</span>
+                      <div key={i} className="flex items-center gap-5 p-6 bg-slate-950/50 rounded-[2.2rem] border border-white/5 hover:bg-green-500/10 transition-all shadow-sm">
+                        <CheckCircle size={24} className="text-green-400" />
+                        <span className="text-sm font-black text-slate-300 uppercase tracking-wide italic">{sub}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="pt-12 mt-12 border-t border-slate-100 flex flex-col sm:flex-row gap-8 animate-in slide-in-from-bottom-6 duration-700 delay-500">
+              <div className="pt-12 mt-12 border-t border-white/5 flex flex-col sm:flex-row gap-8 animate-in slide-in-from-bottom-6 duration-700 delay-500 relative z-10">
                 <button
                   onClick={() => navigate(`/learn/${plots[selectedPlotIndex!].crop!.name}`)}
-                  className="flex-1 py-8 bg-green-600 text-white rounded-[2.5rem] font-black text-2xl hover:bg-green-700 shadow-xl transition-all flex items-center justify-center gap-4 transform active:scale-95"
+                  className="flex-1 py-8 bg-green-500 text-slate-950 rounded-[2.5rem] font-black text-2xl hover:bg-green-400 shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all flex items-center justify-center gap-4 transform active:scale-95 uppercase italic leading-tight"
                 >
                   START GROWTH PHASE <ChevronRight size={32} strokeWidth={3} />
                 </button>
                 <button
                   onClick={handleRemoveCrop}
-                  className="px-12 py-8 text-rose-500 font-black hover:bg-rose-50 rounded-[2.5rem] transition-all flex items-center justify-center gap-4 text-xl border-4 border-transparent hover:border-rose-100 active:scale-95"
+                  className="px-12 py-8 text-rose-500 font-black hover:bg-rose-500/10 rounded-[2.5rem] transition-all flex items-center justify-center gap-4 text-xl border-4 border-transparent hover:border-rose-500/20 active:scale-95 uppercase italic tracking-widest"
                 >
                   <Trash2 size={32} /> CLEAR
                 </button>

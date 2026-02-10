@@ -616,7 +616,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                       </div>
                       <div className="space-y-1">
                         <p className="font-black text-xl outfit tracking-tighter leading-none">{aiFeedback.verified ? 'PHASE CLEARED!' : 'RE-SCAN REQUIRED'}</p>
-                        <p className={`text-sm font-bold leading-relaxed ${aiFeedback.verified ? 'opacity-90' : 'opacity-80'}`}>{aiFeedback.reasoning?.slice(0, 100)}</p>
+                        <p className={`text-sm font-bold leading-relaxed ${aiFeedback.verified ? 'opacity-90' : 'opacity-80'}`}>{aiFeedback.reasoning}</p>
                       </div>
                     </div>
                   )}

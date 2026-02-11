@@ -184,6 +184,35 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
     }
   };
 
+  const handleResetJourney = () => {
+    if (!activeJourney) return;
+
+    const confirmReset = window.confirm("Are you sure you want to RESTART this mission? All verification data will be cleared.");
+    if (!confirmReset) return;
+
+    const resetSteps = activeJourney.steps.map(s => ({
+      ...s,
+      verified: false,
+      verifiedAt: undefined,
+      proofImageUrl: undefined,
+      aiFeedback: undefined
+    }));
+
+    const updatedJourney: UserCultivationJourney = {
+      ...activeJourney,
+      steps: resetSteps,
+      currentStepIndex: 0,
+      status: 'active'
+    };
+
+    const newJourneys = journeys.map(j => j.id === activeJourney.id ? updatedJourney : j);
+    saveJourneys(newJourneys);
+    setActiveJourney(updatedJourney);
+    setSelectedStepIndex(0);
+    setAiFeedback(null);
+    setProofImage(null);
+  };
+
   const handleTTS = async () => {
     if (isSpeaking || !activeJourney) return;
     const crop = CULTIVATION_LIBRARY.find(c => c.id === activeJourney.cropId);
@@ -279,8 +308,16 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
       {/* HUD Header */}
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8">
         <div className="flex items-center gap-6">
-          <Link to="/learn" className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-green-600 shadow-sm transition-all active:scale-95">
-            <RotateCcw size={24} />
+          <button
+            onClick={handleResetJourney}
+            className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-rose-600 shadow-sm transition-all active:scale-95 group relative"
+            title="Restart Session"
+          >
+            <RotateCcw size={24} className="group-hover:rotate-[-180deg] transition-transform duration-500" />
+            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest whitespace-nowrap">Restart Pipeline</span>
+          </button>
+          <Link to="/learn" className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-green-600 shadow-sm transition-all active:scale-95" title="Back to Missions">
+            <History size={24} />
           </Link>
           <div>
             <h2 className="text-4xl font-black text-slate-800 outfit tracking-tighter leading-none">{activeJourney.cropName} Pipeline</h2>

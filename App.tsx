@@ -204,7 +204,9 @@ const App: React.FC = () => {
 
               <NavGroup title={isSidebarOpen ? t('sidebar.resource_node') : ''} isSidebarOpen={isSidebarOpen}>
                 <NavItem to="/marketplace" icon={ShoppingCart} isSidebarOpen={isSidebarOpen}>{t('sidebar.marketplace')}</NavItem>
-                <NavItem to="/converter" icon={Box} isSidebarOpen={isSidebarOpen}>{t('sidebar.value_extraction', 'Value Extraction')}</NavItem>
+                <NavItem to="/subsidies" icon={Landmark} isSidebarOpen={isSidebarOpen}>{t('sidebar.subsidies', 'Govt Schemes')}</NavItem>
+                <NavItem to="/insurance" icon={ShieldCheck} isSidebarOpen={isSidebarOpen}>{t('sidebar.insurance', 'Insurance')}</NavItem>
+                <NavItem to="/converter" icon={Box} isSidebarOpen={isSidebarOpen}>{t('sidebar.value_extraction')}</NavItem>
                 <NavItem to="/market" icon={TrendingUp} isSidebarOpen={isSidebarOpen}>{t('sidebar.mandi_telemetry')}</NavItem>
               </NavGroup>
 

@@ -124,7 +124,7 @@ const App: React.FC = () => {
         title={!isSidebarOpen ? String(children) : ''}
       >
         {isActive && <div className="absolute inset-0 bg-[#2d6a4f]/5 opacity-10" />}
-        <Icon size={24} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-[#1b4332]' : 'text-black'} />
+        <Icon size={24} strokeWidth={2.5} className="text-black flex-shrink-0 relative z-10" />
         {isSidebarOpen && <span className="font-bold text-sm uppercase tracking-wider relative z-10 whitespace-nowrap animate-in fade-in slide-in-from-left-2 duration-300">{children}</span>}
         {isActive && isSidebarOpen && <div className="ml-auto w-1.5 h-1.5 bg-[#1b4332] rounded-full shadow-[0_0_10px_#1b4332]" />}
       </Link>
@@ -141,7 +141,7 @@ const App: React.FC = () => {
             className="w-full flex items-center justify-between px-5 py-2 text-xs font-black text-black uppercase tracking-[0.2em] border-l-2 border-[#C8E6C9] hover:text-[#1b4332] transition-colors group"
           >
             <span className="truncate">{title}</span>
-            <ChevronRight size={16} className={`transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
+            <ChevronRight size={16} className={`text-black transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
           </button>
         )}
         {(isOpen || !isSidebarOpen) && <div className="space-y-1 animate-in slide-in-from-top-2 duration-300">{children}</div>}

@@ -117,15 +117,15 @@ const App: React.FC = () => {
       <Link
         to={to}
         onClick={() => setIsSidebarOpen(false)}
-        className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all relative group overflow-hidden ${isNested && isSidebarOpen ? 'ml-6' : ''} ${isActive
+        className={`flex items-center gap-3 px-5 py-3.5 rounded-xl transition-all relative group overflow-hidden ${isNested && isSidebarOpen ? 'ml-6' : ''} ${isActive
           ? 'bg-[#C8E6C9] text-[#2d6a4f] shadow-sm border border-[#A5D6A7]'
           : 'text-slate-600 hover:bg-[#F1F8F1] hover:text-[#2d6a4f] border border-transparent'
           } ${!isSidebarOpen ? 'justify-center p-4' : ''}`}
         title={!isSidebarOpen ? String(children) : ''}
       >
         {isActive && <div className="absolute inset-0 bg-[#2d6a4f]/5 opacity-10" />}
-        <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-[#2d6a4f]' : ''} />
-        {isSidebarOpen && <span className="font-black text-[10px] uppercase tracking-widest relative z-10 whitespace-nowrap animate-in fade-in slide-in-from-left-2 duration-300">{children}</span>}
+        <Icon size={22} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-[#2d6a4f]' : ''} />
+        {isSidebarOpen && <span className="font-extrabold text-xs uppercase tracking-widest relative z-10 whitespace-nowrap animate-in fade-in slide-in-from-left-2 duration-300">{children}</span>}
         {isActive && isSidebarOpen && <div className="ml-auto w-1.5 h-1.5 bg-[#2d6a4f] rounded-full shadow-[0_0_10px_#2d6a4f]" />}
       </Link>
     );
@@ -138,10 +138,10 @@ const App: React.FC = () => {
         {isSidebarOpen && title && (
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full flex items-center justify-between px-5 py-2 text-[8px] font-black text-[#2d6a4f] uppercase tracking-[0.5em] border-l-2 border-[#C8E6C9] hover:text-[#1b4332] transition-colors group"
+            className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-black text-[#2d6a4f] uppercase tracking-[0.5em] border-l-2 border-[#C8E6C9] hover:text-[#1b4332] transition-colors group"
           >
             <span className="truncate">{title}</span>
-            <ChevronRight size={12} className={`transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
+            <ChevronRight size={14} className={`transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
           </button>
         )}
         {(isOpen || !isSidebarOpen) && <div className="space-y-1 animate-in slide-in-from-top-2 duration-300">{children}</div>}

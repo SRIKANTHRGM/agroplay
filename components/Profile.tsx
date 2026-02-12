@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { UserProfile } from '../types';
 import {
   MapPin,
@@ -37,6 +38,7 @@ const ROLES = ['Farmer', 'Learner', 'Expert'] as const;
 const SOIL_TYPES = ['Alluvial Soil', 'Black Soil', 'Red Soil', 'Laterite Soil', 'Mountain Soil'] as const;
 
 const Profile: React.FC<Props> = ({ user, setUser }) => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSynced, setLastSynced] = useState<string | null>(null);
@@ -80,7 +82,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
   const handleSave = async () => {
     if (!formData.name?.trim()) {
-      showToast("Name is a mandatory biometric field.", "error");
+      showToast(t('profile.name_mandatory'), "error");
       return;
     }
 
@@ -94,9 +96,11 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
       setLastSynced(new Date().toLocaleTimeString());
       setIsEditing(false);
-      showToast("Profile synchronized with cloud node.", "success");
+      setLastSynced(new Date().toLocaleTimeString());
+      setIsEditing(false);
+      showToast(t('profile.sync_success'), "success");
     } catch (e) {
-      showToast("Sync failed. Check terminal connection.", "error");
+      showToast(t('profile.sync_error'), "error");
     } finally {
       setIsSyncing(false);
     }
@@ -181,14 +185,14 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
               <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white">{completion}%</div>
             </div>
             <div className="hidden md:block">
-              <p className="text-[10px] font-black text-green-400 uppercase tracking-widest leading-none mb-1">Dossier Integrity</p>
-              <p className="text-xs font-bold text-white">Encrypted Node Access</p>
+              <p className="text-[10px] font-black text-green-400 uppercase tracking-widest leading-none mb-1">{t('profile.dossier_integrity')}</p>
+              <p className="text-xs font-bold text-white">{t('profile.encrypted_access')}</p>
             </div>
           </div>
 
           {lastSynced && (
             <div className="flex items-center gap-2 px-4 py-2 bg-slate-900/60 backdrop-blur-md rounded-xl text-[9px] font-black text-slate-400 uppercase tracking-widest border border-white/5 animate-in slide-in-from-right-4">
-              <Database size={10} className="text-green-500" /> Last Synced: {lastSynced}
+              <Database size={10} className="text-green-500" /> {t('profile.last_synced')}: {lastSynced}
             </div>
           )}
         </div>
@@ -204,7 +208,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                   className="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center text-white opacity-0 group-hover/avatar:opacity-100 transition-all backdrop-blur-sm"
                 >
                   <Camera className="mb-2 animate-bounce" size={40} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Update Optic</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">{t('profile.update_optic')}</span>
                 </div>
               )}
             </div>
@@ -223,14 +227,14 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                 value={formData.name}
                 onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="bg-white/10 border-b-2 border-white/40 rounded-t-2xl px-6 py-3 text-white text-4xl md:text-6xl font-black outfit outline-none focus:bg-white/20 focus:border-green-400 transition-all w-full md:w-[500px]"
-                placeholder="Operative Name"
+                placeholder={t('profile.operative_name_placeholder')}
               />
             ) : (
-              <h2 className="text-5xl md:text-7xl font-black outfit tracking-tighter leading-none">{user.name ?? 'Operative'}</h2>
+              <h2 className="text-5xl md:text-7xl font-black outfit tracking-tighter leading-none">{user.name ?? t('profile.operative_default')}</h2>
             )}
             <div className="flex items-center justify-center md:justify-start gap-4">
               <div className="flex items-center gap-2 px-4 py-1.5 bg-green-500/20 text-green-300 border border-green-500/30 rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
-                <TrendingUp size={12} /> LEVEL {Math.floor((user.points ?? 0) / 500) + 1} {(user.role ?? 'Farmer').toUpperCase()}
+                <TrendingUp size={12} /> {t('profile.level')} {Math.floor((user.points ?? 0) / 500) + 1} {(user.role ?? 'Farmer').toUpperCase()}
               </div>
               <span className="w-1 h-1 bg-white/30 rounded-full" />
               <span className="text-white/60 font-bold text-xs uppercase tracking-widest flex items-center gap-2">
@@ -250,8 +254,8 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-10">
               <div className="space-y-1">
-                <h3 className="text-4xl font-black outfit tracking-tighter text-slate-800">Operative Intel</h3>
-                <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em]">Primary Node Configuration</p>
+                <h3 className="text-4xl font-black outfit tracking-tighter text-slate-800">{t('profile.operative_intel')}</h3>
+                <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em]">{t('profile.primary_config')}</p>
               </div>
 
               <div className="flex items-center gap-4 w-full md:w-auto">
@@ -262,7 +266,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                       disabled={isSyncing}
                       className="flex-1 md:flex-none px-10 py-5 bg-slate-50 hover:bg-slate-100 text-slate-500 rounded-[1.8rem] font-black text-xs uppercase tracking-widest transition-all"
                     >
-                      Abort
+                      {t('profile.abort')}
                     </button>
                     <button
                       onClick={handleSave}
@@ -270,7 +274,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                       className="flex-1 md:flex-none px-12 py-5 bg-slate-900 hover:bg-slate-800 text-white rounded-[1.8rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-2xl transition-all disabled:opacity-50"
                     >
                       {isSyncing ? <Loader2 className="animate-spin" size={20} /> : <Save size={18} />}
-                      {isSyncing ? 'SYNCHRONIZING...' : 'COMMIT CHANGES'}
+                      {isSyncing ? t('profile.synchronizing') : t('profile.commit_changes')}
                     </button>
                   </>
                 ) : (
@@ -278,7 +282,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                     onClick={() => setIsEditing(true)}
                     className="w-full md:w-auto px-12 py-5 bg-green-600 hover:bg-green-700 text-white rounded-[1.8rem] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-green-100 transition-all hover:scale-105 active:scale-95"
                   >
-                    <Settings size={20} /> MODIFY CONFIG
+                    <Settings size={20} /> {t('profile.modify_config')}
                   </button>
                 )}
               </div>
@@ -288,7 +292,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
               <div className="space-y-10">
                 <div className="space-y-3">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 flex items-center gap-2">
-                    <Mail size={14} className="text-blue-500" /> Communication Link
+                    <Mail size={14} className="text-blue-500" /> {t('profile.communication_link')}
                   </label>
                   {isEditing ? (
                     <input
@@ -305,7 +309,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
                 <div className="space-y-3">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 flex items-center gap-2">
-                    <Phone size={14} className="text-green-500" /> Satellite Mobile
+                    <Phone size={14} className="text-green-500" /> {t('profile.satellite_mobile')}
                   </label>
                   {isEditing ? (
                     <input
@@ -321,7 +325,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Assigned Operative Role</label>
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('profile.assigned_role')}</label>
                   {isEditing ? (
                     <div className="grid grid-cols-3 gap-4">
                       {ROLES.map(role => (
@@ -335,7 +339,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="px-8 py-5 bg-green-50 rounded-[2rem] font-black text-green-700 uppercase text-xs tracking-[0.3em] border border-green-100">{user.role ?? 'Farmer'} Operative</div>
+                    <div className="px-8 py-5 bg-green-50 rounded-[2rem] font-black text-green-700 uppercase text-xs tracking-[0.3em] border border-green-100">{t('profile.role_operative', { role: user.role ?? 'Farmer' })}</div>
                   )}
                 </div>
               </div>
@@ -343,7 +347,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
               <div className="space-y-10">
                 <div className="space-y-3">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 flex items-center gap-2">
-                    <MapPin size={14} className="text-rose-500" /> Geographic Grid
+                    <MapPin size={14} className="text-rose-500" /> {t('profile.geographic_grid')}
                   </label>
                   {isEditing ? (
                     <input
@@ -351,7 +355,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                       value={formData.location}
                       onChange={e => setFormData(prev => ({ ...prev, location: e.target.value }))}
                       className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent focus:border-rose-200 rounded-[2rem] outline-none transition-all font-bold text-lg outfit shadow-inner"
-                      placeholder="District, State"
+                      placeholder={t('profile.district_state_placeholder')}
                     />
                   ) : (
                     <div className="px-8 py-5 bg-slate-50 rounded-[2rem] font-black text-slate-700 outfit text-xl shadow-inner border border-slate-100/50">{user.location ?? 'India'}</div>
@@ -360,7 +364,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
                 <div className="space-y-3">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 flex items-center gap-2">
-                    <Tractor size={14} className="text-amber-500" /> Acreage Magnitude
+                    <Tractor size={14} className="text-amber-500" /> {t('profile.acreage_magnitude')}
                   </label>
                   {isEditing ? (
                     <input
@@ -368,7 +372,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                       value={formData.farmSize}
                       onChange={e => setFormData(prev => ({ ...prev, farmSize: e.target.value }))}
                       className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent focus:border-amber-200 rounded-[2rem] outline-none transition-all font-bold text-lg outfit shadow-inner"
-                      placeholder="e.g. 10.5 Acres"
+                      placeholder={t('profile.acreage_placeholder')}
                     />
                   ) : (
                     <div className="px-8 py-5 bg-slate-50 rounded-[2rem] font-black text-slate-700 outfit text-xl shadow-inner border border-slate-100/50">{user.farmSize ?? 'N/A'}</div>
@@ -377,7 +381,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
 
                 <div className="space-y-3">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 flex items-center gap-2">
-                    <Globe size={14} className="text-emerald-500" /> Sub-Strata Baseline
+                    <Globe size={14} className="text-emerald-500" /> {t('profile.sub_strata_baseline')}
                   </label>
                   {isEditing ? (
                     <div className="relative">
@@ -402,8 +406,8 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
             <div className="bg-white rounded-[3.5rem] p-12 border border-slate-100 shadow-2xl space-y-10 relative overflow-hidden group">
               <div className="flex items-center justify-between border-b border-slate-50 pb-8">
                 <div className="space-y-1">
-                  <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">Variety Matrix</h4>
-                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">Active Managed Crops</p>
+                  <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">{t('profile.variety_matrix')}</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{t('profile.active_crops')}</p>
                 </div>
                 <div className="w-14 h-14 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center shadow-inner group-hover:rotate-[15deg] transition-transform">
                   <Sprout size={28} />
@@ -421,7 +425,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                     )}
                   </span>
                 ))}
-                {(formData.cropPreferences?.length ?? 0) === 0 && <p className="text-slate-400 font-medium italic">No managed varieties detected.</p>}
+                {(formData.cropPreferences?.length ?? 0) === 0 && <p className="text-slate-400 font-medium italic">{t('profile.no_varieties')}</p>}
               </div>
 
               {isEditing && (
@@ -432,7 +436,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                     onChange={e => setNewPreference(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && addPreference()}
                     className="flex-1 bg-slate-50 rounded-2xl px-6 py-4 text-sm font-bold focus:ring-4 focus:ring-green-500/10 outline-none shadow-inner border border-slate-100"
-                    placeholder="New cultivar..."
+                    placeholder={t('profile.new_cultivar_placeholder')}
                   />
                   <button onClick={addPreference} className="w-14 h-14 bg-slate-900 text-white rounded-2xl hover:bg-green-600 shadow-xl active:scale-90 transition-all flex items-center justify-center">
                     <Plus size={24} />
@@ -444,8 +448,8 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
             <div className="bg-white rounded-[3.5rem] p-12 border border-slate-100 shadow-2xl space-y-10 relative overflow-hidden group">
               <div className="flex items-center justify-between border-b border-slate-50 pb-8">
                 <div className="space-y-1">
-                  <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">Mission Vector</h4>
-                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">Target Objectives</p>
+                  <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">{t('profile.mission_vector')}</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{t('profile.target_objectives')}</p>
                 </div>
                 <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-[1.5rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
                   <Target size={28} />
@@ -486,49 +490,49 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
         </div>
 
         <div className="lg:col-span-4 space-y-12">
-          <div className="bg-slate-900 rounded-[4rem] p-12 text-white space-y-10 relative overflow-hidden group shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] border border-white/5">
-            <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:rotate-12 transition-transform duration-[1.5s]">
+          <div className="bg-white rounded-[4rem] p-12 text-slate-900 space-y-10 relative overflow-hidden group shadow-xl border border-slate-200">
+            <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:rotate-12 transition-transform duration-[1.5s]">
               <TrendingUp size={220} />
             </div>
             <div className="relative z-10 space-y-10">
               <div>
-                <p className="text-[11px] font-black text-green-400 uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                <p className="text-[11px] font-black text-green-600 uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
-                  Network Status: Prime
+                  {t('profile.network_status')}
                 </p>
-                <p className="text-8xl font-black outfit tracking-tighter leading-none mb-2">{user.points ?? 0}</p>
-                <p className="text-slate-500 font-black uppercase text-[10px] tracking-[0.4em] mt-1">Global Mastery Score</p>
+                <p className="text-8xl font-black outfit tracking-tighter leading-none mb-2 text-slate-900">{user.points ?? 0}</p>
+                <p className="text-slate-400 font-black uppercase text-[10px] tracking-[0.4em] mt-1">{t('profile.global_mastery')}</p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <span className="text-[10px] font-black uppercase text-white/50 tracking-widest">Uplink Maturity Stage</span>
-                  <span className="text-2xl font-black outfit text-green-400">STAGE {Math.floor((user.points ?? 0) / 500) + 1}</span>
+                  <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{t('profile.uplink_stage')}</span>
+                  <span className="text-2xl font-black outfit text-green-600">{t('profile.stage')} {Math.floor((user.points ?? 0) / 500) + 1}</span>
                 </div>
-                <div className="w-full h-5 bg-white/5 rounded-full overflow-hidden p-1.5 border border-white/10 shadow-inner">
+                <div className="w-full h-5 bg-slate-50 rounded-full overflow-hidden p-1.5 border border-slate-200 shadow-inner">
                   <div
-                    className="bg-gradient-to-r from-green-600 via-green-400 to-emerald-300 h-full rounded-full transition-all duration-[2.5s] shadow-[0_0_20px_rgba(34,197,94,0.7)]"
+                    className="bg-gradient-to-r from-green-600 via-green-400 to-emerald-300 h-full rounded-full transition-all duration-[2.5s] shadow-sm"
                     style={{ width: `${((user.points ?? 0) % 500) / 5}%` }}
                   />
                 </div>
-                <p className="text-[9px] font-bold text-slate-500 text-center uppercase tracking-widest">{500 - ((user.points ?? 0) % 500)} XP to next terminal upgrade</p>
+                <p className="text-[9px] font-bold text-slate-400 text-center uppercase tracking-widest">{500 - ((user.points ?? 0) % 500)} {t('profile.xp_to_upgrade')}</p>
               </div>
 
-              <div className="pt-10 border-t border-white/10 grid grid-cols-2 gap-8">
+              <div className="pt-10 border-t border-slate-100 grid grid-cols-2 gap-8">
                 <div className="space-y-1">
-                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Certifications</p>
-                  <p className="text-3xl font-black outfit tracking-tighter">{user.badges?.length ?? 0}</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{t('profile.certifications')}</p>
+                  <p className="text-3xl font-black outfit tracking-tighter text-slate-900">{user.badges?.length ?? 0}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Journeys</p>
-                  <p className="text-3xl font-black outfit tracking-tighter">4 <span className="text-xs text-green-500">↑</span></p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{t('profile.journeys')}</p>
+                  <p className="text-3xl font-black outfit tracking-tighter text-slate-900">4 <span className="text-xs text-green-600">↑</span></p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-[4rem] p-12 border border-slate-100 shadow-2xl space-y-10">
-            <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">Honor Commendations</h4>
+            <h4 className="text-3xl font-black outfit tracking-tighter text-slate-800">{t('profile.honor_commendations')}</h4>
             <div className="grid grid-cols-2 gap-6">
               {(user.badges ?? []).map(badge => (
                 <div key={badge.id} className="group relative bg-slate-50 p-8 rounded-[3rem] flex flex-col items-center text-center gap-5 hover:bg-green-50 transition-all cursor-help border border-transparent hover:border-green-100 shadow-sm">
@@ -545,7 +549,7 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
               {(user.badges?.length ?? 0) === 0 && (
                 <div className="col-span-2 text-center py-8 opacity-40">
                   <Award className="mx-auto mb-2 text-slate-400" size={32} />
-                  <p className="text-[10px] font-black uppercase tracking-widest">No badges awarded yet</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest">{t('profile.no_badges')}</p>
                 </div>
               )}
             </div>
@@ -556,9 +560,9 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
               <LinkIcon size={32} />
             </div>
             <div className="flex-1">
-              <h5 className="font-black outfit text-2xl text-amber-900 leading-none tracking-tight">Kisan Credential</h5>
+              <h5 className="font-black outfit text-2xl text-amber-900 leading-none tracking-tight">{t('profile.kisan_credential')}</h5>
               <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest mt-2 flex items-center gap-2">
-                <Clock size={12} /> Active Sync Enabled
+                <Clock size={12} /> {t('profile.active_sync')}
               </p>
             </div>
             <ChevronRight className="text-amber-300 group-hover:translate-x-2 transition-transform" />

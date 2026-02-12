@@ -1,4 +1,4 @@
-// Storage Service - User-specific localStorage management
+import { encryptData, decryptData } from './securityService';
 
 /**
  * Get current user UID from localStorage
@@ -7,7 +7,9 @@ const getCurrentUserUid = (): string | null => {
     const profile = localStorage.getItem('km_user_profile');
     if (profile) {
         try {
-            const user = JSON.parse(profile);
+            // Try to decrypt first, fallback to parsing raw profile if decryption fails (legacy support)
+            const decrypted = decryptData(profile);
+            const user = decrypted ? decrypted : JSON.parse(profile);
             return user.uid || null;
         } catch {
             return null;
@@ -31,14 +33,30 @@ export const getUserKey = (baseKey: string): string => {
  * Get item from user-specific localStorage
  */
 export const getUserItem = (baseKey: string): string | null => {
-    return localStorage.getItem(getUserKey(baseKey));
+    const value = localStorage.getItem(getUserKey(baseKey));
+    if (!value) return null;
+
+    // Try to decrypt
+    const decrypted = decryptData(value);
+
+    // If decryption returns a string (normal case for our storage service which stores strings)
+    if (typeof decrypted === 'string') return decrypted;
+
+    // If decryption returns object/null (or failed), fallback to returning value if it looks like plaintext?
+    // Note: decryptData returns null on failure.
+    if (decrypted === null) return value; // Return raw value (legacy plaintext)
+
+    // If it was an object (JSON), stringify it back? 
+    // storageService expects string return
+    return JSON.stringify(decrypted);
 };
 
 /**
  * Set item in user-specific localStorage
  */
 export const setUserItem = (baseKey: string, value: string): void => {
-    localStorage.setItem(getUserKey(baseKey), value);
+    const encrypted = encryptData(value);
+    localStorage.setItem(getUserKey(baseKey), encrypted);
 };
 
 /**

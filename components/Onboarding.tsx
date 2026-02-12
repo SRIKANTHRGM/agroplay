@@ -84,7 +84,7 @@ const Onboarding: React.FC<Props> = ({ user, onComplete }) => {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 relative overflow-hidden font-inter">
-      <div className="absolute inset-0 grid-bg opacity-10" />
+      <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
 
       <div className="w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[4rem] shadow-[0_0_120px_rgba(34,197,94,0.15)] relative overflow-hidden animate-in zoom-in-95 duration-700">
         {/* Progress Bar */}

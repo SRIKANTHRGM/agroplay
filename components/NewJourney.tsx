@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, Sprout, Loader2, X, Star, Zap, Sparkles, BrainCircuit, Droplets, Wind, Calendar } from 'lucide-react';
 import { Crop, CULTIVATION_LIBRARY, UserCultivationJourney, UserProfile } from '../types';
 import { generateCropImage, generateCropMetadata } from '../services/geminiService';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   user: UserProfile;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const NewJourney: React.FC<Props> = ({ user, setUser }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
@@ -68,10 +70,10 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
         <div className="absolute inset-0 flex flex-col justify-center px-12 text-white">
           <div className="flex items-center gap-3 px-4 py-1.5 bg-white/20 rounded-full w-fit mb-4 backdrop-blur-md border border-white/10">
             <Zap size={14} className="text-amber-400" fill="currentColor" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em]">CULTIVATION LAB v4.0</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]">{t('new_journey.lab_version')}</span>
           </div>
-          <h1 className="text-6xl font-black outfit tracking-tighter">New Mission</h1>
-          <p className="text-green-50/80 mt-2 max-w-lg font-medium text-lg">Architect a precise cultivation journey from seed to surplus.</p>
+          <h1 className="text-6xl font-black outfit tracking-tighter">{t('new_journey.title')}</h1>
+          <p className="text-green-50/80 mt-2 max-w-lg font-medium text-lg">{t('new_journey.subtitle')}</p>
         </div>
       </div>
 
@@ -82,7 +84,7 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search crop archives..."
+            placeholder={t('new_journey.search_placeholder')}
             className="w-full pl-16 pr-8 py-7 bg-white border-none rounded-[2.5rem] shadow-xl shadow-slate-200/50 text-xl outfit focus:ring-4 focus:ring-green-500/10 transition-all font-bold placeholder:text-slate-300 shadow-inner"
           />
         </div>
@@ -96,8 +98,8 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
               <div key={category} className="space-y-8">
                 <div className="flex items-center justify-between px-2">
                   <div className="flex items-center gap-3">
-                    <h3 className="text-3xl font-black text-slate-800 outfit tracking-tighter">{category}</h3>
-                    <span className="px-3 py-1 bg-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest">{categoryCrops.length} VARIETIES</span>
+                    <h3 className="text-3xl font-black text-slate-800 outfit tracking-tighter">{t(`categories.${category}`, category)}</h3>
+                    <span className="px-3 py-1 bg-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest">{categoryCrops.length} {t('new_journey.varieties')}</span>
                   </div>
                   <div className="h-0.5 flex-1 bg-slate-200 mx-6 rounded-full opacity-30" />
                 </div>
@@ -119,11 +121,11 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
                       </div>
 
                       <div className="absolute inset-x-0 bottom-0 p-8 text-left space-y-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                        <p className="text-white font-black text-2xl outfit tracking-tighter leading-none">{crop.name}</p>
+                        <p className="text-white font-black text-2xl outfit tracking-tighter leading-none">{t(`crops.${crop.id}.title`, crop.name)}</p>
                         <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-black text-green-400 uppercase tracking-widest">{crop.season} Cycle</span>
+                          <span className="text-[10px] font-black text-green-400 uppercase tracking-widest">{t(`new_journey.season_name`, { season: crop.season })} {t('new_journey.cycle')}</span>
                           <div className="w-1 h-1 bg-white/30 rounded-full" />
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{crop.workflow?.length} Phases</span>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{crop.workflow?.length} {t('new_journey.phases')}</span>
                         </div>
                       </div>
                     </button>
@@ -152,8 +154,8 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
             <div className="p-6 md:p-12 -mt-8 md:-mt-12 relative bg-white rounded-t-[2.5rem] md:rounded-t-[3.5rem] space-y-6 md:space-y-10 overflow-y-auto custom-scrollbar shrink">
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-3xl md:text-5xl font-black text-slate-800 outfit tracking-tighter leading-none">{selectedCrop.name}</h3>
-                  <p className="text-[10px] md:text-[11px] font-black text-green-600 uppercase tracking-[0.3em]">{selectedCrop.season} Season • {selectedCrop.workflow?.length} Steps</p>
+                  <h3 className="text-3xl md:text-5xl font-black text-slate-800 outfit tracking-tighter leading-none">{t(`crops.${selectedCrop.id}.title`, selectedCrop.name)}</h3>
+                  <p className="text-[10px] md:text-[11px] font-black text-green-600 uppercase tracking-[0.3em]">{t(`new_journey.season_name`, { season: selectedCrop.season })} {t('new_journey.season')} • {selectedCrop.workflow?.length} {t('new_journey.steps')}</p>
                 </div>
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-green-50 rounded-xl md:rounded-[1.5rem] flex items-center justify-center text-green-600 shadow-inner">
                   <Sprout size={24} className="md:w-8 md:h-8" />
@@ -163,17 +165,17 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
               <div className="grid grid-cols-3 gap-3 md:gap-6">
                 <div className="bg-slate-50 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-slate-100 flex flex-col items-center gap-1 md:gap-2">
                   <Droplets size={18} className="text-blue-500 md:w-6 md:h-6" />
-                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">Water</p>
+                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">{t('new_journey.water')}</p>
                   <p className="font-bold text-slate-700 text-xs md:text-base">{selectedCrop.waterRequirement}</p>
                 </div>
                 <div className="bg-slate-50 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-slate-100 flex flex-col items-center gap-1 md:gap-2">
                   <Wind size={18} className="text-green-500 md:w-6 md:h-6" />
-                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">Soil</p>
+                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">{t('new_journey.soil')}</p>
                   <p className="font-bold text-slate-700 text-xs md:text-base truncate w-full text-center">{selectedCrop.soilSuitability[0]}</p>
                 </div>
                 <div className="bg-slate-50 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-slate-100 flex flex-col items-center gap-1 md:gap-2">
                   <Zap size={18} className="text-amber-500 md:w-6 md:h-6" />
-                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">Bonus</p>
+                  <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">{t('new_journey.bonus')}</p>
                   <p className="font-bold text-slate-700 text-xs md:text-base">+12% XP</p>
                 </div>
               </div>
@@ -187,14 +189,14 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
                 onClick={() => setIsConfirmOpen(false)}
                 className="flex-1 py-4 md:py-6 bg-slate-100 rounded-xl md:rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-widest text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-all active:scale-95"
               >
-                Cancel
+                {t('new_journey.cancel')}
               </button>
               <button
                 onClick={handleConfirmStart}
                 className="flex-[2] py-4 md:py-6 bg-green-600 text-white rounded-xl md:rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-green-700 shadow-2xl shadow-green-100 transition-all flex items-center justify-center gap-3 md:gap-4 active:scale-95 group/btn"
               >
                 <Zap size={18} fill="currentColor" className="group-hover/btn:animate-pulse" />
-                Initiate Journey
+                {t('new_journey.initiate')}
               </button>
             </div>
           </div>

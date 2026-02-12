@@ -1,5 +1,6 @@
 // Authentication Service - JWT based auth with backend server
 import { migrateToUserStorage, clearAllAppData } from './storageService';
+import { encryptData, decryptData } from './securityService';
 
 export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const API_URL = `${API_BASE}/api/auth`;
@@ -12,22 +13,26 @@ const REFRESH_TOKEN_KEY = 'km_refresh_token';
  * Store tokens in localStorage
  */
 export const setTokens = (accessToken: string, refreshToken: string): void => {
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    localStorage.setItem(ACCESS_TOKEN_KEY, encryptData(accessToken));
+    localStorage.setItem(REFRESH_TOKEN_KEY, encryptData(refreshToken));
 };
 
 /**
  * Get access token from localStorage
  */
 export const getAccessToken = (): string | null => {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (!token) return null;
+    return decryptData(token) || token; // Fallback to raw if decryption fails (legacy)
 };
 
 /**
  * Get refresh token from localStorage
  */
 export const getRefreshToken = (): string | null => {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
+    const token = localStorage.getItem(REFRESH_TOKEN_KEY);
+    if (!token) return null;
+    return decryptData(token) || token;
 };
 
 /**
@@ -141,8 +146,8 @@ export const register = async (name: string, email: string, password: string): P
     // Store tokens
     setTokens(data.accessToken, data.refreshToken);
 
-    // Store user profile for compatibility
-    localStorage.setItem('km_user_profile', JSON.stringify(data.user));
+    // Store user profile for compatibility (encrypted)
+    localStorage.setItem('km_user_profile', encryptData(data.user));
     localStorage.setItem('km_auth', 'true');
 
     return data;
@@ -170,8 +175,8 @@ export const login = async (email: string, password: string): Promise<any> => {
     // Store tokens
     setTokens(data.accessToken, data.refreshToken);
 
-    // Store user profile for compatibility
-    localStorage.setItem('km_user_profile', JSON.stringify(data.user));
+    // Store user profile for compatibility (encrypted)
+    localStorage.setItem('km_user_profile', encryptData(data.user));
     localStorage.setItem('km_auth', 'true');
 
     return data;
@@ -213,8 +218,8 @@ export const googleLogin = async (): Promise<any> => {
         // Store secure tokens
         setTokens(data.accessToken, data.refreshToken);
 
-        // Store user profile
-        localStorage.setItem('km_user_profile', JSON.stringify(data.user));
+        // Store user profile (encrypted)
+        localStorage.setItem('km_user_profile', encryptData(data.user));
         localStorage.setItem('km_auth', 'true');
 
         return data;

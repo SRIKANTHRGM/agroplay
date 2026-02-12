@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -46,6 +47,7 @@ interface Props {
 const iconMap: any = { Sprout, Tractor, Droplets, Recycle, Zap, Wheat, Check };
 
 const Learn: React.FC<Props> = ({ user, setUser }) => {
+  const { t } = useTranslation();
   const { journeyId } = useParams();
   const navigate = useNavigate();
 
@@ -101,7 +103,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
       setIsCameraActive(true);
     } catch (err) {
       console.error('Camera access denied:', err);
-      alert('Camera access was denied. Please use the Upload option instead.');
+      alert(t('learn.camera_error_alert'));
     }
   };
 
@@ -178,7 +180,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
       }
     } catch (e) {
       console.error(e);
-      setAiFeedback({ verified: false, reasoning: "Sensor link failed. Capture again." });
+      setAiFeedback({ verified: false, reasoning: t('learn.sensor_fail') });
     } finally {
       setVerifying(false);
     }
@@ -187,7 +189,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
   const handleResetJourney = () => {
     if (!activeJourney) return;
 
-    const confirmReset = window.confirm("Are you sure you want to RESTART this mission? All verification data will be cleared.");
+    const confirmReset = window.confirm(t('learn.restart_confirm'));
     if (!confirmReset) return;
 
     const resetSteps = activeJourney.steps.map(s => ({
@@ -220,8 +222,9 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
     if (!step) return;
 
     setIsSpeaking(true);
+    setIsSpeaking(true);
     try {
-      const text = `Step ${selectedStepIndex + 1}: ${step.title}. ${step.description}. Tasks include ${step.tools?.join(', ')}. Warnings: ${step.warnings || 'None.'}`;
+      const text = `${t('learn.tts.step', { step: selectedStepIndex + 1 })}: ${t('learn.tts.description', { title: step.title, description: step.description })}. ${t('learn.tts.tasks_include', { tools: step.tools?.join(', ') })}. ${t('learn.tts.warnings', { warnings: step.warnings || t('learn.tts.none') })}`;
       const b64 = await textToSpeech(text);
       if (b64) {
         const bytes = decodeBase64(b64);
@@ -239,13 +242,13 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
   if (!activeJourney) {
     return (
       <div className="space-y-12 animate-in fade-in duration-500">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center px-4">
           <div className="space-y-2">
-            <h2 className="text-5xl font-black text-slate-800 outfit tracking-tighter">Active Missions</h2>
-            <p className="text-slate-500 text-xl font-medium">Real-time tracking of your sustainable cultivation pipeline.</p>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 outfit tracking-tighter uppercase italic">{t('sidebar.active_training')}</h2>
+            <p className="text-slate-500 text-lg md:xl font-medium italic uppercase tracking-tight">{t('learn.real_time_tracking')}</p>
           </div>
-          <Link to="/new-journey" className="px-10 py-5 bg-green-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl hover:bg-green-700 transition-all active:scale-95 flex items-center gap-3">
-            <Sprout size={18} /> Initiate New Batch
+          <Link to="/new-journey" className="px-10 py-5 bg-[#2d6a4f] text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] shadow-sm hover:bg-[#1b4332] transition-all active:scale-95 flex items-center gap-3 italic">
+            <Sprout size={18} /> {t('learn.initiate_batch')}
           </Link>
         </div>
 
@@ -255,39 +258,40 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
               <Activity size={48} strokeWidth={1} />
             </div>
             <div className="space-y-2">
-              <p className="text-3xl font-black text-slate-400 outfit tracking-tighter">No Active Pipelines Detected</p>
-              <p className="text-slate-400 font-medium max-w-xs mx-auto">Start a crop journey from the archives to activate this module.</p>
+              <p className="text-3xl font-black text-slate-400 outfit tracking-tighter">{t('learn.no_pipelines')}</p>
+              <p className="text-slate-400 font-medium max-w-xs mx-auto">{t('learn.start_journey_prompt')}</p>
             </div>
-            <Link to="/new-journey" className="px-12 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-lg shadow-2xl hover:bg-green-600 transition-all">Go to Library archive</Link>
+            <Link to="/new-journey" className="px-12 py-6 bg-slate-900 text-white rounded-[2rem] font-black text-lg shadow-2xl hover:bg-green-600 transition-all">{t('learn.go_to_archive')}</Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {journeys.map(j => (
-              <div key={j.id} onClick={() => navigate(`/learn/${j.id}`)} className="group bg-white rounded-[3.5rem] border border-slate-100 p-10 hover:shadow-2xl transition-all cursor-pointer relative overflow-hidden">
+              <div key={j.id} onClick={() => navigate(`/learn/${j.id}`)} className="group bg-white rounded-[3.5rem] border border-[#E0E5E2] p-10 hover:shadow-md transition-all cursor-pointer relative overflow-hidden card-pop">
+                <div className="absolute inset-0 grid-bg opacity-[0.02] pointer-events-none" />
                 <div className="space-y-6 relative z-10">
                   <div className="flex justify-between items-start">
-                    <div className="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                    <div className="w-16 h-16 bg-[#E8F5E9] text-[#2d6a4f] rounded-2xl flex items-center justify-center border border-[#C8E6C9] shadow-sm group-hover:scale-110 transition-transform">
                       <Wheat size={32} />
                     </div>
-                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${j.status === 'completed' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-blue-100 text-blue-700 border-blue-200'}`}>
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${j.status === 'completed' ? 'bg-[#E8F5E9] text-[#2d6a4f] border-[#C8E6C9]' : 'bg-[#E3F2FD] text-[#1E88E5] border-[#BBDEFB]'}`}>
                       {j.status}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-3xl font-black text-slate-800 outfit tracking-tighter">{j.cropName}</h3>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Journey Started: {new Date(j.startDate).toLocaleDateString()}</p>
+                    <h3 className="text-3xl font-black text-slate-900 outfit tracking-tighter uppercase italic">{j.cropName}</h3>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{t('learn.journey_started', { date: new Date(j.startDate).toLocaleDateString() })}</p>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between items-end">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progress Pipe</span>
-                      <span className="text-sm font-black text-slate-700">{Math.round((j.currentStepIndex / j.steps.length) * 100)}%</span>
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">{t('learn.progress_pipe')}</span>
+                      <span className="text-sm font-black text-slate-700 tabular-nums">{Math.round((j.currentStepIndex / j.steps.length) * 100)}%</span>
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-green-500 transition-all duration-[2s]" style={{ width: `${(j.currentStepIndex / j.steps.length) * 100}%` }} />
+                    <div className="h-2.5 bg-[#F1F3F2] rounded-full overflow-hidden p-0.5 border border-[#E0E5E2] shadow-inner">
+                      <div className="h-full bg-gradient-to-r from-[#C8E6C9] to-[#2d6a4f] rounded-full transition-all duration-[2s]" style={{ width: `${(j.currentStepIndex / j.steps.length) * 100}%` }} />
                     </div>
                   </div>
-                  <div className="pt-4 flex items-center gap-3 text-green-600 font-black text-xs uppercase tracking-widest">
-                    Resume Operations <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <div className="pt-4 flex items-center gap-3 text-[#2d6a4f] font-black text-[10px] uppercase tracking-[0.3em] italic">
+                    {t('learn.resume_operations')} <ChevronRight size={18} className="group-hover:translate-x-3 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -311,20 +315,20 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
           <button
             onClick={handleResetJourney}
             className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-rose-600 shadow-sm transition-all active:scale-95 group relative"
-            title="Restart Session"
+            title={t('learn.restart_session')}
           >
             <RotateCcw size={24} className="group-hover:rotate-[-180deg] transition-transform duration-500" />
-            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest whitespace-nowrap">Restart Pipeline</span>
+            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest whitespace-nowrap">{t('learn.restart_pipeline')}</span>
           </button>
-          <Link to="/learn" className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-green-600 shadow-sm transition-all active:scale-95" title="Back to Missions">
+          <Link to="/learn" className="p-4 bg-white border border-slate-200 rounded-2xl text-slate-400 hover:text-green-600 shadow-sm transition-all active:scale-95" title={t('learn.back_to_missions')}>
             <History size={24} />
           </Link>
           <div>
-            <h2 className="text-4xl font-black text-slate-800 outfit tracking-tighter leading-none">{activeJourney.cropName} Pipeline</h2>
-            <div className="flex items-center gap-4 mt-2">
-              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-[9px] font-black uppercase tracking-widest border border-green-200">Session ID: {activeJourney.id.split('-')[1]}</span>
+            <h2 className="text-2xl md:text-4xl font-black text-slate-900 outfit tracking-tighter leading-tight truncate max-w-xs md:max-w-md">{t('learn.pipeline_title', { cropName: activeJourney.cropName })}</h2>
+            <div className="flex flex-wrap items-center gap-4 mt-2">
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-[9px] font-black uppercase tracking-widest border border-green-200">{t('learn.session_id', { id: activeJourney.id.split('-')?.pop() ?? 'ID' })}</span>
               <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <Activity size={14} className="text-blue-500" /> Bio-Stability: {activeJourney.healthScore}%
+                <Activity size={14} className="text-blue-500" /> {t('learn.bio_stability', { score: activeJourney.healthScore })}
               </div>
             </div>
           </div>
@@ -336,7 +340,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
               <Zap size={20} fill="currentColor" />
             </div>
             <div>
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Session XP</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{t('learn.session_xp')}</p>
               <p className="text-lg font-black text-slate-800 outfit tabular-nums">{activeJourney.steps.filter(s => s.verified).length * 100}</p>
             </div>
           </div>
@@ -345,7 +349,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
               <Sparkles size={20} />
             </div>
             <div>
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Eco Rating</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{t('learn.eco_rating')}</p>
               <p className="text-lg font-black text-slate-800 outfit tabular-nums">{activeJourney.steps.filter(s => s.verified).length * 50}</p>
             </div>
           </div>
@@ -357,7 +361,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
         <div className="lg:col-span-4 space-y-6 lg:block">
           <div className="bg-white rounded-3xl md:rounded-[3.5rem] p-6 md:p-10 border border-slate-100 shadow-xl space-y-6 md:space-y-10">
             <div className="flex items-center justify-between border-b border-slate-50 pb-4 md:pb-8">
-              <h3 className="font-black text-slate-800 outfit text-xl md:text-3xl tracking-tighter">Workflow Rail</h3>
+              <h3 className="font-black text-slate-800 outfit text-xl md:text-3xl tracking-tighter">{t('learn.workflow_rail')}</h3>
               <div className="px-3 py-1.5 bg-slate-100 rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest tabular-nums">{selectedStepIndex + 1} / {cropData?.workflow?.length}</div>
             </div>
             <div className="flex lg:flex-col gap-3 md:gap-4 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 custom-scrollbar -mx-2 px-2 lg:mx-0 lg:px-0">
@@ -383,8 +387,8 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                       {verified ? <CheckCircle2 size={28} strokeWidth={3} /> : locked ? <Lock size={24} /> : <Icon size={28} />}
                     </div>
                     <div className="pr-2 hidden md:block">
-                      <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 md:mb-1 ${selectedStepIndex === i ? 'text-green-400' : 'text-slate-400'}`}>PHASE {i + 1}</span>
-                      <span className="text-base md:text-xl font-black leading-tight outfit truncate block w-24 md:w-auto">{step.title}</span>
+                      <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 md:mb-1 ${selectedStepIndex === i ? 'text-green-400' : 'text-slate-500'}`}>{t('learn.phase', { number: i + 1 })}</span>
+                      <span className="text-base md:text-xl font-black leading-tight outfit truncate block w-24 md:w-auto">{t(`crops.${cropData.id}.steps.${step.id}.title`, step.title)}</span>
                     </div>
                     {verified && (
                       <div className="absolute top-4 right-4 animate-in zoom-in">
@@ -399,8 +403,8 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
 
           <div className="hidden md:block bg-amber-50 p-6 md:p-10 rounded-2xl md:rounded-[3rem] border border-amber-100 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-1000"><Award size={160} /></div>
-            <h4 className="text-xl font-black text-amber-900 outfit mb-2">Rewards Active</h4>
-            <p className="text-amber-800/70 text-sm font-medium leading-relaxed">Each verified step adds points to your global standing and regional rank.</p>
+            <h4 className="text-xl font-black text-amber-900 outfit mb-2">{t('learn.rewards_active')}</h4>
+            <p className="text-amber-800/70 text-sm font-medium leading-relaxed">{t('learn.rewards_desc')}</p>
           </div>
         </div>
 
@@ -415,14 +419,14 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center text-white/20 space-y-6">
                     <PlayCircle size={100} strokeWidth={1} />
-                    <p className="font-black outfit text-2xl uppercase tracking-[0.4em]">Visual Lab Offline</p>
+                    <p className="font-black outfit text-2xl uppercase tracking-[0.4em]">{t('learn.visual_lab_offline')}</p>
                   </div>
                 )}
                 <div className="absolute top-10 left-10 flex items-center gap-4">
                   <div className="px-6 py-2.5 bg-black/60 backdrop-blur-xl rounded-2xl text-white font-black text-[10px] uppercase tracking-widest border border-white/20">
-                    {isVerified ? 'VERIFICATION RECORD' : (currentStep.tutorialVideo ? 'TUTORIAL MODE' : 'PRACTICE MODE')}
+                    {isVerified ? t('learn.verification_record') : (currentStep.tutorialVideo ? t('learn.tutorial_mode') : t('learn.practice_mode'))}
                   </div>
-                  {isVerified && <div className="px-6 py-2.5 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl">BIO-AUTHENTICATED</div>}
+                  {isVerified && <div className="px-6 py-2.5 bg-green-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl">{t('learn.bio_authenticated')}</div>}
                 </div>
               </div>
 
@@ -434,23 +438,23 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center gap-4">
-                        <h3 className="text-2xl md:text-6xl font-black text-slate-800 outfit tracking-tighter leading-none">{currentStep.title}</h3>
+                        <h3 className="text-2xl md:text-6xl font-black text-slate-800 outfit tracking-tighter leading-none">{t(`crops.${cropData.id}.steps.${currentStep.id}.title`, currentStep.title)}</h3>
                         <button onClick={handleTTS} className={`p-5 rounded-2xl transition-all shadow-xl hover:scale-110 active:scale-90 ${isSpeaking ? 'bg-amber-100 text-amber-600 ring-2 ring-amber-200 animate-pulse' : 'bg-slate-50 text-slate-400 hover:text-green-600'}`}>
                           {isSpeaking ? <Loader2 size={20} className="animate-spin md:w-8 md:h-8" /> : <Volume2 size={20} className="md:w-8 md:h-8" />}
                         </button>
                       </div>
-                      <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em] pt-1">Implementation Protocol Phase {selectedStepIndex + 1}</p>
+                      <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em] pt-1">{t('learn.protocol_phase', { number: selectedStepIndex + 1 })}</p>
                     </div>
                   </div>
                   <div className="bg-slate-50 px-12 py-8 rounded-[2.5rem] border border-slate-100 text-center shadow-inner group transition-all hover:bg-white hover:shadow-xl">
-                    <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Mastery Yield</p>
+                    <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">{t('learn.mastery_yield')}</p>
                     <p className="text-6xl font-black text-slate-800 outfit tracking-tighter tabular-nums transition-transform group-hover:scale-110">+{currentStep.points}</p>
                   </div>
                 </div>
 
-                <div className="p-12 bg-slate-50/50 rounded-[3.5rem] border border-slate-100 relative overflow-hidden group">
-                  <div className="absolute -top-10 -right-10 opacity-5 pointer-events-none group-hover:rotate-12 transition-transform duration-[2s]"><Zap size={300} /></div>
-                  <p className="text-lg md:text-3xl text-slate-600 leading-relaxed font-medium relative z-10 italic">"{currentStep.description}"</p>
+                <div className="p-12 bg-[#F9FBFA] rounded-[3.5rem] border border-[#E0E5E2] relative overflow-hidden group">
+                  <div className="absolute -top-10 -right-10 opacity-[0.02] pointer-events-none group-hover:rotate-12 transition-transform duration-[2s]"><Zap size={300} /></div>
+                  <p className="text-lg md:text-3xl text-slate-600 leading-relaxed font-black relative z-10 italic uppercase tracking-tight">"{t(`crops.${cropData.id}.steps.${currentStep.id}.description`, currentStep.description)}"</p>
                 </div>
 
                 {/* Watch Tutorial Button */}
@@ -461,15 +465,15 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                         <PlayCircle size={36} className="text-white" />
                       </div>
                       <div className="text-white">
-                        <p className="font-black text-xl outfit">Video Tutorial Available</p>
-                        <p className="text-sm opacity-80">Learn this step visually before verification</p>
+                        <p className="font-black text-xl outfit">{t('learn.video_tutorial_available')}</p>
+                        <p className="text-sm opacity-80">{t('learn.learn_visually')}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => window.open(currentStep.tutorialVideo, '_blank')}
                       className="px-8 py-4 bg-white text-indigo-600 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-3"
                     >
-                      <PlayCircle size={20} /> Watch Tutorial
+                      <PlayCircle size={20} /> {t('learn.watch_tutorial')}
                     </button>
                   </div>
                 )}
@@ -477,21 +481,21 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-6">
                     <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
-                      <Tractor size={18} className="text-green-500" /> Tactical Inventory
+                      <Tractor size={18} className="text-green-500" /> {t('learn.tactical_inventory')}
                     </h4>
                     <div className="flex flex-wrap gap-3">
                       {currentStep.tools?.map((t, i) => (
                         <span key={i} className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black uppercase tracking-widest text-slate-600 shadow-sm">{t}</span>
                       ))}
-                      {(!currentStep.tools || currentStep.tools.length === 0) && <p className="text-slate-400 italic">No special tools mandated.</p>}
+                      {(!currentStep.tools || currentStep.tools.length === 0) && <p className="text-slate-400 italic">{t('learn.no_tools')}</p>}
                     </div>
                   </div>
                   <div className="space-y-6">
                     <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
-                      <ShieldAlert size={18} className="text-rose-500" /> Operational Hazards
+                      <ShieldAlert size={18} className="text-rose-500" /> {t('learn.operational_hazards')}
                     </h4>
                     <div className="p-6 bg-rose-50 rounded-[1.5rem] border border-rose-100">
-                      <p className="text-sm text-rose-700 font-bold leading-relaxed">{currentStep.warnings || "Strict adherence to safety grids is mandatory."}</p>
+                      <p className="text-sm text-rose-700 font-bold leading-relaxed">{currentStep.warnings || t('learn.safety_mandatory')}</p>
                     </div>
                   </div>
                 </div>
@@ -499,34 +503,34 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                 {/* Verification Interaction */}
                 <div className="pt-10 flex flex-col sm:flex-row items-center gap-8">
                   {isVerified ? (
-                    <div className="flex-1 flex items-center gap-8 px-12 py-10 bg-green-500 text-white rounded-[3rem] font-black text-2xl shadow-2xl shadow-green-100 animate-in zoom-in duration-500 border-8 border-green-400">
+                    <div className="flex-1 flex items-center gap-8 px-12 py-10 bg-[#2d6a4f] text-white rounded-[3.5rem] font-black text-4xl shadow-sm animate-in zoom-in duration-500 border-8 border-[#C8E6C9] italic uppercase tracking-tighter">
                       <CheckCircle2 size={64} strokeWidth={3} />
                       <div>
-                        <p className="leading-none tracking-tighter">BIO-VERIFIED</p>
-                        <p className="text-[10px] font-bold text-green-100 uppercase tracking-[0.3em] mt-2">Authenticated on {new Date(activeJourney.steps[selectedStepIndex].verifiedAt!).toLocaleDateString()}</p>
+                        <p className="leading-none">{t('learn.bio_verified')}</p>
+                        <p className="text-[10px] font-bold text-[#A5D6A7] uppercase tracking-[0.3em] mt-3">{t('learn.authenticated_on', { date: new Date(activeJourney.steps[selectedStepIndex].verifiedAt!).toLocaleDateString() })}</p>
                       </div>
                       {selectedStepIndex < (cropData?.workflow?.length ?? 0) - 1 && (
                         <button
                           onClick={() => setSelectedStepIndex(selectedStepIndex + 1)}
-                          className="ml-auto bg-white text-green-600 p-5 rounded-[1.5rem] hover:scale-110 transition-all shadow-xl active:scale-95"
+                          className="ml-auto bg-white text-[#2d6a4f] p-5 rounded-[2rem] hover:scale-110 transition-all shadow-sm active:scale-95"
                         >
                           <ArrowRight size={32} strokeWidth={3} />
                         </button>
                       )}
                     </div>
                   ) : isLocked ? (
-                    <div className="flex-1 flex items-center justify-center gap-6 px-12 py-10 bg-slate-100 text-slate-400 rounded-[3rem] border-4 border-dashed border-slate-200">
+                    <div className="flex-1 flex items-center justify-center gap-6 px-12 py-10 bg-[#F9FBFA] text-slate-400 rounded-[3.5rem] border border-dashed border-[#E0E5E2]">
                       <Lock size={32} />
-                      <p className="font-black text-xl uppercase tracking-widest">Verification Path Locked</p>
+                      <p className="font-black text-xl uppercase tracking-[0.3em] italic">{t('learn.path_locked')}</p>
                     </div>
                   ) : (
                     <button
                       onClick={() => setIsScannerOpen(true)}
-                      className="flex-1 py-10 bg-slate-900 text-white rounded-[3.5rem] font-black text-3xl hover:bg-green-600 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.3)] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-8 group overflow-hidden relative"
+                      className="flex-1 py-10 bg-[#2d6a4f] text-white rounded-[4rem] font-black text-3xl hover:bg-[#1b4332] shadow-sm transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-8 group overflow-hidden relative italic uppercase tracking-tighter"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1.2s]" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1.2s]" />
                       <Camera size={32} className="md:w-12 md:h-12 group-hover:rotate-12 transition-transform" />
-                      <span className="text-xl md:text-3xl">VERIFY PHASE {selectedStepIndex + 1}</span>
+                      <span className="text-xl md:text-4xl">{t('learn.verify_phase', { number: selectedStepIndex + 1 })}</span>
                     </button>
                   )}
                 </div>
@@ -591,8 +595,8 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="text-2xl font-black text-white outfit uppercase tracking-tighter">Capture Proof</h4>
-                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest leading-relaxed px-6">Take a photo of your completed work</p>
+                    <h4 className="text-2xl font-black text-white outfit uppercase tracking-tighter">{t('learn.capture_proof')}</h4>
+                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest leading-relaxed px-6">{t('learn.take_photo_prompt')}</p>
                   </div>
                   <div className="flex flex-col gap-3 w-full max-w-[200px]">
                     {/* Live Camera Button */}
@@ -600,14 +604,14 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                       onClick={startCamera}
                       className="w-full px-6 py-4 bg-green-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.15em] hover:bg-green-400 transition-all shadow-2xl active:scale-95 flex items-center justify-center gap-3"
                     >
-                      <Camera size={18} /> Open Camera
+                      <Camera size={18} /> {t('learn.open_camera')}
                     </button>
                     {/* Upload Button */}
                     <button
                       onClick={() => fileInputRef.current?.click()}
                       className="w-full px-6 py-4 bg-white/10 text-white border border-white/20 rounded-2xl font-black text-xs uppercase tracking-[0.15em] hover:bg-white/20 transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3"
                     >
-                      <Smartphone size={18} /> Upload Photo
+                      <Smartphone size={18} /> {t('learn.upload_photo')}
                     </button>
                   </div>
                 </div>
@@ -629,9 +633,9 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-green-600">
                       <ShieldCheck size={18} />
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em]">Auth Protocol v5.0</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em]">{t('learn.auth_protocol')}</p>
                     </div>
-                    <h3 className="text-3xl font-black text-slate-800 outfit tracking-tighter">Bio-Scanner</h3>
+                    <h3 className="text-3xl font-black text-slate-800 outfit tracking-tighter">{t('learn.bio_scanner')}</h3>
                   </div>
                   <button onClick={() => { setIsScannerOpen(false); setProofImage(null); setAiFeedback(null); stopCamera(); }} className="p-3 bg-slate-50 text-slate-400 hover:text-slate-800 rounded-2xl transition-all">
                     <X size={24} />
@@ -640,7 +644,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
 
                 <div className="space-y-4">
                   <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">ACTIVE PHASE</p>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">{t('learn.active_phase')}</p>
                     <p className="text-xl font-black text-slate-800 outfit tracking-tight leading-tight">{currentStep?.title}</p>
                     <p className="text-slate-500 text-sm mt-2 font-medium leading-relaxed">"{currentStep?.description?.slice(0, 100)}..."</p>
                   </div>
@@ -652,7 +656,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                         {aiFeedback.verified ? <BadgeCheck size={32} /> : <AlertCircle size={32} />}
                       </div>
                       <div className="space-y-1">
-                        <p className="font-black text-xl outfit tracking-tighter leading-none">{aiFeedback.verified ? 'PHASE CLEARED!' : 'RE-SCAN REQUIRED'}</p>
+                        <p className="font-black text-xl outfit tracking-tighter leading-none">{aiFeedback.verified ? t('learn.phase_cleared') : t('learn.rescan_required')}</p>
                         <p className={`text-sm font-bold leading-relaxed ${aiFeedback.verified ? 'opacity-90' : 'opacity-80'}`}>{aiFeedback.reasoning}</p>
                       </div>
                     </div>
@@ -669,14 +673,14 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
                     className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-lg flex items-center justify-center gap-4 shadow-xl transition-all active:scale-95 disabled:opacity-30"
                   >
                     {verifying ? <Loader2 className="animate-spin" size={24} /> : <Zap size={24} fill="currentColor" className="text-amber-400" />}
-                    <span>{verifying ? 'Verifying...' : 'VERIFY NOW'}</span>
+                    <span>{verifying ? t('learn.verifying') : t('learn.verify_now')}</span>
                   </button>
                 ) : (
                   <button onClick={() => { setIsScannerOpen(false); setProofImage(null); setAiFeedback(null); }} className="w-full py-5 bg-green-600 text-white rounded-2xl font-black text-lg flex items-center justify-center gap-4 shadow-xl active:scale-95">
-                    <Check size={24} strokeWidth={4} /> DONE
+                    <Check size={24} strokeWidth={4} /> {t('learn.done')}
                   </button>
                 )}
-                <p className="text-[9px] text-center font-bold text-slate-400 uppercase tracking-widest">AI Vision Verification</p>
+                <p className="text-[9px] text-center font-bold text-slate-400 uppercase tracking-widest">{t('learn.ai_vision_verification')}</p>
               </div>
             </div>
           </div>

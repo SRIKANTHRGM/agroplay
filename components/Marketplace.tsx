@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ShoppingCart, ShoppingBag, Star, Zap, Search, ChevronRight, X, AlertCircle, CheckCircle2, Package, Tag, CreditCard, Bird, Waves, Egg, Loader2, Scan } from 'lucide-react';
 import { UserProfile, MarketItem, Order } from '../types';
 
@@ -166,6 +167,7 @@ interface Props {
 }
 
 const Marketplace: React.FC<Props> = ({ user, setUser }) => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<'All' | 'Seeds' | 'Tools' | 'Machinery' | 'Livestock'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState<MarketItem | null>(null);
@@ -192,7 +194,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
   const handlePointPurchase = (item: MarketItem, qty: number = 1) => {
     const totalPrice = item.pointsPrice * qty;
     if (user.points < totalPrice) {
-      setShowToast({ message: `Insufficient points! You need ${totalPrice} XP.`, type: 'error' });
+      setShowToast({ message: t('marketplace.insufficient_xp', { amount: totalPrice }), type: 'error' });
       return;
     }
     setUser(prev => ({ ...prev, points: prev.points - totalPrice }));
@@ -204,7 +206,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
       status: 'Delivered'
     };
     setOrders(prev => [newOrder, ...prev]);
-    setShowToast({ message: `Success! ${item.name} added.`, type: 'success' });
+    setShowToast({ message: t('marketplace.success_added', { item: item.name }), type: 'success' });
     setSelectedItem(null);
   };
 
@@ -233,7 +235,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
         setTimeout(() => {
           setPaymentModal(null);
           setSelectedItem(null);
-          setShowToast({ message: `Payment Successful via ${paymentMethod.toUpperCase()}!`, type: 'success' });
+          setShowToast({ message: t('marketplace.payment_success', { method: paymentMethod.toUpperCase() }), type: 'success' });
         }, 2000);
       }, 3000);
     }, 2000);
@@ -258,47 +260,47 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-4xl font-black text-white outfit tracking-tight italic uppercase">Farm Marketplace</h2>
-          <p className="text-slate-300 text-lg mt-1 uppercase tracking-wide font-medium">Acquire elite tools for plantation, grains, and livestock.</p>
+          <h2 className="text-4xl font-black text-slate-900 outfit tracking-tight italic uppercase">{t('marketplace.title')}</h2>
+          <p className="text-slate-500 text-lg mt-1 uppercase tracking-wide font-medium">{t('marketplace.subtitle')}</p>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={() => setShowOrders(true)} className="flex items-center gap-2 px-6 py-3 bg-slate-800 border border-white/5 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-300 hover:bg-slate-700 shadow-xl"><Package size={20} /> My Orders</button>
-          <div className="bg-amber-500/10 px-6 py-3 rounded-2xl border border-amber-500/20 flex items-center gap-3 shadow-2xl">
+          <button onClick={() => setShowOrders(true)} className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 shadow-xl"><Package size={20} /> {t('marketplace.my_orders')}</button>
+          <div className="bg-amber-50 px-6 py-3 rounded-2xl border border-amber-200 flex items-center gap-3 shadow-xl">
             <div className="w-8 h-8 bg-amber-500 text-white rounded-lg flex items-center justify-center font-black">XP</div>
-            <div><p className="text-[10px] text-amber-500/60 font-black uppercase tracking-widest leading-none">Available XP</p><p className="text-xl font-black text-amber-400">{user.points}</p></div>
+            <div><p className="text-[10px] text-amber-700 font-black uppercase tracking-widest leading-none">{t('marketplace.available_xp')}</p><p className="text-xl font-black text-amber-600">{user.points}</p></div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 items-center bg-slate-900 p-4 rounded-[2.5rem] shadow-2xl border border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
-        <div className="flex p-1 bg-slate-800 rounded-2xl w-full lg:w-auto overflow-x-auto no-scrollbar relative z-10">
+      <div className="flex flex-col lg:flex-row gap-6 items-center bg-white p-4 rounded-[2.5rem] shadow-xl border border-slate-200 relative overflow-hidden">
+        <div className="absolute inset-0 grid-bg opacity-[0.03] pointer-events-none" />
+        <div className="flex p-1 bg-slate-100 rounded-2xl w-full lg:w-auto overflow-x-auto no-scrollbar relative z-10">
           {categories.map(cat => (
-            <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-8 py-3 rounded-xl text-sm font-black transition-all whitespace-nowrap uppercase tracking-widest ${activeCategory === cat ? 'bg-green-600 text-white shadow-xl' : 'text-slate-400 hover:text-green-400'}`}>{cat}</button>
+            <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-8 py-3 rounded-xl text-sm font-black transition-all whitespace-nowrap uppercase tracking-widest ${activeCategory === cat ? 'bg-green-600 text-white shadow-md' : 'text-slate-500 hover:text-green-600'}`}>{t(`marketplace.categories.${cat.toLowerCase()}`) || cat}</button>
           ))}
         </div>
         <div className="relative flex-1 w-full z-10">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-green-500/40" size={20} />
-          <input type="text" placeholder="Search catalog..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-14 pr-6 py-4 bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-green-500 transition-all font-black outfit text-lg shadow-inner text-green-400 placeholder:opacity-20 uppercase italic" />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <input type="text" placeholder={t('marketplace.search_placeholder')} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500/20 transition-all font-black outfit text-lg shadow-inner text-slate-900 placeholder:text-slate-400 uppercase italic" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {filteredItems.map(item => (
-          <div key={item.id} className="group bg-slate-900 rounded-[2.5rem] border border-white/5 shadow-2xl hover:shadow-green-500/10 transition-all overflow-hidden flex flex-col relative">
-            <div className="absolute inset-0 grid-bg opacity-5 pointer-events-none" />
+          <div key={item.id} className="group bg-white rounded-[2.5rem] border border-slate-200 shadow-xl hover:shadow-2xl transition-all overflow-hidden flex flex-col relative hover:-translate-y-2 duration-500">
+            <div className="absolute inset-0 grid-bg opacity-[0.03] pointer-events-none" />
             <div className="h-56 relative cursor-pointer overflow-hidden" onClick={() => setSelectedItem(item)}>
               <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
-              <div className="absolute top-4 left-4"><span className="px-3 py-1 bg-slate-900/80 backdrop-blur-md rounded-full text-[10px] font-black text-green-400 uppercase tracking-widest border border-green-500/20">{item.category}</span></div>
+              <div className="absolute top-4 left-4"><span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-slate-700 uppercase tracking-widest border border-slate-200 shadow-sm">{item.category}</span></div>
             </div>
             <div className="p-6 flex-1 flex flex-col space-y-4 relative z-10">
               <div onClick={() => setSelectedItem(item)} className="cursor-pointer space-y-2">
-                <h4 className="text-xl font-black text-white outfit group-hover:text-green-400 transition-colors uppercase italic leading-tight">{item.name}</h4>
-                <p className="text-slate-300 text-sm line-clamp-2 leading-relaxed font-medium uppercase tracking-wide mb-2">{item.description}</p>
+                <h4 className="text-xl font-black text-slate-900 outfit group-hover:text-green-600 transition-colors uppercase italic leading-tight">{item.name}</h4>
+                <p className="text-slate-500 text-sm line-clamp-2 leading-relaxed font-medium uppercase tracking-wide mb-2">{item.description}</p>
               </div>
               <div className="pt-4 flex flex-col gap-3 mt-auto">
-                <div className="flex items-center justify-between"><p className="text-slate-400 font-black text-sm uppercase italic">₹{item.price.toLocaleString()}</p><p className="text-amber-400 font-black text-lg outfit italic">{item.pointsPrice} XP</p></div>
-                <button onClick={() => handlePointPurchase(item)} className="w-full py-3 bg-amber-500 text-slate-950 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-amber-400 transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center justify-center gap-2 italic"><Zap size={14} fill="currentColor" /> Buy with XP</button>
+                <div className="flex items-center justify-between"><p className="text-slate-400 font-black text-sm uppercase italic">₹{item.price.toLocaleString()}</p><p className="text-amber-500 font-black text-lg outfit italic">{item.pointsPrice} XP</p></div>
+                <button onClick={() => handlePointPurchase(item)} className="w-full py-3 bg-amber-500 text-slate-950 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg flex items-center justify-center gap-2 italic"><Zap size={14} fill="currentColor" /> {t('marketplace.buy_xp')}</button>
               </div>
             </div>
           </div>
@@ -321,19 +323,19 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                   <div className="flex items-center gap-3 text-amber-400">
                     <Zap size={20} fill="currentColor" />
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Points Price</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60">{t('marketplace.points_price')}</p>
                       <p className="text-xl font-black outfit text-amber-400 italic">{selectedItem.pointsPrice} XP</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Cash Value</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('marketplace.cash_value')}</p>
                     <p className="text-xl font-black outfit text-green-400 italic">₹{selectedItem.price.toLocaleString()}</p>
                   </div>
                 </div>
               </div>
               <div className="pt-4 border-t border-white/5 mt-4 space-y-3 relative z-10">
                 <button onClick={() => handlePointPurchase(selectedItem)} className="w-full py-4 bg-amber-500 text-slate-950 rounded-xl font-black text-sm hover:bg-amber-400 transition-all shadow-[0_0_25px_rgba(245,158,11,0.3)] flex items-center justify-center gap-2 uppercase tracking-widest italic">
-                  <Zap size={18} fill="currentColor" /> Buy with {selectedItem.pointsPrice} XP
+                  <Zap size={18} fill="currentColor" /> {t('marketplace.buy_with_xp_btn', { amount: selectedItem.pointsPrice })}
                 </button>
                 <div className="grid grid-cols-3 gap-2">
                   <button onClick={() => handleCashPurchase(selectedItem, 'gpay')} className="py-3 bg-blue-600 text-white rounded-xl font-black text-[10px] hover:bg-blue-500 transition-all flex items-center justify-center gap-1 uppercase tracking-widest">
@@ -346,7 +348,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                     <span className="text-lg">₱</span> PhonePe
                   </button>
                 </div>
-                <p className="text-[9px] text-center text-slate-500 font-black uppercase tracking-widest">Secure UPI Transaction • ₹{selectedItem.price.toLocaleString()}</p>
+                <p className="text-[9px] text-center text-slate-500 font-black uppercase tracking-widest">{t('marketplace.secure_upi')} • ₹{selectedItem.price.toLocaleString()}</p>
               </div>
             </div>
           </div>
@@ -364,8 +366,8 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                   <Package size={24} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-white outfit uppercase italic">My Orders</h3>
-                  <p className="text-[10px] text-green-500/40 font-black uppercase tracking-[0.2em] italic leading-tight">Order history & payment options</p>
+                  <h3 className="text-2xl font-black text-white outfit uppercase italic">{t('marketplace.my_orders')}</h3>
+                  <p className="text-[10px] text-green-500/40 font-black uppercase tracking-[0.2em] italic leading-tight">{t('marketplace.order_history')}</p>
                 </div>
               </div>
               <button onClick={() => setShowOrders(false)} className="p-3 bg-slate-800 hover:bg-slate-700 rounded-2xl transition-all text-slate-400 hover:text-white border border-white/5">
@@ -377,7 +379,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
               {/* Payment Options */}
               <div className="bg-slate-800/50 rounded-2xl p-6 border border-white/5 shadow-inner">
                 <h4 className="text-[10px] font-black text-green-500/60 uppercase tracking-[0.3em] mb-4 flex items-center gap-2 italic">
-                  <CreditCard size={16} /> Secure Payment Methods
+                  <CreditCard size={16} /> {t('marketplace.secure_upi')}
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <button className="flex flex-col items-center gap-2 p-4 bg-slate-900 rounded-xl border border-white/5 hover:border-green-500 hover:shadow-[0_0_15px_rgba(34,197,94,0.2)] transition-all group">
@@ -399,19 +401,19 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                     <span className="text-[10px] font-black text-slate-400 group-hover:text-green-400 uppercase tracking-widest">Card</span>
                   </button>
                 </div>
-                <p className="text-[9px] text-slate-500 text-center mt-4 italic font-black uppercase tracking-widest">Select a preferred directive for cash acquisitions</p>
+                <p className="text-[9px] text-slate-500 text-center mt-4 italic font-black uppercase tracking-widest">{t('marketplace.select_payment')}</p>
               </div>
 
               {/* Order History */}
               <div className="space-y-4">
                 <h4 className="text-sm font-black text-slate-700 uppercase tracking-widest flex items-center gap-2">
-                  <Package size={16} /> Order History
+                  <Package size={16} /> {t('marketplace.order_history')}
                 </h4>
                 {orders.length === 0 ? (
                   <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                     <ShoppingBag size={48} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-slate-500 font-medium">No orders yet</p>
-                    <p className="text-sm text-slate-400">Your purchases will appear here</p>
+                    <p className="text-slate-500 font-medium">{t('marketplace.no_orders')}</p>
+                    <p className="text-sm text-slate-400">{t('marketplace.no_orders_desc')}</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -454,11 +456,11 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
 
             <div className="space-y-2">
               <h3 className="text-3xl font-black outfit text-slate-800 tracking-tight">
-                {paymentModal.status === 'scan' ? 'Scan & Pay' :
-                  paymentModal.status === 'processing' ? 'Processing...' : 'Payment Success!'}
+                {paymentModal.status === 'scan' ? t('marketplace.scan_pay') :
+                  paymentModal.status === 'processing' ? t('marketplace.processing') : t('marketplace.payment_success_title')}
               </h3>
               <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.3em]">
-                {paymentModal.method.toUpperCase()} SECURE GATEWAY
+                {t('marketplace.secure_gateway', { method: paymentModal.method.toUpperCase() })}
               </p>
             </div>
 
@@ -475,16 +477,16 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                   </div>
                 </div>
                 <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                  <p className="text-xs text-slate-400 font-bold uppercase mb-1">Payable Amount</p>
+                  <p className="text-xs text-slate-400 font-bold uppercase mb-1">{t('marketplace.payable_amount')}</p>
                   <p className="text-3xl font-black text-slate-800 outfit">₹{paymentModal.item.price.toLocaleString()}</p>
                 </div>
-                <p className="text-xs text-slate-400 italic">Please scan this QR code with your {paymentModal.method} app to complete the purchase.</p>
+                <p className="text-xs text-slate-400 italic">{t('marketplace.scan_instruction', { method: paymentModal.method })}</p>
               </div>
             )}
 
             {paymentModal.status === 'processing' && (
               <div className="py-12 space-y-6 animate-in slide-in-from-bottom-4">
-                <p className="text-slate-600 font-medium">Verifying transaction with your bank...</p>
+                <p className="text-slate-600 font-medium">{t('marketplace.verifying')}</p>
                 <div className="flex justify-center gap-2">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
@@ -495,9 +497,9 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
 
             {paymentModal.status === 'success' && (
               <div className="py-12 space-y-6 animate-in zoom-in-95">
-                <p className="text-green-600 font-black outfit text-xl">Transaction Verified!</p>
+                <p className="text-green-600 font-black outfit text-xl">{t('marketplace.transaction_verified')}</p>
                 <div className="bg-green-50 p-6 rounded-2xl border border-green-100">
-                  <p className="text-[10px] text-green-700 font-bold uppercase tracking-widest mb-1">Item Secured</p>
+                  <p className="text-[10px] text-green-700 font-bold uppercase tracking-widest mb-1">{t('marketplace.item_secured')}</p>
                   <p className="text-sm font-bold text-slate-800">{paymentModal.item.name}</p>
                 </div>
               </div>
@@ -508,7 +510,7 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                 onClick={() => setPaymentModal(null)}
                 className="w-full py-4 text-slate-400 font-bold hover:text-slate-600 transition-colors"
               >
-                Cancel Payment
+                {t('marketplace.cancel_payment')}
               </button>
             )}
           </div>

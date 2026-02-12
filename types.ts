@@ -255,7 +255,10 @@ export interface Crop {
   subsidies: string[];
   season: 'Kharif' | 'Rabi' | 'Zaid';
   waterRequirement: 'Low' | 'Medium' | 'High';
+  waterInstruction: string;
   soilSuitability: string[];
+  spacing: string;
+  careTips: string[];
   workflow?: CultivationStep[];
 }
 
@@ -299,7 +302,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['PM-Kisan', 'MSP Support'],
     season: 'Rabi',
     waterRequirement: 'Medium',
+    waterInstruction: 'First irrigation at 20-25 DAS (CRI stage). Total 4-6 irrigations.',
     soilSuitability: ['Alluvial', 'Black'],
+    spacing: '22.5 cm × 10 cm',
+    careTips: [
+      'Maintain 21 days for CRI (Crown Root Initiation) stage',
+      'Monitor for Yellow Rust disease during cold spells',
+      'Apply nitrogen in three split doses for better grain filling'
+    ],
     workflow: [
       { id: 's1', title: 'Land Preparation & Soil Testing', description: 'Deep ploughing (15-20cm), leveling, and collecting soil samples for pH and nutrient analysis. Remove weeds and previous crop residue. Test soil for nitrogen, phosphorus, potassium levels.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 50, verificationType: 'camera', estimatedDays: 5, tools: ['Plough', 'Leveler', 'Soil Testing Kit'], warnings: ['Ensure proper drainage to prevent waterlogging'], tutorialVideo: 'https://www.youtube.com/embed/Lp5vfJ9N7MQ' },
       { id: 's2', title: 'Seed Selection & Treatment', description: 'Select certified seeds (HD-2967, PBW-343) at 100kg/ha rate. Treat seeds with bio-fungicides like Trichoderma viride @ 4g/kg to protect from soil-borne diseases. Sun-dry treated seeds for 2 hours.', icon: 'Sprout', category: 'Sowing', points: 120, ecoPoints: 80, verificationType: 'camera', estimatedDays: 2, tools: ['Bio-fungicide', 'Mixing Tray', 'Weighing Scale'], tutorialVideo: 'https://www.youtube.com/embed/qKyqK_rE_eI' },
@@ -322,7 +332,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Export Incentive'],
     season: 'Kharif',
     waterRequirement: 'High',
+    waterInstruction: 'Keep field moist/flooded (2-5 cm water level) until maturity.',
     soilSuitability: ['Alluvial', 'Clayey'],
+    spacing: '20 cm × 20 cm',
+    careTips: [
+      'Keep field flooded (2-5 cm) to suppress weed growth',
+      'Monitor for stem borer and leaf folder pests',
+      'Use organic manure during puddling for aroma enhancement'
+    ],
     workflow: [
       { id: 'b1', title: 'Nursery Bed Preparation', description: 'Prepare raised nursery beds 1.25m wide with fine tilth. Apply 20kg FYM and 50g each of N, P, K per 100m². Ensure proper drainage. Ideal nursery area: 1/20th of main field.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 50, verificationType: 'camera', estimatedDays: 3, tools: ['Rake', 'FYM', 'Leveling Board'], warnings: ['Avoid low-lying waterlogged areas for nursery'], tutorialVideo: 'https://www.youtube.com/embed/kJpRwK4SXqY' },
       { id: 'b2', title: 'Seed Selection & Treatment', description: 'Use certified Basmati seeds (Pusa 1121, 1509) at 30kg/ha. Soak in salt water (1.08 specific gravity) to remove unfilled grains. Treat with Carbendazim @ 2g/kg or Trichoderma @ 5g/kg.', icon: 'Sprout', category: 'Sowing', points: 120, ecoPoints: 80, verificationType: 'camera', estimatedDays: 2, tools: ['Seed Container', 'Fungicide', 'Salt'], tutorialVideo: 'https://www.youtube.com/embed/8HAneKHNIXg' },
@@ -345,7 +362,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Cotton Corporation Support', 'MSP'],
     season: 'Kharif',
     waterRequirement: 'Medium',
+    waterInstruction: '4-6 irrigations depending on rainfall. Critical at flowering.',
     soilSuitability: ['Black', 'Alluvial', 'Red'],
+    spacing: '90 cm × 60 cm',
+    careTips: [
+      'Deep ploughing to control soil-borne pests',
+      'Square formation stage is critical for irrigation',
+      'Control whitefly and jassids for fiber quality'
+    ],
     workflow: [
       { id: 'ct1', title: 'Field Preparation', description: 'Deep summer ploughing (30cm) to expose soil to sun. Apply 10 tons FYM/ha. Form beds or ridges at 90-120cm spacing depending on variety.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 60, verificationType: 'camera', estimatedDays: 5, tools: ['Plough', 'Ridger', 'FYM'], tutorialVideo: 'https://www.youtube.com/embed/0fH_V9QJ_Mw' },
       { id: 'ct2', title: 'Seed Selection & Treatment', description: 'Use certified Bt cotton seeds (Bollgard II). Treat with Imidacloprid @ 5ml/kg for sucking pest protection. Maintain 2.5kg seeds per hectare.', icon: 'Sprout', category: 'Sowing', points: 120, ecoPoints: 80, verificationType: 'camera', estimatedDays: 1, tools: ['Seed Treating Drum', 'Imidacloprid'], tutorialVideo: 'https://www.youtube.com/embed/XnJKZq9J1bs' },
@@ -368,7 +392,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Sugar Development Fund', 'State Cane Price'],
     season: 'Kharif',
     waterRequirement: 'High',
+    waterInstruction: 'Req 1500-2500 mm. Frequent during germination and tillering.',
     soilSuitability: ['Alluvial', 'Black', 'Loamy'],
+    spacing: '90 cm (Row Spacing)',
+    careTips: [
+      'Earthing up at 3 and 5 months prevents lodging',
+      'Propping should be done to support heavy canes',
+      'Monitor for red rot and smut diseases'
+    ],
     workflow: [
       { id: 'sg1', title: 'Deep Ploughing & Furrowing', description: 'Deep ploughing (45cm) followed by harrowing. Make furrows 75-90cm apart and 20-25cm deep. Apply 25 tons FYM per hectare in furrows.', icon: 'Tractor', category: 'Preparation', points: 120, ecoPoints: 70, verificationType: 'camera', estimatedDays: 5, tools: ['Subsoiler', 'Furrower', 'FYM'], tutorialVideo: 'https://www.youtube.com/embed/Q7ZxHw9TnQg' },
       { id: 'sg2', title: 'Sett Selection & Treatment', description: 'Select 9-10 month old cane for setts. Cut into 3-bud setts. Treat with Carbendazim (0.1%) for 15 min. Use 40,000 setts per hectare.', icon: 'Sprout', category: 'Sowing', points: 150, ecoPoints: 90, verificationType: 'camera', estimatedDays: 2, tools: ['Sett Cutter', 'Fungicide Solution'], tutorialVideo: 'https://www.youtube.com/embed/j8xnXJa9M_s' },
@@ -391,7 +422,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Horticulture Mission', 'MIDH'],
     season: 'Rabi',
     waterRequirement: 'Medium',
+    waterInstruction: 'Weekly irrigation during summer. Avoid water on leaves.',
     soilSuitability: ['Sandy Loam', 'Red', 'Black'],
+    spacing: '60 cm × 45 cm',
+    careTips: [
+      'Provide staking for indeterminate varieties',
+      'Regular pruning of side shoots enhances fruit size',
+      'Apply calcium nitrate to prevent blossom end rot'
+    ],
     workflow: [
       { id: 'tm1', title: 'Nursery Preparation', description: 'Prepare raised beds 1m wide with well-decomposed FYM. Treat soil with Trichoderma. Sow seeds in lines 5cm apart at 0.5cm depth.', icon: 'Sprout', category: 'Preparation', points: 100, ecoPoints: 60, verificationType: 'camera', estimatedDays: 5, tools: ['Raised Bed', 'Trichoderma', 'Shade Net'], tutorialVideo: 'https://www.youtube.com/embed/RmcFdZPvqDw' },
       { id: 'tm2', title: 'Seedling Care', description: 'Maintain nursery moisture, apply light irrigation daily. Harden seedlings 7 days before transplant. Ready in 25-30 days when 4-5 leaves appear.', icon: 'Droplets', category: 'Preparation', points: 80, ecoPoints: 50, verificationType: 'camera', estimatedDays: 25, tools: ['Watering Can', 'Nursery Bags'], tutorialVideo: 'https://www.youtube.com/embed/vP6ZcNkqUYw' },
@@ -414,7 +452,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Potato Development Scheme'],
     season: 'Rabi',
     waterRequirement: 'Medium',
+    waterInstruction: '7-10 day intervals. Critical during stolonization and bulking.',
     soilSuitability: ['Sandy Loam', 'Alluvial'],
+    spacing: '60 cm × 20 cm',
+    careTips: [
+      'Earthing up is crucial to cover expanding tubers',
+      'Monitor for Late Blight in cloudy/humid weather',
+      'Stop irrigation 15 days before harvest for skin hardening'
+    ],
     workflow: [
       { id: 'pt1', title: 'Field Preparation', description: 'Deep ploughing (25-30cm) in summer. Apply 20-25 tons FYM/ha. Make ridges 60cm apart and 15-20cm high. Ensure good drainage.', icon: 'Tractor', category: 'Preparation', points: 110, ecoPoints: 70, verificationType: 'camera', estimatedDays: 4, tools: ['Plough', 'Ridger', 'FYM'], tutorialVideo: 'https://www.youtube.com/embed/8HqKnRLG0IY' },
       { id: 'pt2', title: 'Seed Selection & Treatment', description: 'Use certified seed tubers (30-40g). Cold store at 2-4°C before planting. Treat with Mancozeb + Streptocycline solution. Require 20-25 quintals/ha.', icon: 'Sprout', category: 'Sowing', points: 130, ecoPoints: 80, verificationType: 'camera', estimatedDays: 2, tools: ['Seed Tubers', 'Treatment Solution'], warnings: ['Avoid diseased or sprouted tubers'], tutorialVideo: 'https://www.youtube.com/embed/LpQvXNY6J8U' },
@@ -437,7 +482,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['Maize Development Programme'],
     season: 'Kharif',
     waterRequirement: 'Medium',
+    waterInstruction: 'Tasseling and silking stages are critical for moisture.',
     soilSuitability: ['Loamy', 'Sandy Loam', 'Alluvial'],
+    spacing: '60 cm × 20 cm',
+    careTips: [
+      'Maintain weed-free environment for first 45 days',
+      'Tasseling and silking are critical water stages',
+      'Monitor for Fall Armyworm (FAW) regularly'
+    ],
     workflow: [
       { id: 'mz1', title: 'Land Preparation', description: 'Plough 2-3 times to achieve fine tilth. Apply 10 tons FYM/ha. Level field for uniform irrigation. Make furrows at 60-75cm spacing.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 60, verificationType: 'camera', estimatedDays: 4, tools: ['Plough', 'Harrow', 'Leveler'], tutorialVideo: 'https://www.youtube.com/embed/wH5L7P1KJvI' },
       { id: 'mz2', title: 'Seed Treatment & Selection', description: 'Use certified hybrid seeds (PEHM-5, DHM-117). Treat with Thiram @ 3g/kg. Seed rate: 18-20kg/ha for hybrids. Dry treated seeds before sowing.', icon: 'Sprout', category: 'Sowing', points: 120, ecoPoints: 80, verificationType: 'camera', estimatedDays: 1, tools: ['Thiram', 'Seed Drum'], tutorialVideo: 'https://www.youtube.com/embed/6xNQP4dL2hE' },
@@ -460,7 +512,14 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     subsidies: ['National Mission on Oilseeds', 'MSP'],
     season: 'Rabi',
     waterRequirement: 'Low',
+    waterInstruction: '3-4 irrigations. Critical at rosette and pod filling.',
     soilSuitability: ['Loamy', 'Sandy Loam', 'Alluvial'],
+    spacing: '30 cm × 15 cm',
+    careTips: [
+      'Thinning at 20 days is essential for uniform growth',
+      'Sulfur application increases oil content significantly',
+      'Scout for mustard aphids during January-February'
+    ],
     workflow: [
       { id: 'ms1', title: 'Field Preparation', description: 'One deep ploughing followed by 2-3 harrowing. Apply 5-6 tons FYM/ha. Fine tilth essential for seed germination. Level field for uniform irrigation.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 70, verificationType: 'camera', estimatedDays: 4, tools: ['Plough', 'Harrow', 'Leveler'], tutorialVideo: 'https://www.youtube.com/embed/xQ7v1Lp3JnM' },
       { id: 'ms2', title: 'Seed Treatment', description: 'Use certified seeds of Pusa Bold, RH-30. Seed rate: 4-5kg/ha. Treat with Thiram @ 2g/kg + Imidacloprid for pest protection.', icon: 'Sprout', category: 'Sowing', points: 110, ecoPoints: 80, verificationType: 'camera', estimatedDays: 1, tools: ['Seed Treatment Drum', 'Thiram'], tutorialVideo: 'https://www.youtube.com/embed/n9A8Km3D4Hs' },
@@ -472,6 +531,36 @@ export const CULTIVATION_LIBRARY: Crop[] = [
       { id: 'ms8', title: 'Flowering Support', description: 'Bee activity essential for cross-pollination. Place 5 bee colonies/ha near field. Apply borax spray for better seed set. Peak flowering at 45-50 DAS.', icon: 'Zap', category: 'Maintenance', points: 130, ecoPoints: 120, verificationType: 'camera', estimatedDays: 15, tools: ['Bee Colonies', 'Borax Solution'], tutorialVideo: 'https://www.youtube.com/embed/gK6nX2qL9cR' },
       { id: 'ms9', title: 'Pod Formation & Maturity', description: 'Pods develop 60-80 DAS. Plants mature when 75% pods turn yellow-brown. Avoid irrigation after pod filling to prevent shattering.', icon: 'Check', category: 'Harvest', points: 120, ecoPoints: 70, verificationType: 'camera', estimatedDays: 25, tools: ['Visual Inspection'], tutorialVideo: 'https://www.youtube.com/embed/vR3J8K5mN6U' },
       { id: 'ms10', title: 'Harvesting & Threshing', description: 'Harvest early morning when pods slightly moist to reduce shattering. Cut at ground level. Stack for 4-5 days, then thresh. Dry seeds to 8% moisture.', icon: 'Wheat', category: 'Harvest', points: 220, ecoPoints: 130, verificationType: 'camera', estimatedDays: 7, tools: ['Sickle', 'Thresher', 'Drying Yard'], warnings: ['Delayed harvest causes 25-30% shattering loss'], tutorialVideo: 'https://www.youtube.com/embed/2Tn9P8cQ4sI' }
+    ]
+  },
+  {
+    id: 'c9',
+    name: 'Turmeric',
+    category: 'Spices',
+    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=800',
+    funFact: 'India satisfies over 75% of the total global demand for Turmeric.',
+    subsidies: ['Spice Board Support', 'Export Incentive'],
+    season: 'Rabi',
+    waterRequirement: 'Medium',
+    waterInstruction: 'Maintain consistent moisture. Avoid waterlogging at all costs.',
+    soilSuitability: ['Sandy Loam', 'Clayey Loam', 'Well-drained Alluvial'],
+    spacing: '30 cm × 15 cm',
+    careTips: [
+      'Deep mulching with green leaves protects rhizomes',
+      'Perform earthing up twice at 60 and 90 days',
+      'Control shoot borer for healthy rhizome development'
+    ],
+    workflow: [
+      { id: 'tu1', title: 'Land Preparation', description: 'Prepare raised beds or ridges to ensure excellent drainage. Mix 20-25 tonnes of FYM per hectare. Ensure soil is free of clods.', icon: 'Tractor', category: 'Preparation', points: 100, ecoPoints: 60, verificationType: 'camera', estimatedDays: 5, tools: ['Plough', 'Ridger'], tutorialVideo: 'https://www.youtube.com/embed/qKyqK_rE_eI' },
+      { id: 'tu2', title: 'Rhizome Selection', description: 'Select healthy, disease-free mother or finger rhizomes weighing 30-40g. Treat with Carbendazim (0.3%) for 30 mins to prevent rot.', icon: 'Sprout', category: 'Sowing', points: 120, ecoPoints: 80, verificationType: 'camera', estimatedDays: 2, tools: ['Rhizomes', 'Fungicide'], tutorialVideo: 'https://www.youtube.com/embed/LpQvXNY6J8U' },
+      { id: 'tu3', title: 'Planting', description: 'Plant rhizomes 5-7cm deep with 30x15cm spacing. Ensure terminal buds face upwards. Optimal planting time: May to June.', icon: 'Sprout', category: 'Sowing', points: 180, ecoPoints: 70, verificationType: 'camera', estimatedDays: 3, tools: ['Hand Hoe'], warnings: ['Poor drainage causes rhizome rot'], tutorialVideo: 'https://www.youtube.com/embed/ZjGl3KnQMsk' },
+      { id: 'tu4', title: 'Mulching', description: 'Apply green leaf mulch (12-15 tonnes/ha) immediately after planting to conserve moisture and suppress weeds.', icon: 'Leaf', category: 'Maintenance', points: 100, ecoPoints: 150, verificationType: 'camera', estimatedDays: 2, tools: ['Leaf Mulch'], tutorialVideo: 'https://www.youtube.com/embed/wFN9FQxjE6Y' },
+      { id: 'tu5', title: 'First Irrigation & Fertilizer', description: 'Provide light irrigation after planting. Apply 60kg N, 50kg P, 120kg K per hectare in split doses. N is applied at 30, 60, and 90 DAS.', icon: 'Droplets', category: 'Maintenance', points: 150, ecoPoints: 90, verificationType: 'camera', estimatedDays: 5, tools: ['Drip/Sprinkler', 'NPK'], tutorialVideo: 'https://www.youtube.com/embed/kxPmn3N5BEU' },
+      { id: 'tu6', title: 'Weeding & Earthing Up', description: 'Keep the field weed-free for the first 120 days. Perform earthing up twice (60 and 90 DAS) to cover developing rhizomes.', icon: 'Tractor', category: 'Maintenance', points: 140, ecoPoints: 80, verificationType: 'camera', estimatedDays: 10, tools: ['Weeder'], tutorialVideo: 'https://www.youtube.com/embed/u9N7R3aqMJc' },
+      { id: 'tu7', title: 'Pest Monitoring', description: 'Watch for shoot borers and rhizome scales. Use neem-based sprays for early intervention. Monitor for leaf spot and rhizome rot.', icon: 'ShieldCheck', category: 'Protection', points: 160, ecoPoints: 120, verificationType: 'camera', estimatedDays: 120, tools: ['Neem Oil', 'Sprayer'], tutorialVideo: 'https://www.youtube.com/embed/pR4XcRz5A1A' },
+      { id: 'tu8', title: 'Second Fertilizer Boost', description: 'Final N top-dressing at 90 days. Foliar spray of micronutrients (Zinc, Iron) improves rhizome quality and curcumin content.', icon: 'Zap', category: 'Maintenance', points: 170, ecoPoints: 100, verificationType: 'camera', estimatedDays: 30, tools: ['Micronutrient Spray'], tutorialVideo: 'https://www.youtube.com/embed/FpR5NdVqJXc' },
+      { id: 'tu9', title: 'Harvest Preparation', description: 'Harvest when leaves turn yellow and start drying (7-9 months after planting). Stop irrigation 15-20 days before harvest.', icon: 'Check', category: 'Harvest', points: 140, ecoPoints: 70, verificationType: 'camera', estimatedDays: 15, tools: ['Sickle'], tutorialVideo: 'https://www.youtube.com/embed/wDjhOjP3HXg' },
+      { id: 'tu10', title: 'Harvesting & Curing', description: 'Lift rhizomes carefully with a spade or power lifter. Clean soil, separate mother rhizomes. Boil in water for 45-60 mins, then sun-dry.', icon: 'Wheat', category: 'Harvest', points: 300, ecoPoints: 200, verificationType: 'camera', estimatedDays: 15, tools: ['Spade', 'Boiling Tank', 'Drying Yard'], warnings: ['Over-boiling reduces quality and color'], tutorialVideo: 'https://www.youtube.com/embed/3PkRLz8a0xk' }
     ]
   }
 ];

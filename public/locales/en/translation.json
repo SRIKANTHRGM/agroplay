@@ -1,0 +1,1047 @@
+{
+    "app": {
+        "title": "AgroPlay",
+        "subtitle": "Smart Farming"
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "mission_control": "Mission Control",
+        "deployments": "Deployments",
+        "new_deployment": "New Deployment",
+        "manage_plots": "Manage Plots",
+        "acreage": "Acreage",
+        "intelligence_lab": "Intelligence Lab",
+        "neural_diagnosis": "Neural Diagnosis",
+        "strategic_planner": "Strategic Planner",
+        "ai_lab": "AI Lab",
+        "resource_node": "Resource Node",
+        "market": "Agri-Market",
+        "marketplace": "Marketplace",
+        "mandi_telemetry": "Telematic Mandi",
+        "training_academy": "Training Academy",
+        "bio_library": "Bio-Library",
+        "active_training": "Active Training",
+        "social_nexus": "Social Nexus",
+        "community": "Community",
+        "groups": "Groups",
+        "leaderboard": "Rankings",
+        "arcade": "Arcade",
+        "protection_protocols": "Protection Protocols",
+        "insurance": "Insurance",
+        "grants": "Grants",
+        "value_extraction": "Value Extraction",
+        "pro_shield": "Pro-Shield AI"
+    },
+    "header": {
+        "search_placeholder": "Search mission objectives...",
+        "authorized_access": "AUTHORIZED ACCESS",
+        "secure_node": "SECURE NODE",
+        "sign_out": "Sign Out"
+    },
+    "dashboard": {
+        "welcome": "Welcome back,",
+        "active_season": "Kharif Season",
+        "weather": "Weather",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "soil_moisture": "Soil Moisture",
+        "yield_prediction": "Yield Prediction",
+        "tasks": "Pending Tasks",
+        "alerts": "Alerts",
+        "monitoring_station": "Monitoring Station",
+        "environmental_stats": "Environmental Stats",
+        "active_journey": "Active Journey",
+        "ai_assistant": "AI Assistant",
+        "community_highlights": "Community Highlights",
+        "daily_challenges": "Daily Challenges",
+        "field_goals": "Field Goals",
+        "quick_actions": "Quick Actions",
+        "visual_lab": "Visual Lab",
+        "capture_analysis": "Capture & Analysis",
+        "start_diagnosis": "Start Diagnosis",
+        "soil_ph_label": "Soil pH",
+        "soil_moisture_label": "Soil Moisture",
+        "nitrogen_label": "Nitrogen",
+        "phosphorus_label": "Phosphorus",
+        "potassium_label": "Potassium",
+        "bio_visual_scanner": "BIO-VISUAL SCANNER",
+        "neural_desc": "Initiate high-strictness spectral analysis for pathogen detection and remediation.",
+        "engage_scanner": "ENGAGE SCANNER",
+        "harvest_forecast": "Harvest Forecast",
+        "yield_projection_node": "YIELD PROJECTION NODE",
+        "running_simulation": "Running Monte Carlo Simulations...",
+        "est_output": "EST. OUTPUT",
+        "mkt_valuation": "MKT. VALUATION",
+        "ai_node": "AI NODE",
+        "ask_ai_placeholder": "Ask AgroPlay AI for immediate tactical support...",
+        "community_intel": "COMMUNITY INTEL",
+        "trending": "TRENDING",
+        "neural_uplink": "Neural Uplink",
+        "integrated_node": "Integrated Intelligence Node",
+        "live_voice": "LIVE VOICE CHAT",
+        "fast_v2": "FAST v2.5",
+        "synthesizing": "Synthesizing Regional Data Streams...",
+        "system_ready": "System Ready. Submit Intelligence Inquiry...",
+        "inquiry_placeholder": "Inquiry: Soil optimization for Triticum...",
+        "active_hubs": "Active Hubs",
+        "active_challenge": "ACTIVE CHALLENGE",
+        "bio_sourcing": "Bio-Fertilizer Sourcing",
+        "days_remaining": "{{count}} days remaining",
+        "in_region": "In your region",
+        "resets_24h": "Resets Every 24 Hours",
+        "verify": "VERIFY",
+        "market_insight": "Market Insight",
+        "full_analysis": "FULL ANALYSIS",
+        "market_news_start": "Wheat prices in",
+        "market_news_loc": "Punjab Mandis",
+        "market_news_mid": "next week",
+        "market_news_val": "+14%",
+        "market_news_end": "likely to rise.",
+        "seed_viability": {
+            "title": "Seed Viability",
+            "card_desc": "Test seed quality before sowing.",
+            "test_name": "Flotation Test",
+            "instructions": "Perform the flotation test: 1. Dissolve 100g salt in 1 liter water. 2. Put a sample of seeds in the solution. 3. Stir well and wait for 5 minutes. 4. Remove floating seeds (inviable). 5. Select only heavy seeds settled at the bottom.",
+            "start_btn": "Start Test"
+        },
+        "disease_prevention": {
+            "title": "Disease Prevention",
+            "card_desc": "Predict and implement defenses before pathogens attack.",
+            "badge": "AI PRO-SHIELD",
+            "start_btn": "ACTIVATE SHIELD"
+        }
+    },
+    "market": {
+        "title": "Mandi Telemetry",
+        "subtitle": "Real-time AI Market Intelligence",
+        "outlook_title": "Market Outlook",
+        "ai_analysis": "AI Market Analysis",
+        "gemini_model": "Gemini Flash 2.0",
+        "analyzing": "Analyzing Market Trends...",
+        "analyzing_desc": "Our AI is crunching real-time mandi data and seasonal cycles.",
+        "demand": {
+            "high": "High Demand",
+            "stable": "Stable Demand",
+            "low": "Low Demand"
+        },
+        "harvest_planner": "Strategic Harvest Planner",
+        "roi_projections": "2026 ROI Projections",
+        "projected_value": "Projected Value",
+        "optimization_title": "Harvest Decision Optimization",
+        "optimization_desc": "AI-powered harvesting cycles for maximum market impact. Coordinate your Mandi arrivals with peak ROI windows.",
+        "pro_strategy": "Pro Strategy",
+        "strategy_tip": "Match harvest to \"High ROI\" indicators to bypass seasonal glut pricing.",
+        "revenue_title": "Monthly Sales Revenue",
+        "performance_tracking": "Performance Tracking",
+        "vs_last_quarter": "+12% vs last quarter",
+        "pricing_strategies": "Mandi Pricing Strategies",
+        "pricing_desc": "AI analysis suggests holding your turmeric stock for 3 more weeks to capitalize on a projected 15% price spike in the North Indian Mandis.",
+        "expert_tip": "Expert Tip",
+        "expert_tip_content": "Always check the moisture content (MC) before taking grains to the Mandi. Lower MC often fetches a 5-10% premium.",
+        "view_forecasts": "View Price Forecasts",
+        "live_prices": "Live Mandi Prices",
+        "simulated_data": "Simulated Real-time Data",
+        "filter_placeholder": "Filter crops...",
+        "table": {
+            "commodity": "Commodity",
+            "rate": "Current Rate",
+            "trend": "24h Trend",
+            "action": "Action"
+        },
+        "agmarknet_verified": "AGMARKNET Verified",
+        "ai_forecast": "AI Forecast",
+        "neural_engine": "Neural Mandi Engine",
+        "market_predictor": "Market Predictor",
+        "strategic_selection": "Strategic Selection",
+        "algo_data": "Algorithm Data",
+        "algo_desc": "Analysis derived from 5-year historical trends, current monsoon patterns, and global trade reports.",
+        "analysis_suffix": "Analysis",
+        "projection_4w": "4-Week Projection",
+        "live_signal": "Live Real-Time Signal",
+        "current_rate": "Current Rate",
+        "computing_values": "Computing Future Values...",
+        "aggregating_telemetry": "Aggregating Mandi Telemetry",
+        "post_harvest_intelligence": "Post-Harvest Intelligence",
+        "strategic_outlook": "Strategic Market Outlook (6-12 Months)",
+        "harvest_window": "Harvest Window",
+        "market_hype": "Market Hype",
+        "expected_demand": "Expected Demand",
+        "post_harvest_cycle": "Post-Harvest Cycle",
+        "est_market_value": "Est. Market Value",
+        "calculating": "Calculating...",
+        "roi_projection": "ROI Projection",
+        "neural_insights": "Neural Market Insights",
+        "decision_matrix_updated": "Decision Matrix Updated Now",
+        "expert_pdf": "Expert Trading PDF",
+        "awaiting_signal": "Awaiting Engine Signal"
+    },
+    "learn": {
+        "real_time_tracking": "Real-time AI Cultivation Tracking",
+        "initiate_batch": "INITIATE NEW BATCH",
+        "no_pipelines": "No Active Pipelines",
+        "start_journey_prompt": "Initialize a new cultivation journey to begin tracking.",
+        "go_to_archive": "Go to Crop Archive",
+        "journey_started": "Operations Started: {{date}}",
+        "progress_pipe": "Progress Pipe",
+        "resume_operations": "Resume Operations",
+        "restart_session": "Restart Session",
+        "restart_pipeline": "RESTART PIPELINE",
+        "back_to_missions": "Back to Missions",
+        "pipeline_title": "{{cropName}} Pipeline",
+        "session_id": "SESSION ID: {{id}}",
+        "bio_stability": "BIO-STABILITY: {{score}}%",
+        "session_xp": "SESSION XP",
+        "eco_rating": "ECO RATING",
+        "workflow_rail": "Workflow Rail",
+        "phase": "PHASE {{number}}",
+        "rewards_active": "Rewards Active",
+        "rewards_desc": "Complete verified steps to earn XP and Eco-Badges for your profile.",
+        "visual_lab_offline": "VISUAL LAB OFFLINE",
+        "verification_record": "VERIFICATION RECORD",
+        "tutorial_mode": "TUTORIAL MODE",
+        "practice_mode": "PRACTICE MODE",
+        "bio_authenticated": "BIO-AUTHENTICATED",
+        "protocol_phase": "PROTOCOL PHASE {{number}}",
+        "mastery_yield": "MASTERY YIELD",
+        "video_tutorial_available": "Video Protocol Available",
+        "learn_visually": "Learn visually with expert demonstrations",
+        "watch_tutorial": "WATCH PROTOCOL",
+        "tactical_inventory": "TACTICAL INVENTORY",
+        "no_tools": "No specific tools required",
+        "operational_hazards": "OPERATIONAL HAZARDS",
+        "safety_mandatory": "Safety compliance mandatory. Proceed with caution.",
+        "bio_verified": "BIO-VERIFIED",
+        "authenticated_on": "AUTHENTICATED: {{date}}",
+        "path_locked": "PATH LOCKED",
+        "verify_phase": "VERIFY PHASE {{number}}",
+        "capture_proof": "CAPTURE PROOF",
+        "take_photo_prompt": "Align crop subject within the frame for AI analysis",
+        "open_camera": "OPEN CAMERA",
+        "upload_photo": "UPLOAD PHOTO",
+        "auth_protocol": "AUTH PROTOCOL",
+        "bio_scanner": "BIO-SCANNER",
+        "active_phase": "ACTIVE PHASE",
+        "phase_cleared": "PHASE CLEARED",
+        "rescan_required": "RESCAN REQUIRED",
+        "verifying": "VERIFYING...",
+        "verify_now": "VERIFY NOW",
+        "done": "DONE",
+        "ai_vision_verification": "AI VISION VERIFICATION ACTIVE",
+        "camera_error_alert": "Unable to access camera. Please check permissions.",
+        "sensor_fail": "Sensor verification failed. Please try again.",
+        "restart_confirm": "Are you sure you want to restart this journey? All progress will be reset.",
+        "tts": {
+            "step": "Step {{step}}",
+            "description": "{{title}}. {{description}}",
+            "tasks_include": "Tasks include: {{tools}}",
+            "warnings": "Warnings: {{warnings}}",
+            "none": "None",
+            "listening": "Listening..."
+        }
+    },
+    "seed_viability": {
+        "modal_title": "Seed Viability Checker",
+        "phase": "Phase: {{step}}",
+        "diagnostic_finalized": "Diagnostic Finalized",
+        "step1": {
+            "title": "Step 1: Visual Seed Inspection",
+            "instruction": "Spread seeds on a clean surface. Look for cracks, black spots, fungus, or holes.",
+            "healthy_btn": "Seeds look healthy",
+            "damaged_btn": "Seeds look damaged",
+            "warning": "Warning: Damaged seeds have low germination priority."
+        },
+        "step2": {
+            "title": "Step 2: Touch & Firmness Test",
+            "instruction": "Press seed gently. Firm = good. Soft/hollow = poor. For large seeds: Cut one seed → inside should be white/solid.",
+            "firm_btn": "Firm & Healthy",
+            "soft_btn": "Soft or Dark Inside"
+        },
+        "step3": {
+            "title": "Step 3: Water Float Test",
+            "instruction": "Put seeds in water for 5 minutes. Results logic: Sink = likely healthy, Float = remove.",
+            "sink_btn": "Most seeds sank",
+            "float_btn": "Many seeds floated"
+        },
+        "step4": {
+            "title": "Step 4: Germination Test",
+            "instruction": "Place 50–100 seeds in wet cloth. Keep moist for 5–10 days. Count sprouts.",
+            "seeds_tested": "Seeds Tested",
+            "seeds_sprouted": "Seeds Sprouted",
+            "calculated_viability": "Calculated Viability",
+            "proceed_btn": "PROCEED TO FINAL ANALYSIS"
+        },
+        "step5": {
+            "title": "Step 5: Strength Check",
+            "instruction": "Are sprouts strong and even? Weak sprouts indicate low energy reserves.",
+            "strong_btn": "Strong & Even",
+            "weak_btn": "Weak or Uneven"
+        },
+        "result": {
+            "report_title": "Diagnostic Report",
+            "viability_status": "{{status}} Viability",
+            "excellent": "Excellent",
+            "acceptable": "Acceptable",
+            "poor": "Poor",
+            "score_index": "Final Score Index",
+            "germination_matrix": "Germination Matrix",
+            "physical_damage": "Physical Damage Detected (-10%)",
+            "low_density": "Low Density Buoyancy Alert (-10%)",
+            "low_vigor": "Low Sprout Vigor Alert (-15%)",
+            "perfect_integrity": "Perfect Seed Integrity Confirmed",
+            "recalculate": "Re-Calculate",
+            "terminate": "Terminate Diagnostic"
+        }
+    },
+    "preventive_ai": {
+        "title": "Disease Pro-Shield AI",
+        "subtitle": "Proactive crop protection system. Predict risks and implement defenses before diseases strike.",
+        "badge": "PREVENTIVE INTELLIGENCE",
+        "form": {
+            "crop_label": "Crop Specimen",
+            "crop_placeholder": "e.g. Tomato, Rice",
+            "stage_label": "Growth Stage",
+            "location_label": "Deployment Zone",
+            "weather_label": "Weather Snapshot",
+            "weather_placeholder": "Temp, Humid, Rain",
+            "history_label": "Disease History & Environment (Optional)",
+            "history_placeholder": "Any previous disease outbreaks or specific soil concerns?",
+            "activate_btn": "ACTIVATE PRO-SHIELD",
+            "analyzing": "ANALYZING THREATS..."
+        },
+        "edge": {
+            "title": "Predictive Edge",
+            "model": "AI Model: AgroShield v2.0",
+            "accuracy": "Bio-Metric Accuracy: 94%",
+            "analysis": "Regional Risk Analysis"
+        },
+        "results": {
+            "blueprint": "Prevention Blueprint",
+            "threat_level": "THREAT LEVEL: CALCULATED",
+            "species": "SPECIES: {{crop}}",
+            "localize_btn": "LOCALIZE REPORT",
+            "localizing": "LOCALIZING...",
+            "apply_translation": "APPLY TRANSLATION",
+            "tabs": {
+                "risks": "Disease Risks",
+                "prevention": "Defense Plan",
+                "monitoring": "Watchlist",
+                "alerts": "Weather Alerts",
+                "sustainability": "Eco Impact"
+            },
+            "excellence": "Prevention Excellence",
+            "excellence_desc": "Your prevention blueprint has been architected with 98% health integrity.",
+            "resilience_msg": "Following this plan boosts resilience by {{percent}}% and earns {{xp}} XP.",
+            "export_btn": "EXPORT PDF PROTOCOL",
+            "reset_btn": "Reset Bio-Analytics"
+        },
+        "stages": {
+            "seedling": "Seedling",
+            "vegetative": "Vegetative",
+            "flowering": "Flowering",
+            "fruiting": "Fruiting",
+            "harvest": "Harvest"
+        }
+    },
+    "challenges": {
+        "plant_new_crops": "Plant 2 new crops",
+        "check_soil_health": "Check soil health",
+        "engage_community": "Engage in Community",
+        "water_efficient": "Water efficient irrigation",
+        "research_rotation": "Research crop rotation",
+        "monitor_pests": "Monitor pest activity",
+        "update_records": "Update farm records",
+        "share_practices": "Share best practices",
+        "test_nutrients": "Test soil nutrients"
+    },
+    "goals": {
+        "water_audit": "Water Audit",
+        "pest_scouting": "Pest Scouting",
+        "soil_ph": "Soil pH Check"
+    },
+    "marketplace": {
+        "title": "Farm Marketplace",
+        "subtitle": "Acquire elite tools for plantation, grains, and livestock.",
+        "my_orders": "My Orders",
+        "available_xp": "Available XP",
+        "search_placeholder": "Search catalog...",
+        "buy_xp": "Buy with XP",
+        "insufficient_xp": "Insufficient points! You need {{amount}} XP.",
+        "success_added": "Success! {{item}} added.",
+        "payment_success": "Payment Successful via {{method}}!",
+        "points_price": "Points Price",
+        "cash_value": "Cash Value",
+        "buy_with_xp_btn": "Buy with {{amount}} XP",
+        "secure_upi": "Secure UPI Transaction",
+        "select_payment": "Select a preferred directive for cash acquisitions",
+        "order_history": "Order History",
+        "no_orders": "No orders yet",
+        "no_orders_desc": "Your purchases will appear here",
+        "scan_pay": "Scan & Pay",
+        "processing": "Processing...",
+        "payment_success_title": "Payment Success!",
+        "secure_gateway": "{{method}} SECURE GATEWAY",
+        "payable_amount": "Payable Amount",
+        "scan_instruction": "Please scan this QR code with your {{method}} app to complete the purchase.",
+        "verifying": "Verifying transaction with your bank...",
+        "transaction_verified": "Transaction Verified!",
+        "item_secured": "Item Secured",
+        "cancel_payment": "Cancel Payment",
+        "categories": {
+            "all": "All",
+            "seeds": "Seeds",
+            "tools": "Tools",
+            "machinery": "Machinery",
+            "livestock": "Livestock",
+            "specials": "Specials"
+        }
+    },
+    "planner": {
+        "title": "Strategic Crop Planner",
+        "subtitle": "Architect a high-yield season using real-time weather patterns and sub-strata diagnostics.",
+        "badge": "CLIMATE-ADAPTIVE PLANNING",
+        "deployment_zone": "Regional Deployment Zone",
+        "location_placeholder": "e.g. Ludhiana, PB",
+        "sync_weather": "Sync Real-time Weather",
+        "live_climate_sync": "Live Climate Sync",
+        "humidity": "Humidity",
+        "sub_strata_analysis": "Sub-strata Analysis (Soil)",
+        "enable_detailed_metrics": "Enable Detailed Bio-Metrics",
+        "disable_detailed_metrics": "Disable Detailed Metrics",
+        "advanced_biometrics": "Advanced Bio-Metrics",
+        "ph_level": "pH Level",
+        "acidic": "Acidic",
+        "alkaline": "Alkaline",
+        "neutral": "Neutral",
+        "nitrogen_content": "Nitrogen (N) Content",
+        "phosphorus_content": "Phosphorus (P) Content",
+        "potassium_content": "Potassium (K) Content",
+        "initiate_analysis": "INITIATE AI ANALYSIS",
+        "architecting_strategy": "ARCHITECTING STRATEGY...",
+        "climate_intelligence": "Climate Intelligence",
+        "weather_active_prefix": "DYNAMIC WEATHER ACTIVE: SYNCED",
+        "weather_active_suffix": "CONTEXT. ADJUSTING IRRIGATION & CROP RESILIENCE.",
+        "gemini_analysis": "GEMINI PRO ANALYSIS INCLUDES: MICRO-CLIMATE TRENDS • MANDI PRICE FORECASTS • BIO-DIVERSITY RATINGS",
+        "optimizing_for": "Optimizing for",
+        "conditions": "conditions...",
+        "precision_strategy": "Precision Strategy",
+        "for": "FOR",
+        "climate_sync_active": "CLIMATE SYNC ACTIVE",
+        "apply_localization": "APPLY LOCALIZATION",
+        "translating": "TRANSLATING...",
+        "tabs": {
+            "strategy": "Climate Strategy",
+            "fertilization": "Nutrient Protocol",
+            "irrigation": "Irrigation Schedule",
+            "financials": "Economic Outlook",
+            "timeline": "Seasonal Cycle"
+        },
+        "precision_unlock_bonus": "Precision Unlock Bonus",
+        "earn_xp_bonus": "Implementing this cycle earns",
+        "xp_points": "1,200 XP Points",
+        "bio_scientist_badge": "& Bio-Scientist Badge.",
+        "save_blueprint": "SAVE BLUEPRINT",
+        "start_new_analysis": "Start New Analysis",
+        "soil_types": {
+            "alluvial": "Alluvial Soil",
+            "black": "Black Soil",
+            "red": "Red Soil",
+            "laterite": "Laterite Soil",
+            "mountain": "Mountain Soil"
+        },
+        "nutrient_levels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        }
+    },
+    "ailab": {
+        "title": "Kisaan AI Lab",
+        "subtitle": "Professional generative tools for the next-gen farm.",
+        "tools": {
+            "video": "Veo Video",
+            "image": "Nano Pro",
+            "edit": "AI Edit",
+            "analyze": "Video AI",
+            "live": "Live Voice"
+        },
+        "video": {
+            "prompt_label": "Video Motion Prompt",
+            "prompt_placeholder": "e.g. Panoramic lush rice field at sunrise with harvesting drones...",
+            "generate_btn": "GENERATE VEO VIDEO"
+        },
+        "image": {
+            "prompt_placeholder": "e.g. Macro shot of high-quality organic mustard seeds...",
+            "generate_btn": "GENERATE NANO PRO"
+        },
+        "edit": {
+            "upload_source": "Upload Source",
+            "prompt_placeholder": "e.g. Enhance plant green levels",
+            "generate_btn": "APPLY AI EDIT"
+        },
+        "analyze": {
+            "video_ready": "Video Ready",
+            "upload_footage": "Upload Footage",
+            "generate_btn": "EXTRACT INSIGHTS"
+        },
+        "live": {
+            "link_title": "Low-Latency Research Link",
+            "link_subtitle": "Connect with Kisaan AI Lab",
+            "start_btn": "START TALKING",
+            "end_btn": "END SESSION",
+            "init_message": "Initializing neural uplink...",
+            "welcome_message": "Namaste! AI Lab Hub active. How can I assist with your cultivation research?"
+        },
+        "loading": {
+            "step1": "Gemini is analyzing the seasonal patterns...",
+            "step2": "Synthesizing high-resolution crop visuals...",
+            "step3": "Veo 3 is orchestrating the frame sequences...",
+            "step4": "Applying advanced agricultural logic to frames...",
+            "step5": "Finalizing your professional farming render..."
+        },
+        "results": {
+            "lab_observations": "Lab Observations",
+            "terminal_idle": "Lab Terminal Idle"
+        },
+        "error": {
+            "video_failed": "Video generation failed. Please try again."
+        }
+    },
+    "virtual_farm": {
+        "title": "Virtual Acreage",
+        "subtitle": "SUSTAINABLE SANDBOX v2.5",
+        "plots_occupied": "PLOTS OCCUPIED",
+        "conservation_efficiency": "CONSERVATION EFFICIENCY",
+        "save": "SAVE",
+        "zone": "ZONE",
+        "need_water_sun": "Needs Water & Sun",
+        "growth_nominal": "Growth Phase: Nominal",
+        "thriving": "Thriving & Healthy",
+        "elite_maturity": "Elite Maturity Level",
+        "optimized_harvest": "Optimized for Harvest",
+        "stabilizing_root": "Stabilizing Neural Root",
+        "maturity": "MATURITY",
+        "farm_settings": "Farm Settings",
+        "global_protocols": "GLOBAL OPERATING PROTOCOLS",
+        "irrigation_pref": "Irrigation Preference",
+        "water_saved": "-{{value}}% Water",
+        "nutrient_protocol": "Nutrient Protocol",
+        "yield_bonus": "+{{value}}% Yield",
+        "yield_multiplier": "Yield Multiplier Active",
+        "current_strategy": "CURRENT STRATEGY: RATING A+",
+        "sow_new_variety": "Sow New Variety",
+        "deploying_for_zone": "Deploying {{irrigation}} for Zone {{zone}}.",
+        "status_vital": "STATUS: VITAL",
+        "maturity_pipeline": "Maturity Pipeline",
+        "current_stage": "Current Stage",
+        "cultivation_zone": "CULTIVATION ZONE",
+        "moisture": "Moisture",
+        "optimal": "Optimal",
+        "integrity": "Integrity",
+        "solid": "98% Solid",
+        "agronomy_fun_fact": "AGRONOMY FUN FACT",
+        "active_perks": "ACTIVE PERKS",
+        "start_growth_phase": "START GROWTH PHASE",
+        "clear": "CLEAR",
+        "stages": {
+            "germination": "Germination",
+            "vegetative": "Vegetative",
+            "flowering": "Flowering",
+            "harvest_ready": "Ripe / Harvest Ready"
+        },
+        "irrigation_types": {
+            "drip": "Drip Irrigation",
+            "sprinkler": "Precision Sprinkler",
+            "flood": "Flood Irrigation"
+        },
+        "enrichment_types": {
+            "compost": "Organic Compost",
+            "jeevamrut": "Liquid Jeevamrut",
+            "chemical": "Chemical Fertilizer"
+        },
+        "generation_phases": {
+            "init": "Initializing Bio-Gen Engine...",
+            "dna": "Analyzing DNA Sequences...",
+            "soil": "Mapping Soil Bio-Metrics...",
+            "cellular": "Synthesizing Cellular Structure...",
+            "photosynthetic": "Calibrating Photosynthetic Rate...",
+            "foliage": "Synthesizing Photorealistic Foliage...",
+            "shaders": "Applying Environmental Shaders...",
+            "neural": "Finalizing Neural Model..."
+        },
+        "logs": {
+            "init": "Core initialized. Awaiting sequence.",
+            "dna": "Sequence mapping: 88% match found.",
+            "soil": "Nutrient density: Optimal (Nitrogen+).",
+            "cellular": "Lattice structure forming. Stability: 94%.",
+            "photosynthetic": "Photon efficiency boosted (+12%).",
+            "foliage": "Rendering textures. Alpha channel active.",
+            "shaders": "Directing sunlight vectors. Rayleigh active.",
+            "neural": "Model integrity check. Export ready.",
+            "telemetry": "Awaiting telemetry...",
+            "neural_running": "Neural Engine Running",
+            "sync_ratio": "SYNC RATIO"
+        },
+        "guide": {
+            "title": "Crop Growth Guide",
+            "subtitle": "Smart Guidance for Successful Farming",
+            "select_crop": "Select a crop to view detailed guidance",
+            "water_needed": "Water Needed",
+            "plant_spacing": "Plant Spacing",
+            "care_tips": "Expert Care Tips",
+            "steps": "Farming Steps"
+        },
+        "learn": {
+            "real_time_tracking": "REAL-TIME CULTIVATION TRACKING",
+            "initiate_batch": "INITIATE NEW BATCH",
+            "no_pipelines": "No Active Pipelines",
+            "start_journey_prompt": "Start a new cultivation journey to track progress.",
+            "go_to_archive": "Go to Bio-Archive",
+            "journey_started": "JOURNEY STARTED: {{date}}",
+            "progress_pipe": "PROGRESS PIPE",
+            "resume_operations": "RESUME OPERATIONS",
+            "restart_session": "Restart Session",
+            "restart_pipeline": "RESTART PIPELINE",
+            "back_to_missions": "Back to Missions",
+            "pipeline_title": "{{cropName}} PIPELINE",
+            "session_id": "SESSION ID: {{id}}",
+            "bio_stability": "BIO-STABILITY: {{score}}%",
+            "session_xp": "SESSION XP",
+            "eco_rating": "ECO RATING",
+            "workflow_rail": "Workflow Rail",
+            "phase": "PHASE {{number}}",
+            "rewards_active": "REWARDS ACTIVE",
+            "rewards_desc": "Completing verification steps unlocks yield bonuses.",
+            "visual_lab_offline": "VISUAL LAB OFFLINE",
+            "verification_record": "VERIFICATION RECORD",
+            "tutorial_mode": "TUTORIAL MODE",
+            "practice_mode": "PRACTICE MODE",
+            "bio_authenticated": "BIO-AUTHENTICATED",
+            "protocol_phase": "PROTOCOL PHASE {{number}}",
+            "mastery_yield": "MASTERY YIELD",
+            "video_tutorial_available": "Video Tutorial Available",
+            "learn_visually": "Learn visually with expert guidance.",
+            "watch_tutorial": "WATCH TUTORIAL",
+            "tactical_inventory": "TACTICAL INVENTORY",
+            "no_tools": "No specific tools required.",
+            "operational_hazards": "OPERATIONAL HAZARDS",
+            "safety_mandatory": "Safety protocols mandatory.",
+            "bio_verified": "BIO-VERIFIED",
+            "authenticated_on": "AUTHENTICATED ON {{date}}",
+            "path_locked": "PATH LOCKED",
+            "verify_phase": "VERIFY PHASE {{number}}",
+            "camera_error_alert": "Camera access denied. Please enable permissions.",
+            "restart_confirm": "Are you sure you want to restart this journey? All progress will be reset.",
+            "sensor_fail": "Sensor calibration failed. Please retry scan.",
+            "tts": {
+                "step": "Step {{step}}",
+                "description": "{{title}}. {{description}}",
+                "tasks_include": "Tasks include {{tools}}",
+                "warnings": "Warnings: {{warnings}}",
+                "none": "None"
+            },
+            "capture_proof": "CAPTURE PROOF",
+            "take_photo_prompt": "Take a clear photo of the completed task",
+            "open_camera": "OPEN CAMERA",
+            "upload_photo": "UPLOAD PHOTO",
+            "auth_protocol": "AUTH PROTOCOL",
+            "bio_scanner": "BIO-SCANNER",
+            "active_phase": "ACTIVE PHASE",
+            "phase_cleared": "PHASE CLEARED",
+            "rescan_required": "RESCAN REQUIRED",
+            "verifying": "VERIFYING...",
+            "verify_now": "VERIFY NOW",
+            "done": "DONE",
+            "ai_vision_verification": "AI VISION VERIFICATION"
+        }
+    },
+    "diagnosis": {
+        "title": "NEURAL DIAGNOSIS v5.2 PRO",
+        "specimen_analysis": "Specimen Analysis",
+        "specimen_desc": "Professional-grade AI diagnostics with high-integrity spectral checks.",
+        "access_records": "ACCESS RECORDS",
+        "terminate_history": "TERMINATE HISTORY",
+        "disease_radar": "Disease Alerts Radar",
+        "regional_monitoring": "Regional pathogen monitoring for {{location}}",
+        "active_scan": "Active SCAN",
+        "high_alert": "High Alert",
+        "moderate": "Moderate",
+        "low_risk": "Low Risk",
+        "visual_interface": "Visual Interface",
+        "spectral_photo": "Spectral Photo",
+        "neural_video": "Neural Video",
+        "engage_scanner": "Engage Neural Scanner",
+        "strict_integrity": "Strict Integrity Specimen Capture",
+        "volumetric_discovery": "360° Volumetric Pathogen Discovery",
+        "bio_symptom_log": "BIO-SYMPTOM LOG",
+        "inquiry_placeholder": "Inquiry Factors: Atmospheric variance, pest vectoring, etc...",
+        "run_inference": "RUN NEURAL INFERENCE",
+        "authenticating": "AUTHENTICATING...",
+        "zero_malpractice": "ZERO MALPRACTICE ENFORCEMENT",
+        "malpractice_desc": "Neural heuristics will detect synthetic artifacts or low-fidelity proxies. Ensure high-lumen proximity for valid biometric confirmation.",
+        "analyzing_messages": {
+            "init": "Initializing High-Integrity Scan...",
+            "extracting": "Extracting Video Frames for Analysis...",
+            "mapping": "Neural Mesh Mapping Active...",
+            "anomalies": "Scanning for Non-Botanical Anomalies...",
+            "movement": "Correlating Pathogen Movement Patterns...",
+            "database": "Cross-referencing Indian Agri-Database...",
+            "insights": "Generating Structural Health Insights..."
+        },
+        "interface_error": "INTERFACE ERROR: {{message}}",
+        "integrity_breach": "Integrity Breach Detected",
+        "terminated_protocol": "Terminated Protocol: RESET",
+        "specimen_authenticated": "Specimen Authenticated",
+        "inference_verdict": "Inference Verdict",
+        "bio_integrity_stable": "Bio-Integrity Stable",
+        "anomalous_matrix": "Anomalous Matrix",
+        "clinical_narrative": "Clinical Narrative",
+        "deploy_hardcopy": "Deploy Hardcopy",
+        "neural_core_analysis": "Neural Core Analysis",
+        "integrity_index": "Integrity Index",
+        "pathogen_load": "Pathogen Load",
+        "stability_ratio": "Stability Ratio",
+        "safe": "SAFE",
+        "auth": "AUTH",
+        "deploy_solutions": "DEPLOY SOLUTIONS",
+        "gen_passport": "GEN-PASSPORT [PHI]",
+        "ledger_link": "Link to Decentralized Ledger",
+        "remediation_roadmap": "Remediation Roadmap",
+        "high_fidelity": "High-Fidelity Protocols",
+        "bonus_protocol": "Bonus Protocol",
+        "bio_integral_pathway": "Bio-Integral Pathway",
+        "master_choice": "Authorized Master Choice",
+        "access_retailers": "Access verified bio-retailers",
+        "sourcing_nodes": "Sourcing Nodes...",
+        "supply_uplink": "Global Supply Uplink Active",
+        "kinetic_override": "Kinetic Override",
+        "deploy_warning": "Deploy only if bio-integrity thresholds failed",
+        "biosafety_overlays": "Biosafety Overlays",
+        "exposure_index": "Exposure Index",
+        "matrix_lockout": "Matrix Lockout",
+        "auth_ppe": "Authorized PPE Gear",
+        "ai_guidance": "AI GUIDANCE",
+        "broadcasting": "BROADCASTING...",
+        "biometric_trends": "Biometric Recovery Trends",
+        "historical_data": "Historical health data matrix for {{plant}}",
+        "live_update": "LIVE UPDATE: {{date}}",
+        "stability": "STABILITY",
+        "establishing_baseline": "Establishing Biometric Baseline...",
+        "supplier_matrix": "Supplier Grounding Matrix",
+        "verified_nodes": "Verified logistics nodes for {{diagnosis}}",
+        "live_logistics": "Live Logistics Matrix",
+        "gps_locked": "GPS LOCKED: {{lat}}N, {{lng}}E",
+        "intelligence_briefing": "Intelligence Briefing",
+        "range": "Range",
+        "active_node": "Active Supply Node",
+        "establish_link": "Establish Link",
+        "start_new_sequence": "START NEW BIO-SCAN SEQUENCE",
+        "bio_archive": "Bio-Archive Database",
+        "secure_records": "{{count}} SECURE RECORDS ENCRYPTED",
+        "database_empty": "Database Empty",
+        "initial_captures": "Initial biological captures required for historical health indexing.",
+        "health_nominal": "HEALTH_NOMINAL",
+        "flush_cache": "Flush Bio-Central Cache Matrix",
+        "initiate_wipe": "INITIATE DATABASE WIPE? Historical bio-indices will be permanently purged.",
+        "bio_passport": "Bio-Passport",
+        "security_clearance": "Official Security Clearance",
+        "auth_level": "Auth-Level",
+        "secured_phi": "SECURED_PHI",
+        "active_bio_node": "Active Biological Node",
+        "specimen_hash": "Specimen Hash",
+        "authority_date": "Authority Date",
+        "health_index": "Health-Index_NOM[V]",
+        "integrity_auth": "Integrity_AUTH[P]",
+        "verified": "VERIFIED",
+        "diagnostic_signature": "Diagnostic Signature",
+        "encrypt_export": "Encrypt & Export",
+        "terminate_session": "Terminate Session"
+    },
+    "profile": {
+        "name_mandatory": "Name is a mandatory biometric field.",
+        "sync_success": "Profile synchronized with cloud node.",
+        "sync_error": "Sync failed. Check terminal connection.",
+        "dossier_integrity": "Dossier Integrity",
+        "encrypted_access": "Encrypted Node Access",
+        "last_synced": "Last Synced",
+        "update_optic": "Update Optic",
+        "operative_name_placeholder": "Operative Name",
+        "operative_default": "Operative",
+        "level": "LEVEL",
+        "operative_intel": "Operative Intel",
+        "primary_config": "Primary Node Configuration",
+        "abort": "Abort",
+        "synchronizing": "SYNCHRONIZING...",
+        "commit_changes": "COMMIT CHANGES",
+        "modify_config": "MODIFY CONFIG",
+        "communication_link": "Communication Link",
+        "satellite_mobile": "Satellite Mobile",
+        "assigned_role": "Assigned Operative Role",
+        "role_operative": "{{role}} Operative",
+        "geographic_grid": "Geographic Grid",
+        "district_state_placeholder": "District, State",
+        "acreage_magnitude": "Acreage Magnitude",
+        "acreage_placeholder": "e.g. 10.5 Acres",
+        "sub_strata_baseline": "Sub-Strata Baseline",
+        "variety_matrix": "Variety Matrix",
+        "active_crops": "Active Managed Crops",
+        "no_varieties": "No managed varieties detected.",
+        "new_cultivar_placeholder": "New cultivar...",
+        "mission_vector": "Mission Vector",
+        "target_objectives": "Target Objectives",
+        "no_objectives": "No active objectives queued.",
+        "define_mission_placeholder": "Define mission...",
+        "network_status": "Network Status: Prime",
+        "global_mastery": "Global Mastery Score",
+        "uplink_stage": "Uplink Maturity Stage",
+        "stage": "STAGE",
+        "xp_to_upgrade": "XP to next terminal upgrade",
+        "certifications": "Certifications",
+        "journeys": "Journeys",
+        "honor_commendations": "Honor Commendations",
+        "no_badges": "No badges awarded yet",
+        "kisan_credential": "Kisan Credential",
+        "active_sync": "Active Sync Enabled"
+    },
+    "new_journey": {
+        "lab_version": "CULTIVATION LAB v4.0",
+        "title": "New Mission",
+        "subtitle": "Architect a precise cultivation journey from seed to surplus.",
+        "search_placeholder": "Search crop archives...",
+        "varieties": "VARIETIES",
+        "season_name": "{{season}}",
+        "season": "Season",
+        "cycle": "Cycle",
+        "phases": "Phases",
+        "steps": "Steps",
+        "water": "Water",
+        "soil": "Soil",
+        "bonus": "Bonus",
+        "cancel": "Cancel",
+        "initiate": "Initiate Journey"
+    },
+    "categories": {
+        "Grains": "Grains",
+        "Cash Crops": "Cash Crops",
+        "Vegetables": "Vegetables",
+        "Oilseeds": "Oilseeds",
+        "Spices": "Spices"
+    },
+    "crops": {
+        "c1": {
+            "title": "Wheat (Grade A)",
+            "funFact": "Wheat is the global staple that defined modern agriculture.",
+            "subsidies": [
+                "PM-Kisan",
+                "MSP Support"
+            ],
+            "waterInstruction": "First irrigation at 20-25 DAS (CRI stage). Total 4-6 irrigations.",
+            "spacing": "22.5 cm × 10 cm",
+            "careTips": [
+                "Maintain 21 days for CRI (Crown Root Initiation) stage",
+                "Monitor for Yellow Rust disease during cold spells",
+                "Apply nitrogen in three split doses for better grain filling"
+            ],
+            "steps": {
+                "s1": {
+                    "title": "Land Preparation & Soil Testing",
+                    "description": "Deep ploughing (15-20cm), leveling, and collecting soil samples for pH and nutrient analysis. Remove weeds and previous crop residue. Test soil for nitrogen, phosphorus, potassium levels."
+                },
+                "s2": {
+                    "title": "Seed Selection & Treatment",
+                    "description": "Select certified seeds (HD-2967, PBW-343) at 100kg/ha rate. Treat seeds with bio-fungicides like Trichoderma viride @ 4g/kg to protect from soil-borne diseases. Sun-dry treated seeds for 2 hours."
+                },
+                "s3": {
+                    "title": "Sowing & Spacing",
+                    "description": "Sow seeds at 5cm depth using seed drill with row spacing of 20-22.5cm. Optimal sowing time: mid-October to mid-November. Ensure uniform seed distribution at 100kg/hectare."
+                },
+                "s4": {
+                    "title": "Initial Irrigation Setup",
+                    "description": "First irrigation (Crown Root Initiation) at 20-25 days after sowing when 2-3 leaves appear. Use drip or flood irrigation. Apply 60mm water to establish deep root system."
+                },
+                "s5": {
+                    "title": "First Fertilizer Application",
+                    "description": "Apply basal dose: 50% nitrogen (60kg Urea/ha), full phosphorus (50kg DAP/ha), full potash (40kg MOP/ha). Mix with soil before sowing or apply in furrows."
+                },
+                "s6": {
+                    "title": "Pest Monitoring & Weed Control",
+                    "description": "Scout for aphids, termites, and armyworms weekly. Apply 2,4-D @ 500ml/ha for broadleaf weeds at 30-35 DAS. Use pheromone traps for early pest detection."
+                },
+                "s7": {
+                    "title": "Mid-Season Care & Tillering",
+                    "description": "Apply second irrigation at tillering stage (40-45 DAS). Top dress with 25% nitrogen (30kg Urea) at this stage. Ensure 4-5 tillers per plant for optimal yield."
+                },
+                "s8": {
+                    "title": "Flowering & Grain Filling Support",
+                    "description": "Critical irrigation at flowering (60-65 DAS) and milky stage (80-85 DAS). Apply remaining 25% nitrogen. Monitor for rust diseases and apply fungicide if detected."
+                },
+                "s9": {
+                    "title": "Pre-Harvest Assessment",
+                    "description": "Check grain moisture (14-16%), golden color of stems, and hardness of grains by nail test. Stop irrigation 15 days before harvest. Plan harvesting logistics and machinery."
+                },
+                "s10": {
+                    "title": "Harvesting & Post-Harvest",
+                    "description": "Harvest when grain moisture is 12-14% using combine harvester. Thresh within 24 hours. Dry grains to 10-12% moisture for storage. Store in moisture-proof containers."
+                }
+            }
+        },
+        "c2": {
+            "title": "Basmati Rice",
+            "funFact": "The long grains and unique aroma are global exports.",
+            "subsidies": [
+                "Export Incentive"
+            ],
+            "waterInstruction": "Keep field moist/flooded (2-5 cm water level) until maturity.",
+            "spacing": "20 cm × 20 cm",
+            "careTips": [
+                "Keep field flooded (2-5 cm) to suppress weed growth",
+                "Monitor for stem borer and leaf folder pests",
+                "Use organic manure during puddling for aroma enhancement"
+            ],
+            "steps": {
+                "b1": {
+                    "title": "Nursery Preparation",
+                    "description": "Prepare well-ploughed raised bed nurseries 1.25m wide. Apply 20kg FYM and 50g each of N, P, K per 100m². Ensure proper drainage. Best nursery area: 1/20th of main field."
+                },
+                "b2": {
+                    "title": "Seed Selection & Treatment",
+                    "description": "Use certified Basmati seeds (Pusa 1121, 1509) @ 30kg/ha. Soak in salt water (1.08 specific gravity) to remove half-filled seeds. Treat with Carbendazim @ 2g/kg or Trichoderma @ 5g/kg."
+                },
+                "b3": {
+                    "title": "Nursery Sowing & Care",
+                    "description": "Sow sprouted seeds uniformly @ 100g/m². Keep beds moist, then maintain thin water layer. Seedlings ready for transplanting in 25-30 days (3-4 leaf stage)."
+                },
+                "b4": {
+                    "title": "Main Field Puddling",
+                    "description": "Puddle field with 5cm water, plough and cross-plough to mix mud. Level field precisely for uniform water depth. Apply basal dose: 50kg DAP, 30kg MOP per hectare before last puddling."
+                },
+                "b5": {
+                    "title": "Transplanting",
+                    "description": "Transplant 25-30 day old seedlings @ 2-3 per hill at 20x15cm spacing. Plant 3-4cm deep in rows. Finish transplanting within 2-3 days of uprooting. Optimal time: June-July."
+                },
+                "b6": {
+                    "title": "Water Management & Early Care",
+                    "description": "Maintain 5cm water for first 2 weeks, then follow alternate wetting and drying. Hand weed from 20 DAT. Apply first top dressing of 50kg Urea/ha 3 weeks after transplanting."
+                },
+                "b7": {
+                    "title": "Pest & Disease Monitoring",
+                    "description": "Monitor weekly for stem borer, leaf folder, and BPH. Install 5 pheromone traps per hectare. Check for blast and sheath blight diseases."
+                },
+                "b8": {
+                    "title": "Panicle Initiation & Flowering Care",
+                    "description": "Apply second top dressing of 30kg Urea at panicle initiation (day 45). Maintain continuous water during flowering. Spray 2% urea + micronutrients to boost grain filling."
+                },
+                "b9": {
+                    "title": "Pre-Harvest Preparation",
+                    "description": "Drain water from field 15 days before harvest. Check grain moisture (20-22%) and 80% straw turning golden. Arrange harvester or labor."
+                },
+                "b10": {
+                    "title": "Harvesting & Post-Harvest",
+                    "description": "Harvest when grain moisture is 20-22%. Thresh immediately to prevent discoloration. Sun dry on floor in thin layers to 14% moisture. Store in jute bags in cool, dry place."
+                }
+            }
+        },
+        "c3": {
+            "title": "Cotton (Bt)",
+            "funFact": "India is the largest producer of cotton in the world.",
+            "subsidies": [
+                "Cotton Corporation Support",
+                "MSP"
+            ],
+            "waterInstruction": "4-6 irrigations depending on rainfall. Critical at flowering.",
+            "spacing": "90 cm × 60 cm",
+            "careTips": [
+                "Deep ploughing to control soil-borne pests",
+                "Square formation stage is critical for irrigation",
+                "Control whitefly and jassids for fiber quality"
+            ]
+        },
+        "c4": {
+            "title": "Sugarcane",
+            "funFact": "India is the second largest producer of sugarcane globally.",
+            "subsidies": [
+                "Sugar Development Fund",
+                "State Cane Price"
+            ],
+            "waterInstruction": "Req 1500-2500 mm. Frequent during germination and tillering.",
+            "spacing": "90 cm (Row Spacing)",
+            "careTips": [
+                "Earthing up at 3 and 5 months prevents lodging",
+                "Propping should be done to support heavy canes",
+                "Monitor for red rot and smut diseases"
+            ]
+        },
+        "c5": {
+            "title": "Tomato",
+            "funFact": "India produces 20 million tonnes of tomatoes annually.",
+            "subsidies": [
+                "Horticulture Mission",
+                "MIDH"
+            ],
+            "waterInstruction": "Weekly irrigation during summer. Avoid water on leaves.",
+            "spacing": "60 cm × 45 cm",
+            "careTips": [
+                "Provide staking for indeterminate varieties",
+                "Regular pruning of side shoots enhances fruit size",
+                "Apply calcium nitrate to prevent blossom end rot"
+            ]
+        },
+        "c6": {
+            "title": "Potato",
+            "funFact": "India is the second largest potato producer after China.",
+            "subsidies": [
+                "Potato Development Scheme"
+            ],
+            "waterInstruction": "7-10 day intervals. Critical during stolonization and bulking.",
+            "spacing": "60 cm × 20 cm",
+            "careTips": [
+                "Earthing up is crucial to cover expanding tubers",
+                "Monitor for Late Blight in cloudy/humid weather",
+                "Stop irrigation 15 days before harvest for skin hardening"
+            ]
+        },
+        "c7": {
+            "title": "Maize (Corn)",
+            "funFact": "Maize has the highest production potential among cereals.",
+            "subsidies": [
+                "Maize Development Programme"
+            ],
+            "waterInstruction": "Tasseling and silking stages are critical for moisture.",
+            "spacing": "60 cm × 20 cm",
+            "careTips": [
+                "Maintain weed-free environment for first 45 days",
+                "Tasseling and silking are critical water stages",
+                "Monitor for Fall Armyworm (FAW) regularly"
+            ]
+        },
+        "c8": {
+            "title": "Mustard",
+            "funFact": "India is the third largest mustard producer in the world.",
+            "subsidies": [
+                "National Mission on Oilseeds",
+                "MSP"
+            ],
+            "waterInstruction": "3-4 irrigations. Critical at rosette and pod filling.",
+            "spacing": "30 cm × 15 cm",
+            "careTips": [
+                "Thinning at 20 days is essential for uniform growth",
+                "Sulfur application increases oil content significantly",
+                "Scout for mustard aphids during January-February"
+            ]
+        },
+        "c9": {
+            "title": "Turmeric",
+            "funFact": "India satisfies over 75% of the total global demand for Turmeric.",
+            "subsidies": [
+                "Spice Board Support",
+                "Export Incentive"
+            ],
+            "waterInstruction": "Maintain consistent moisture. Avoid waterlogging at all costs.",
+            "spacing": "30 cm × 15 cm",
+            "careTips": [
+                "Deep mulching with green leaves protects rhizomes",
+                "Perform earthing up twice at 60 and 90 days",
+                "Control shoot borer for healthy rhizome development"
+            ]
+        }
+    }
+}

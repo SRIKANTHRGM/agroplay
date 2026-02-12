@@ -86,16 +86,15 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen mesh-gradient flex items-center justify-center p-4 md:p-6 relative overflow-hidden font-inter">
-      <div className="absolute inset-0 grid-bg opacity-20 z-0" />
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-6 relative overflow-hidden font-inter">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-40 z-0" />
 
-      <div className={`w-full max-w-md bg-slate-900/80 backdrop-blur-2xl rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden border border-white/10 transition-all duration-700 ${shake ? 'shake' : ''}`}>
+      <div className={`w-full max-w-md bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] relative z-10 overflow-hidden border border-slate-100 transition-all duration-700 ${shake ? 'shake' : ''}`}>
 
         {(isLoading) && (
-          <div className="absolute inset-0 z-50 overflow-hidden bg-slate-950/60 flex flex-col items-center justify-center gap-6 animate-in fade-in duration-300">
-            <div className="scanning-line" />
-            <div className="w-20 h-20 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin shadow-[0_0_30px_rgba(34,197,94,0.4)]" />
-            <p className="text-[10px] font-black text-green-500 uppercase tracking-[0.5em] animate-pulse text-center px-10">
+          <div className="absolute inset-0 z-50 overflow-hidden bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center gap-6 animate-in fade-in duration-300">
+            <div className="w-20 h-20 border-4 border-green-500/10 border-t-green-600 rounded-full animate-spin shadow-[0_0_30px_rgba(34,197,94,0.15)]" />
+            <p className="text-[10px] font-black text-green-600 uppercase tracking-[0.5em] animate-pulse text-center px-10">
               Establishing Secure Uplink...
             </p>
           </div>
@@ -104,23 +103,23 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
         <div className="p-6 md:p-12 space-y-8 md:space-y-10 relative z-10">
           <div className="text-center space-y-6">
             <div className="relative group mx-auto w-20 h-20 md:w-24 md:h-24">
-              <div className="absolute inset-0 bg-green-500/20 rounded-[2.5rem] blur-2xl" />
-              <div className="absolute inset-0 bg-green-600 text-white rounded-[2.2rem] flex items-center justify-center shadow-[0_0_40px_rgba(34,197,94,0.5)] neon-flicker">
+              <div className="absolute inset-0 bg-green-100 rounded-[2.5rem] blur-2xl" />
+              <div className="absolute inset-0 bg-green-600 text-white rounded-[2.2rem] flex items-center justify-center shadow-[0_20px_40px_rgba(34,197,94,0.2)]">
                 <Leaf size={32} className="group-hover:rotate-12 transition-transform md:w-12 md:h-12" />
               </div>
             </div>
             <div className="space-y-1">
-              <h2 className="text-2xl md:text-5xl font-black text-white outfit tracking-tighter">AgroPlay</h2>
-              <p className="text-[9px] font-black text-green-500 uppercase tracking-[0.5em] ml-1 opacity-80">Autonomous Farming Nexus</p>
+              <h2 className="text-2xl md:text-5xl font-black text-slate-900 outfit tracking-tighter">AgroPlay</h2>
+              <p className="text-[9px] font-black text-green-600 uppercase tracking-[0.5em] ml-1 opacity-90">Autonomous Farming Nexus</p>
             </div>
           </div>
 
           {serverStatus === 'offline' && (
-            <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-2xl p-4 animate-in slide-in-from-top-2">
-              <AlertCircle className="text-red-400 flex-shrink-0" size={20} />
+            <div className="flex items-center gap-3 bg-red-50 border border-red-100 rounded-2xl p-4 animate-in slide-in-from-top-2">
+              <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
               <div className="space-y-1">
-                <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">System Offline</p>
-                <p className="text-white/60 text-[9px] font-medium leading-relaxed italic">
+                <p className="text-red-700 text-[10px] font-black uppercase tracking-widest">System Offline</p>
+                <p className="text-slate-500 text-[9px] font-medium leading-relaxed italic">
                   Critical uplink failure at {API_BASE}.
                   Ensure the backend service is active.
                 </p>
@@ -129,14 +128,14 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
           )}
 
           {error && (
-            <div className="flex items-center gap-3 bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 animate-in slide-in-from-top-2">
-              <AlertCircle className="text-rose-400 flex-shrink-0" size={20} />
+            <div className="flex items-center gap-3 bg-rose-50 border border-rose-100 rounded-2xl p-4 animate-in slide-in-from-top-2">
+              <AlertCircle className="text-rose-500 flex-shrink-0" size={20} />
               <div className="space-y-1">
-                <p className="text-rose-400 text-xs font-bold">{error}</p>
+                <p className="text-rose-700 text-xs font-bold">{error}</p>
                 {/* @ts-ignore */}
-                {error.includes(':') && <p className="text-[10px] text-rose-300/70 font-medium italic">{error.split(':').slice(1).join(':')}</p>}
+                {error.includes(':') && <p className="text-[10px] text-rose-500/70 font-medium italic">{error.split(':').slice(1).join(':')}</p>}
                 {/* @ts-ignore */}
-                {error.includes('debug') && <p className="text-[9px] text-white/40 font-mono mt-2 bg-black/20 p-2 rounded">{error}</p>}
+                {error.includes('debug') && <p className="text-[9px] text-slate-400 font-mono mt-2 bg-slate-100 p-2 rounded">{error}</p>}
               </div>
             </div>
           )}
@@ -145,9 +144,9 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
             <button
               onClick={handleGoogleAuth}
               disabled={isLoading || serverStatus === 'offline'}
-              className="w-full bg-white/5 border border-white/10 py-5 rounded-2xl flex items-center justify-center gap-4 hover:bg-white/10 transition-all font-black text-[10px] md:text-xs uppercase tracking-[0.2em] text-white shadow-xl active:scale-95 disabled:opacity-30 group"
+              className="w-full bg-white border border-slate-200 py-5 rounded-2xl flex items-center justify-center gap-4 hover:bg-slate-50 transition-all font-black text-[10px] md:text-xs uppercase tracking-[0.2em] text-slate-700 shadow-sm active:scale-95 disabled:opacity-30 group"
             >
-              <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-6 h-6 bg-white border border-slate-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                 <svg viewBox="0 0 24 24" width="16" height="16">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.07-3.71 1.07-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -155,34 +154,34 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                 </svg>
               </div>
-              <span className="text-white/90">Establish Google Uplink</span>
+              <span className="text-slate-600">Establish Google Uplink</span>
             </button>
 
             <div className="relative flex items-center gap-4 py-2">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-[8px] font-black text-slate-500 uppercase tracking-[0.4em]">Secure Protocol</span>
-              <div className="flex-1 h-px bg-white/10" />
+              <div className="flex-1 h-px bg-slate-100" />
+              <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.4em]">Secure Protocol</span>
+              <div className="flex-1 h-px bg-slate-100" />
             </div>
 
             <form onSubmit={handleTraditionalAuth} className="space-y-5">
               {!isLogin && (
                 <div className="space-y-2 animate-in slide-in-from-top-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2 flex items-center gap-2">
-                    <User size={12} className="text-green-500" /> Full Operator Name
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 flex items-center gap-2">
+                    <User size={12} className="text-green-600" /> Full Operator Name
                   </label>
                   <input
                     required
                     value={name}
                     onChange={e => setName(e.target.value)}
                     placeholder="Identification name"
-                    className="w-full px-6 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white font-bold text-sm focus:border-green-500/50 outline-none transition-all"
+                    className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold text-sm focus:border-green-500/50 outline-none transition-all placeholder:text-slate-300"
                   />
                 </div>
               )}
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2 flex items-center gap-2">
-                  <Mail size={12} className="text-green-500" /> System Email / ID
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 flex items-center gap-2">
+                  <Mail size={12} className="text-green-600" /> System Email / ID
                 </label>
                 <input
                   required
@@ -190,13 +189,13 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Uplink address"
-                  className="w-full px-6 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white font-bold text-sm focus:border-green-500/50 outline-none transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold text-sm focus:border-green-500/50 outline-none transition-all placeholder:text-slate-300"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2 flex items-center gap-2">
-                  <Lock size={12} className="text-green-500" /> Secure Keyphrase
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 flex items-center gap-2">
+                  <Lock size={12} className="text-green-600" /> Secure Keyphrase
                 </label>
                 <input
                   required
@@ -205,14 +204,14 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="Access code"
                   minLength={6}
-                  className="w-full px-6 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white font-bold text-sm focus:border-green-500/50 outline-none transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold text-sm focus:border-green-500/50 outline-none transition-all placeholder:text-slate-300"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full group bg-green-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(22,101,52,0.4)] hover:bg-green-500 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 mt-6 relative overflow-hidden"
+                className="w-full group bg-green-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(22,101,52,0.2)] hover:bg-green-500 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 mt-6 relative overflow-hidden"
               >
                 <span className="text-[11px] md:text-xs">{isLogin ? 'Establish Link' : 'Register Operator'}</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -226,7 +225,7 @@ const Auth: React.FC<Props> = ({ onLogin }) => {
                 setIsLogin(!isLogin);
                 setError(null);
               }}
-              className="text-[10px] font-black text-slate-500 uppercase tracking-widest hover:text-green-400 transition-colors py-2 group"
+              className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-green-600 transition-colors py-2 group"
             >
               {isLogin ? "New Operator? Create Node" : "Already Registered? Log In"}
             </button>

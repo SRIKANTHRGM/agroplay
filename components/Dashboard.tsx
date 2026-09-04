@@ -31,7 +31,8 @@ import {
   Clock,
   Scan,
   ShieldCheck,
-  Sprout
+  Sprout,
+  Compass
 } from 'lucide-react';
 import { chatFast, predictHarvestYield } from '../services/geminiService';
 import { Link, useNavigate } from 'react-router-dom';

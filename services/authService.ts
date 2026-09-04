@@ -182,21 +182,20 @@ export const login = async (email: string, password: string): Promise<any> => {
     return data;
 };
 
-import { auth, googleProvider, signInWithPopup } from './firebase';
+import { auth, googleProvider, signInWithRedirect, signInWithPopup, getRedirectResult } from './firebase';
 
 /**
- * Real Google OAuth login using Firebase and secure backend verification
+ * Initiate Google OAuth login using Firebase redirect (avoids popup-blocked errors)
  */
 export const googleLogin = async (): Promise<any> => {
     try {
-        // 1. Authenticate with Google on the frontend
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
 
-        // 2. Get the ID token from Firebase
+        // Get the Firebase ID token
         const idToken = await user.getIdToken();
 
-        // 3. Send ID token to our backend for verification and session creation
+        // Send ID token to our backend for verification and session creation
         const response = await fetch(`${API_URL}/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -208,8 +207,50 @@ export const googleLogin = async (): Promise<any> => {
         if (!response.ok) {
             let errorMessage = data.message || 'Secure Google verification failed';
             if (data.error) errorMessage += `: ${data.error}`;
-            if (data.debug) errorMessage += ` (debug: ${JSON.stringify(data.debug)})`;
             throw new Error(errorMessage);
+        }
+
+        // Clear any previous user data
+        clearAllAppData();
+
+        // Store secure tokens
+        setTokens(data.accessToken, data.refreshToken);
+
+        // Store user profile (encrypted)
+        localStorage.setItem('km_user_profile', encryptData(data.user));
+        localStorage.setItem('km_auth', 'true');
+
+        return data; // returns { user, accessToken, refreshToken }
+    } catch (error: any) {
+        console.error("Google Auth popup error:", error);
+        throw new Error(error.message || 'Google authentication failed');
+    }
+};
+
+/**
+ * Call this on app startup to handle legacy redirect result if returning from Google (fallback).
+ */
+export const handleGoogleRedirectResult = async (): Promise<any | null> => {
+    try {
+        const result = await getRedirectResult(auth);
+        if (!result) return null; // No redirect in progress
+
+        const user = result.user;
+
+        // Get the Firebase ID token
+        const idToken = await user.getIdToken();
+
+        // Send ID token to our backend for verification and session creation
+        const response = await fetch(`${API_URL}/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Secure Google verification failed');
         }
 
         // Clear any previous user data
@@ -224,7 +265,7 @@ export const googleLogin = async (): Promise<any> => {
 
         return data;
     } catch (error: any) {
-        console.error("Google Auth error:", error);
+        console.error("Google Auth redirect result error:", error);
         throw new Error(error.message || 'Google authentication failed');
     }
 };

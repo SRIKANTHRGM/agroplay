@@ -53,6 +53,7 @@ import ConverterVerify from './components/ConverterVerify';
 import Subsidies from './components/Subsidies';
 import Insurance from './components/Insurance';
 import AILab from './components/AILab';
+import PreventiveAI from './components/PreventiveAI';
 import Auth from './components/Auth';
 import Onboarding from './components/Onboarding';
 import { UserProfile } from './types';
@@ -152,6 +153,7 @@ const App: React.FC = () => {
                 <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Intelligence & Tools</div>
                 <SidebarLink to="/ai-lab" icon={FlaskConical}>AI Research Lab</SidebarLink>
                 <SidebarLink to="/diagnosis" icon={Scan}>Plant Health Scanner</SidebarLink>
+                <SidebarLink to="/preventive-ai" icon={ShieldCheck}>Disease Prevention</SidebarLink>
                 <SidebarLink to="/planner" icon={Activity}>Strategic Planner</SidebarLink>
               </div>
 
@@ -273,6 +275,7 @@ const App: React.FC = () => {
                 <Route path="/practices/:slug" element={<PracticeDetail />} />
                 <Route path="/planner" element={<Planner user={user!} />} />
                 <Route path="/diagnosis" element={<Diagnosis user={user!} setUser={setUser as any} />} />
+                <Route path="/preventive-ai" element={<PreventiveAI user={user!} />} />
                 <Route path="/learn" element={<Learn user={user!} setUser={setUser as any} />} />
                 <Route path="/learn/:journeyId" element={<Learn user={user!} setUser={setUser as any} />} />
                 <Route path="/market" element={<Market />} />

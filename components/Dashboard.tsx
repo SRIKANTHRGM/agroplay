@@ -29,11 +29,14 @@ import {
   CheckCircle2,
   ArrowUpRight,
   Clock,
-  Scan
+  Scan,
+  ShieldCheck,
+  Sprout
 } from 'lucide-react';
 import { chatFast, predictHarvestYield } from '../services/geminiService';
 import { Link, useNavigate } from 'react-router-dom';
 import VoiceAssistant from './VoiceAssistant';
+import SeedViabilityModal from './SeedViabilityModal';
 
 interface Props {
   user: UserProfile;
@@ -47,6 +50,7 @@ const Dashboard: React.FC<Props> = ({ user }) => {
   const [activePlot, setActivePlot] = useState<CropPlot | null>(null);
   const [statCounters, setStatCounters] = useState({ temp: 0, moisture: 0, humidity: 0 });
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
+  const [isSeedViabilityOpen, setIsSeedViabilityOpen] = useState(false);
 
   // Yield Prediction States
   const [prediction, setPrediction] = useState<any>(null);
@@ -190,6 +194,46 @@ const Dashboard: React.FC<Props> = ({ user }) => {
                 </div>
                 <div className="pt-4 flex items-center text-rose-600 font-black text-xs uppercase tracking-[0.2em] gap-2 relative z-10">
                    Capture & Diagnose <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                </div>
+             </div>
+
+             {/* Disease Prevention Card */}
+             <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl space-y-6 group hover:shadow-2xl transition-all cursor-pointer overflow-hidden relative" onClick={() => navigate('/preventive-ai')}>
+                <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform duration-700">
+                   <ShieldCheck size={200} />
+                </div>
+                <div className="flex justify-between items-start">
+                   <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-[1.5rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                      <ShieldCheck size={32} />
+                   </div>
+                   <div className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest">AI Pro-Shield</div>
+                </div>
+                <div className="space-y-2 relative z-10">
+                   <h3 className="text-2xl font-black outfit text-slate-800 tracking-tight">Disease Prevention</h3>
+                   <p className="text-slate-500 text-sm leading-relaxed">Predict disease risks & implement defense plans before pathogens attack.</p>
+                </div>
+                <div className="pt-4 flex items-center text-blue-600 font-black text-xs uppercase tracking-[0.2em] gap-2 relative z-10">
+                   Activate Shield <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                </div>
+             </div>
+
+             {/* Seed Viability Card */}
+             <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl space-y-6 group hover:shadow-2xl transition-all cursor-pointer overflow-hidden relative" onClick={() => setIsSeedViabilityOpen(true)}>
+                <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform duration-700">
+                   <Sprout size={200} />
+                </div>
+                <div className="flex justify-between items-start">
+                   <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-[1.5rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                      <Sprout size={32} />
+                   </div>
+                   <div className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-[10px] font-black uppercase tracking-widest">Seed Testing</div>
+                </div>
+                <div className="space-y-2 relative z-10">
+                   <h3 className="text-2xl font-black outfit text-slate-800 tracking-tight">Seed Viability Checker</h3>
+                   <p className="text-slate-500 text-sm leading-relaxed">Perform float & firmness tests to calculate germination potential before sowing.</p>
+                </div>
+                <div className="pt-4 flex items-center text-amber-600 font-black text-xs uppercase tracking-[0.2em] gap-2 relative z-10">
+                   Start Viability Test <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
                 </div>
              </div>
 
@@ -405,6 +449,7 @@ const Dashboard: React.FC<Props> = ({ user }) => {
           </div>
         </div>
       </div>
+      <SeedViabilityModal isOpen={isSeedViabilityOpen} onClose={() => setIsSeedViabilityOpen(false)} />
     </div>
   );
 };

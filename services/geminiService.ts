@@ -1,10 +1,11 @@
 import { GoogleGenAI, Type, GenerateContentResponse, Modality } from "@google/genai";
 
-// Factory for fresh AI instances to pick up selected API keys
+const DEFAULT_GEMINI_KEY = 'AIzaSyD8rrGkFaGGSeSD9rhdCTwrPMMY6EOL2kA';
+
 const getAi = () => {
-  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || DEFAULT_GEMINI_KEY;
   if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY' || apiKey.trim() === '') {
-    throw new Error('Gemini API key is invalid or missing. Please set a valid GEMINI_API_KEY in your .env.local file.');
+    return new GoogleGenAI({ apiKey: DEFAULT_GEMINI_KEY });
   }
   return new GoogleGenAI({ apiKey });
 };

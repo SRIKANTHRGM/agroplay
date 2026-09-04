@@ -138,6 +138,139 @@ const CROP_GUIDE_DATA = [
       { step: 4, title: 'Pink Bollworm Defense', desc: 'Install 8 pheromone traps/acre; spray NSKE 5% for sucking pests at first flush.' },
       { step: 5, title: 'Boll Picking', desc: 'Pick fully opened fluffy white bolls in sunny weather after morning dew dries.' }
     ]
+  },
+  {
+    id: 'sugarcane',
+    name: 'Sugarcane (Saccharum officinarum)',
+    icon: '🎋',
+    category: 'Commercial Cash Crop',
+    spacing: '120 cm Row Spacing (Wide Row Trench Method)',
+    waterRequirement: '1500 – 2500 mm / Season (15 – 20 Liters / Plant / Day)',
+    waterFrequency: 'Irrigate every 7-10 days in formative stage; 12-15 days in grand growth phase',
+    soilPh: 'Well-drained Clay Loam / Alluvial | pH 6.5 – 7.5',
+    npkRatio: '250 N : 115 P : 115 K (kg/ha)',
+    maturity: '300 – 360 Days',
+    steps: [
+      { step: 1, title: 'Trench Furrowing', desc: 'Make 30cm deep trenches at 120cm spacing. Incorporate 25 t/ha FYM compost.' },
+      { step: 2, title: 'Three-Bud Sett Planting', desc: 'Treat 3-bud setts with Carbendazim @ 2g/L. Place end-to-end along trenches and cover with 5cm soil.' },
+      { step: 3, title: 'Earthing Up & Trash Mulching', desc: 'Perform light earthing up at 45 days and heavy earthing up at 120 days to prevent lodging.' },
+      { step: 4, title: 'Early Shoot Borer Guard', desc: 'Release Trichogramma chilonis parasitoids @ 2.5cc/ha at 15-day intervals.' },
+      { step: 5, title: 'Brix Check & Harvesting', desc: 'Harvest close to ground level using sharp sugarcane knives when Hand Refractometer Brix exceeds 18%.' }
+    ]
+  },
+  {
+    id: 'potato',
+    name: 'Potato (Solanum tuberosum)',
+    icon: '🥔',
+    category: 'Tuber Crop / Vegetable',
+    spacing: '60 cm Row × 20 cm Seed Tuber spacing',
+    waterRequirement: '400 – 600 mm / Season (Continuous moist soil)',
+    waterFrequency: 'Light sprinkler/drip irrigation every 5-7 days; stop 10 days before harvest',
+    soilPh: 'Well-aerated Loose Sandy Loam | pH 5.2 – 6.4',
+    npkRatio: '180 N : 100 P : 150 K (kg/ha)',
+    maturity: '90 – 110 Days',
+    steps: [
+      { step: 1, title: 'Tuber Breaking & Sprouting', desc: 'Expose cold-stored seed tubers to diffused light for 10 days to initiate sturdy green sprouts.' },
+      { step: 2, title: 'Ridge Planting', desc: 'Plant 40-50g tubers at 20cm spacing on 60cm wide ridges at 7-10cm depth.' },
+      { step: 3, title: 'First Earthing Up', desc: 'Earth up soil around plants at 25-30 days to protect growing stolons and prevent tuber greening.' },
+      { step: 4, title: 'Late Blight Shield', desc: 'Spray Mancozeb 75% WP @ 2g/L at pre-blight forecast; follow with Cymoxanil if humidity > 85%.' },
+      { step: 5, title: 'Haulm Cutting & Curing', desc: 'Cut green vines (haulms) 12 days prior to digging to harden tuber skin for long-term storage.' }
+    ]
+  },
+  {
+    id: 'maize',
+    name: 'Maize / Corn (Zea mays)',
+    icon: '🌽',
+    category: 'Cereal / Grain & Fodder',
+    spacing: '60 cm Row × 20 cm Plant spacing',
+    waterRequirement: '500 – 800 mm / Season (3 – 5 Liters / Plant / Day in silking)',
+    waterFrequency: 'Irrigate at knee-high (30d), tasseling (55d), and cob filling (75d)',
+    soilPh: 'Deep Fertile Loam | pH 6.0 – 7.5',
+    npkRatio: '120 N : 60 P : 50 K (kg/ha)',
+    maturity: '95 – 110 Days',
+    steps: [
+      { step: 1, title: 'Ridge Sowing', desc: 'Plough twice; sow hybrid seeds along ridges at 60cm row × 20cm plant distance at 4cm depth.' },
+      { step: 2, title: 'Pre-Emergence Weed Control', desc: 'Apply Atrazine 50% WP @ 1kg/ha within 48 hours of sowing on moist soil.' },
+      { step: 3, title: 'Knee-High Top Dressing', desc: 'Top-dress 50% remaining Urea along with Zinc Sulphate @ 25kg/ha at 30 days.' },
+      { step: 4, title: 'Fall Armyworm Management', desc: 'Apply Metarhizium anisopliae or Emamectin Benzoate 5% SG in leaf whorls at first sign of damage.' },
+      { step: 5, title: 'Cob Harvesting', desc: 'Harvest cobs when husk turns straw yellow and grain moisture reaches 18-20%.' }
+    ]
+  },
+  {
+    id: 'chili',
+    name: 'Chili Pepper (Capsicum annuum)',
+    icon: '🌶️',
+    category: 'Spice / Solanaceous Crop',
+    spacing: '60 cm Row × 45 cm Plant spacing',
+    waterRequirement: '300 – 500 mm / Season (1.5 – 3 Liters / Plant / Day)',
+    waterFrequency: 'Drip irrigation every 2-3 days; avoid water stagnation at root zone',
+    soilPh: 'Well-drained Rich Sandy Loam | pH 6.0 – 7.0',
+    npkRatio: '150 N : 75 P : 75 K (kg/ha)',
+    maturity: '120 – 150 Days',
+    steps: [
+      { step: 1, title: 'Nursery Bed & Solarization', desc: 'Solarize nursery soil with transparent plastic sheet; transplant 35-day sturdy seedlings.' },
+      { step: 2, title: 'Raised Bed Planting', desc: 'Plant seedlings on 1m raised beds with silver-black polyethylene mulch film.' },
+      { step: 3, title: 'Micronutrient Spraying', desc: 'Foliar spray Boron 1g/L and Planofix @ 0.25ml/L at flowering to prevent flower drop.' },
+      { step: 4, title: 'Leaf Curl & Thrips Defense', desc: 'Install yellow and blue sticky traps (15/acre); spray Spinetoram 11.7% SC for thrips.' },
+      { step: 5, title: 'Multiple Harvest Pickings', desc: 'Pick green chilies every 7 days or allow complete red ripening for dry spice powder.' }
+    ]
+  },
+  {
+    id: 'banana',
+    name: 'Banana Tree (Musa acuminata)',
+    icon: '🍌',
+    category: 'Perennial Fruit Crop',
+    spacing: '1.8 m × 1.8 m (Square System, 1200 plants/acre)',
+    waterRequirement: '15 – 25 Liters / Plant / Day (2000 – 2500 mm / Season)',
+    waterFrequency: 'Daily drip irrigation (4-6 hours); critical in shooting phase',
+    soilPh: 'Deep Fertile Alluvial / Clay Loam | pH 6.5 – 7.5',
+    npkRatio: '200g N : 50g P : 300g K per plant / crop cycle',
+    maturity: '11 – 12 Months',
+    steps: [
+      { step: 1, title: 'Tissue Culture Pit Prep', desc: 'Dig 60cm × 60cm × 60cm pits; mix with 10kg FYM + 250g Neem Cake + 50g VAM fungus.' },
+      { step: 2, title: 'Planting TC Plants', desc: 'Plant 45-day hardened tissue culture plants without disturbing root ball; firm soil around stem.' },
+      { step: 3, title: 'Desuckering & Earthing Up', desc: 'Remove unwanted side suckers every month until flowering; keep single follower sucker later.' },
+      { step: 4, title: 'Bunch Covering & Propping', desc: 'Prop heavy fruiting plants with double bamboo poles; cover bunch with blue polythene sleeve.' },
+      { step: 5, title: 'Harvesting Bunch', desc: 'Cut bunch leaving 30cm stalk when top hands turn light green with rounded fingers.' }
+    ]
+  },
+  {
+    id: 'apple',
+    name: 'Apple Tree (Malus domestica)',
+    icon: '🍎',
+    category: 'Temperate Deciduous Tree',
+    spacing: '4 m × 4 m (Standard) or 1.5 m × 3 m (High Density Rootstock)',
+    waterRequirement: '30 – 60 Liters / Tree / Day (800 – 1000 mm / Year)',
+    waterFrequency: 'Weekly drip irrigation during fruit expansion; winter dormancy restriction',
+    soilPh: 'Well-drained Deep Loam | pH 6.0 – 6.8',
+    npkRatio: '500g N : 250g P : 700g K per mature bearing tree',
+    maturity: '3–4 Years to bearing | Fruit maturity 130–150 days post petal fall',
+    steps: [
+      { step: 1, title: 'Rootstock & Pit Prep', desc: 'Dig 90cm × 90cm pits on terraced slopes; incorporate 30kg organic compost + lime.' },
+      { step: 2, title: 'Grafting & Planting', desc: 'Plant M9 or MM106 grafted trees during winter dormancy (Jan-Feb); secure to trellis wire.' },
+      { step: 3, title: 'Central Leader Pruning', desc: 'Prune annually in winter to establish central leader structure; thin fruit clusters to 1 fruit per spur.' },
+      { step: 4, title: 'Apple Scab & Mite Shield', desc: 'Spray Captan 75% WP at green tip stage; deploy predatory mites for red spider mite control.' },
+      { step: 5, title: 'Color Harvest & Cold Chain', desc: 'Pick fruits with intact stem when background skin color turns yellow-green; transfer to pre-cooling.' }
+    ]
+  },
+  {
+    id: 'groundnut',
+    name: 'Groundnut / Peanut (Arachis hypogaea)',
+    icon: '🥜',
+    category: 'Legume / Oilseed Crop',
+    spacing: '30 cm Row × 10 cm Plant spacing',
+    waterRequirement: '450 – 600 mm / Season (3 – 4 Critical Irrigations)',
+    waterFrequency: 'Irrigate at flowering (30d), pegging (50d), and pod development (70d)',
+    soilPh: 'Well-drained Loose Sandy Loam | pH 6.0 – 7.0',
+    npkRatio: '25 N : 50 P : 75 K + 200kg Gypsum/ha',
+    maturity: '105 – 120 Days',
+    steps: [
+      { step: 1, title: 'Seed Treatment & Inoculation', desc: 'Treat kernels with Trichoderma @ 4g/kg seed; inoculate with Rhizobium culture before sowing.' },
+      { step: 2, title: 'Sowing on Loose Bed', desc: 'Sow treated kernels at 30cm row × 10cm plant spacing at 5cm depth in loose sandy soil.' },
+      { step: 3, title: 'Gypsum Application at Pegging', desc: 'Apply Gypsum @ 200kg/ha at 45 days (pegging stage) to supply Calcium for pod filling.' },
+      { step: 4, title: 'Tikka Leaf Spot Guard', desc: 'Spray Carbendazim + Mancozeb @ 2g/L at first appearance of leaf spots.' },
+      { step: 5, title: 'Digging & Drying Pods', desc: 'Harvest when inner pod shell turns dark brown; dry plants under sunlight to 8% moisture.' }
+    ]
   }
 ];
 
@@ -410,25 +543,34 @@ const Dashboard: React.FC<Props> = ({ user }) => {
                   {selectedCropGuide.icon}
                 </div>
                 <div>
-                  <h3 className="text-3xl font-black outfit text-slate-800 tracking-tight">Crop Cultivation Master Roadmap</h3>
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Select a crop for tree/plant spacing, water volume & step-by-step roadmap</p>
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-3xl font-black outfit text-slate-800 tracking-tight">Crop Cultivation Master Roadmap</h3>
+                    <span className="px-3 py-1 bg-green-100 text-green-800 text-[10px] font-black uppercase rounded-full tracking-widest">12 CROPS</span>
+                  </div>
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Select a crop below — view spacing, water requirements & exact steps for that crop</p>
                 </div>
               </div>
             </div>
 
             {/* Crop Selection Buttons */}
-            <div className="flex p-2 bg-slate-100 rounded-[2rem] overflow-x-auto no-scrollbar gap-2">
-              {CROP_GUIDE_DATA.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => setSelectedCropId(c.id)}
-                  className={`px-6 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all flex items-center gap-3 whitespace-nowrap ${
-                    selectedCropId === c.id ? 'bg-green-700 text-white shadow-xl scale-105' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
-                  }`}
-                >
-                  <span>{c.icon}</span> {c.name.split(' ')[0]}
-                </button>
-              ))}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center px-2">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">CROP SELECTION (CLICK TO LOAD STEPS)</span>
+                <span className="text-[10px] font-black text-green-700 uppercase tracking-[0.2em]">CURRENTLY ACTIVE: {selectedCropGuide.name.toUpperCase()}</span>
+              </div>
+              <div className="flex p-2 bg-slate-100 rounded-[2rem] overflow-x-auto no-scrollbar gap-2">
+                {CROP_GUIDE_DATA.map(c => (
+                  <button
+                    key={c.id}
+                    onClick={() => setSelectedCropId(c.id)}
+                    className={`px-5 py-3.5 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all flex items-center gap-2.5 whitespace-nowrap cursor-pointer ${
+                      selectedCropId === c.id ? 'bg-green-800 text-white shadow-xl scale-105 ring-4 ring-green-700/20' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                    }`}
+                  >
+                    <span className="text-base">{c.icon}</span> {c.name.split(' ')[0]}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Agronomy Specs Cards */}
@@ -468,7 +610,7 @@ const Dashboard: React.FC<Props> = ({ user }) => {
             {/* Step-by-Step Roadmap */}
             <div className="space-y-4 pt-4 border-t border-slate-100">
               <h4 className="text-xl font-black outfit text-slate-800 tracking-tight flex items-center gap-3">
-                <Compass className="text-green-600" /> Complete Step-by-Step Cultivation Roadmap
+                <Compass className="text-green-600" /> Cultivation Steps for <span className="text-green-700 underline underline-offset-4 decoration-2">{selectedCropGuide.name}</span>
               </h4>
 
               <div className="space-y-4">

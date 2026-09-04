@@ -732,7 +732,7 @@ export const generatePreventivePlan = async (params: PreventivePlanParams): Prom
     const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
-      contents: `Architect a comprehensive Disease Prevention & Defense Plan for:
+      contents: `Architect an EXTREMELY DETAILED, HIGH-INTEGRITY Disease Prevention & Defense Plan for:
 Crop Specimen: ${params.cropName}
 Growth Stage: ${params.growthStage}
 Location/Zone: ${params.location}
@@ -740,41 +740,61 @@ Weather Conditions: ${params.weatherConditions}
 Soil Type: ${params.soilType}
 Previous Disease History: ${params.previousDiseaseHistory || 'None reported'}
 
-Format your response clearly into these exact sections:
+Provide at least 5-6 detailed bullet points for EVERY section below:
+
 ### HIGH-RISK DISEASE IDENTIFICATION
-- List identified risks and environmental triggers
+- Detail primary fungal, bacterial, viral, and pest threats with exact symptoms, vectoring triggers, and damage thresholds.
 
 ### PREVENTIVE ACTION PLAN
-- Provide organic and chemical preventive measures
+- Detail 3 organic/biological pathways (bio-fungicides, botanicals, predatory insects, bio-inoculants).
+- Detail 3 chemical cover sprays with exact chemical names, dosage (g/L or ml/L), and application timing.
 
 ### 7-DAY MONITORING PROTOCOL
-- Step-by-step daily observations and action items
+- Provide day-by-day observation routines (Days 1 to 7) covering foliage inspect, canopy airflow, root turgidity, and humidity tracking.
 
 ### WEATHER-BASED INTELLIGENCE ALERTS
-- Weather-specific risk mitigation advice
+- Micro-climate advisories (humidity %, temperature spikes, dew point, rainfall management, irrigation adjustments).
 
 ### SUSTAINABILITY & SOIL HEALTH SCORE
-- Ecological impact and soil preservation tips`,
+- Long-term soil resilience protocols (humus enrichment, green manuring, bio-char, Trichoderma soil drenches, eco-impact rating).`,
     });
     if (response && response.text) return response.text;
   } catch (e: any) {
     console.warn("Gemini generatePreventivePlan API warning - using local fallback:", e?.message);
   }
   return `### HIGH-RISK DISEASE IDENTIFICATION
-- **Fungal Blight & Leaf Spot**: High risk due to foliage moisture and high atmospheric humidity.
-- **Root Rot / Damping-Off**: Moderate risk in heavy or waterlogged soil conditions.
+- **Fungal Blight (Alternaria / Phytophthora solani)**: Elevated risk under high relative humidity (>75%) and leaf wetness. Causes necrotic dark target-like spots on foliage.
+- **Powdery & Downy Mildew (Erysiphe cichoracearum)**: Spreading risk in warm days and humid nights; manifests as white powdery fungal growth on upper leaf surfaces.
+- **Bacterial Leaf Streak & Wilt (Xanthomonas oryzae / Ralstonia)**: Risk of systemic vascular infection via open root cuts during high rainfall.
+- **Aphid & Whitefly Viral Vectoring**: Sap-sucking insects carry Yellow Vein Mosaic Virus (YVMV); multiplies rapidly in dry thermal spells.
+- **Root Rot & Damping-Off (Pythium / Rhizoctonia spp.)**: High threat in heavy or poorly drained soils during seedling to vegetative transitions.
 
 ### PREVENTIVE ACTION PLAN
-- **Organic**: Apply Neem Seed Kernel Extract (NSKE 5%) or Trichoderma viride bio-fungicide @ 5g/L weekly.
-- **Chemical**: Apply Copper Oxychloride 50% WP @ 3g/L or Mancozeb 75% WP @ 2.5g/L as a protective cover spray.
+- **Organic Bio-Fungicide Pathway**: Spray Trichoderma viride or Pseudomonas fluorescens @ 5g/L water during early morning hours to colonize leaf surface.
+- **Botanical Neem Protection**: Apply cold-pressed Neem Oil (10,000 ppm) @ 5ml/L + 1ml liquid soap solution as a broad-spectrum anti-feedant.
+- **Yellow & Blue Sticky Traps**: Deploy 15 yellow and blue sticky traps per acre at crop canopy height for early vector monitoring.
+- **Chemical Protective Shield**: Foliar spray of Copper Oxychloride 50% WP @ 3g/L or Mancozeb 75% WP @ 2.5g/L as a protective barrier spray before spore germination.
+- **Systemic Intervention Protocol**: For severe outbreaks, apply Difenoconazole 25% EC @ 1ml/L or Azoxystrobin 23% SC @ 1ml/L at 12-day intervals.
+- **Canopy Ventilation & Pruning**: Prune lower 15cm leaves touching the soil line to eliminate rain-splash spore transmission and improve micro-climate airflow.
 
 ### 7-DAY MONITORING PROTOCOL
-- Inspect leaf undersides daily for early spore lesions.
-- Ensure proper row spacing and canopy pruning for optimal airflow.
+- **Day 1 (Foliage Baseline)**: Inspect 20 random plant specimens across 4 field quadrants for lower-leaf yellowing or chlorotic lesions.
+- **Day 2 (Moisture & Canopy Inspection)**: Measure soil moisture at 15cm depth; verify drip line emitters are unclogged and free of fungal slime.
+- **Day 3 (Vector Scouting)**: Check leaf undersides and tender shoot tips for thrips and aphid clusters using 10x hand magnifying lens.
+- **Day 4 (Bio-Fungicide Re-Application)**: Apply bio-fungicide foliar drench if morning dew duration exceeds 4 consecutive hours.
+- **Day 5 (Nutrient Resilience Check)**: Foliar spray Potassium Silicate @ 2g/L to thicken plant cell walls and enhance mechanical resistance against fungal hyphae penetration.
+- **Day 6 (Root Health Drenching)**: Inspect root turgidity of edge specimens; apply Pseudomonas drench @ 10g/L if root discoloration is noticed.
+- **Day 7 (Evaluation & Protocol Logging)**: Calculate field health index score; record observation telemetry into AgroPlay digital dossier.
 
 ### WEATHER-BASED INTELLIGENCE ALERTS
-- Avoid overhead sprinkler irrigation during high humidity windows.
+- **Humidity & Temperature Threshold**: Relative humidity >80% at 26°C accelerates spore germination by 300%. Delay overhead sprinkler irrigation.
+- **Rainfall Runoff Control**: Ensure field drainage channels are clear of debris to prevent waterlogging around root zones during heavy downpours.
+- **Wind Vectoring Advisory**: Avoid chemical spraying during wind speeds >12 km/h to eliminate spray drift to non-target vegetation.
+- **Sunlight & UV Maximization**: Ensure rows are aligned North-South for maximum canopy solar penetration and rapid morning leaf drying.
 
 ### SUSTAINABILITY & SOIL HEALTH SCORE
-- Soil Eco Score: 94/100. Incorporate organic compost and straw mulching.`;
+- **Bio-Organic Humus Rating**: 94/100 Health Integrity. Organic carbon density maintained >0.75%.
+- **Bio-Char Soil Amendment**: Incorporate 500kg/acre rice husk bio-char to improve cation exchange capacity (CEC) and beneficial microbial retention.
+- **Crop Rotation Protocol**: Rotate crop sequence with non-host legume species (e.g. Chickpea/Dhaincha) to break soil-borne pathogen cycles.
+- **Green Manuring Drive**: Sow Sesbania aculeata (Dhaincha) prior to main crop and field-plough at 45 days stage to add 25kg/ha atmospheric nitrogen.`;
 };

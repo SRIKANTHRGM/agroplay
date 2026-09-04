@@ -42,6 +42,104 @@ interface Props {
   user: UserProfile;
 }
 
+const CROP_GUIDE_DATA = [
+  {
+    id: 'tomato',
+    name: 'Tomato (Solanum lycopersicum)',
+    icon: '🍅',
+    category: 'Vegetable / Solanaceous',
+    spacing: '60 cm Row × 45 cm Plant spacing (Raised Beds)',
+    waterRequirement: '2 – 4 Liters / Plant / Day (400 – 600 mm / Season)',
+    waterFrequency: 'Drip fertigation every 2 days; critical at flowering & fruit setting',
+    soilPh: 'Well-drained Sandy Loam | pH 6.0 – 7.0',
+    npkRatio: '120 N : 60 P : 60 K (kg/ha)',
+    maturity: '110 – 120 Days',
+    steps: [
+      { step: 1, title: 'Land Prep & Compost', desc: 'Plough twice to 25cm depth. Incorporate 10 tonnes/ha well-decomposed FYM compost and form raised beds (1m width).' },
+      { step: 2, title: 'Seedling & Spacing', desc: 'Transplant 25-day healthy seedlings at 60cm row × 45cm plant spacing. Drench roots with Trichoderma viride.' },
+      { step: 3, title: 'Drip Fertigation', desc: 'Install 16mm drip lines with 30cm emitter spacing. Supply NPK fertilizer in 10 split doses every 5 days.' },
+      { step: 4, title: 'Staking & Canopy Pruning', desc: 'Erect bamboo stakes at 30 days; prune bottom suckers up to 15cm to enhance air ventilation and reduce blight.' },
+      { step: 5, title: 'Pest Shield & Harvest', desc: 'Spray Neem Oil 5ml/L for whiteflies. Harvest firm red ripe tomatoes in early morning hours.' }
+    ]
+  },
+  {
+    id: 'wheat',
+    name: 'Wheat (Triticum aestivum)',
+    icon: '🌾',
+    category: 'Cereal / Rabi Grain',
+    spacing: '22.5 cm Row Spacing (Continuous Drill Sowing)',
+    waterRequirement: '350 – 500 mm / Season (4 – 6 Critical Irrigations)',
+    waterFrequency: '1st at Crown Root (21d), 2nd at Tillering (45d), 3rd at Flowering (85d)',
+    soilPh: 'Fertile Loam to Clay Loam | pH 6.0 – 7.5',
+    npkRatio: '120 N : 60 P : 40 K (kg/ha)',
+    maturity: '120 – 140 Days',
+    steps: [
+      { step: 1, title: 'Tillage & Fine Tilt', desc: 'Disc plough once followed by two cultivator passes to achieve a pulverized weed-free seedbed.' },
+      { step: 2, title: 'Seed Treatment & Drill', desc: 'Treat seed with Carboxin @ 2g/kg seed; drill sow at 22.5cm row spacing at 4-5cm depth.' },
+      { step: 3, title: 'Crown Root Irrigation', desc: 'Provide 1st irrigation strictly at 21 days post-sowing (CRI stage) for root node initiation.' },
+      { step: 4, title: 'Nitrogen Top-Dressing', desc: 'Apply half Urea at sowing; top-dress balance in two split doses during 1st and 2nd irrigations.' },
+      { step: 5, title: 'Harvesting & Storage', desc: 'Harvest when panicles turn golden yellow and grain moisture drops below 12%.' }
+    ]
+  },
+  {
+    id: 'rice',
+    name: 'Paddy / Rice (Oryza sativa)',
+    icon: '🍚',
+    category: 'Cereal / Kharif Staple',
+    spacing: '20 cm Row × 15 cm Hill spacing (2-3 seedlings/hill)',
+    waterRequirement: '1200 – 1400 mm / Season (Keep 3-5cm shallow water depth)',
+    waterFrequency: 'Continuous shallow flooding or Alternate Wetting and Drying (AWD)',
+    soilPh: 'Clay Loam / Heavy Clay | pH 5.5 – 6.5',
+    npkRatio: '100 N : 50 P : 50 K (kg/ha)',
+    maturity: '115 – 135 Days',
+    steps: [
+      { step: 1, title: 'Nursery & Puddling', desc: 'Prepare raised nursery beds (1/10th field area); puddle main field twice to create impermeable pan.' },
+      { step: 2, title: 'Transplanting', desc: 'Transplant 21-day seedlings at 20cm × 15cm spacing with 2-3 seedlings per hill at 2cm depth.' },
+      { step: 3, title: 'Water & Nutrient Regimen', desc: 'Maintain 3-5cm water level; apply Azospirillum bio-fertilizer @ 2kg/ha mixed with organic manure.' },
+      { step: 4, title: 'Stem Borer & Blight Guard', desc: 'Deploy Trichogramma egg parasitoid cards @ 2 cards/acre against stem borer attacks.' },
+      { step: 5, title: 'Drainage & Harvest', desc: 'Drain field 10 days before harvest; combine harvest when 85% panicles turn golden brown.' }
+    ]
+  },
+  {
+    id: 'mango',
+    name: 'Mango Tree (Mangifera indica)',
+    icon: '🥭',
+    category: 'Perennial Fruit Orchard / Tree',
+    spacing: '10 m × 10 m (Standard) or 5 m × 5 m (High Density)',
+    waterRequirement: '40 – 80 Liters / Tree / Day (Young) | 150 – 200 L/Day (Bearing)',
+    waterFrequency: 'Irrigate every 3-4 days for young trees; stop 2 months before bloom',
+    soilPh: 'Deep Red Sandy Loam to Alluvial | pH 5.5 – 7.5',
+    npkRatio: '1000g N : 500g P : 1000g K per mature tree / year',
+    maturity: '3–5 Years to bearing | Fruit maturity 110–120 days post bloom',
+    steps: [
+      { step: 1, title: 'Pit Excavation', desc: 'Dig 1m × 1m × 1m pits 1 month prior; fill with topsoil + 50kg FYM + 1kg Single Superphosphate.' },
+      { step: 2, title: 'Graft Planting & Staking', desc: 'Plant graft sapling keeping union 15cm above ground; stake with bamboo and water immediately.' },
+      { step: 3, title: 'Canopy Architecture', desc: 'Train single trunk up to 1m height; maintain 3-4 main scaffold branches in open-center design.' },
+      { step: 4, title: 'Flowering Induction', desc: 'Apply Paclobutrazol @ 3-5ml per meter canopy diameter in September for profuse flowering.' },
+      { step: 5, title: 'Fruit Picking & De-sapping', desc: 'Harvest mature fruits with 1cm pedicel using pole pickers to avoid sap burn on skin.' }
+    ]
+  },
+  {
+    id: 'cotton',
+    name: 'Cotton (Gossypium hirsutum)',
+    icon: '☁️',
+    category: 'Commercial Fiber Crop',
+    spacing: '90 cm Row × 60 cm Plant spacing',
+    waterRequirement: '700 – 1200 mm / Season (7 – 10 Liters / Plant / Day in bloom)',
+    waterFrequency: 'Irrigate every 10-14 days during square formation and boll opening',
+    soilPh: 'Deep Black Cotton Soil / Alluvial | pH 6.5 – 8.0',
+    npkRatio: '150 N : 75 P : 75 K (kg/ha)',
+    maturity: '150 – 180 Days',
+    steps: [
+      { step: 1, title: 'Deep Sub-Soiling', desc: 'Plough deep to break hard pan; form ridges and furrows at 90cm row distance.' },
+      { step: 2, title: 'Dibbling Seeds', desc: 'Dibble delinted seeds along ridges at 60cm spacing at 3cm depth.' },
+      { step: 3, title: 'Terminal Nipping', desc: 'Nip terminal growing tip at 80-90 days to encourage lateral fruiting branches.' },
+      { step: 4, title: 'Pink Bollworm Defense', desc: 'Install 8 pheromone traps/acre; spray NSKE 5% for sucking pests at first flush.' },
+      { step: 5, title: 'Boll Picking', desc: 'Pick fully opened fluffy white bolls in sunny weather after morning dew dries.' }
+    ]
+  }
+];
+
 const Dashboard: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const [msgInput, setMsgInput] = useState('');
@@ -51,6 +149,9 @@ const Dashboard: React.FC<Props> = ({ user }) => {
   const [statCounters, setStatCounters] = useState({ temp: 0, moisture: 0, humidity: 0 });
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [isSeedViabilityOpen, setIsSeedViabilityOpen] = useState(false);
+  const [selectedCropId, setSelectedCropId] = useState<string>('tomato');
+
+  const selectedCropGuide = CROP_GUIDE_DATA.find(c => c.id === selectedCropId) || CROP_GUIDE_DATA[0];
 
   // Yield Prediction States
   const [prediction, setPrediction] = useState<any>(null);
@@ -298,6 +399,91 @@ const Dashboard: React.FC<Props> = ({ user }) => {
                    )}
                 </div>
              </div>
+          </div>
+
+          {/* Crop Cultivation Guide & Roadmap Section */}
+          <div className="bg-white rounded-[3.5rem] p-10 border border-slate-100 shadow-xl space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-green-100 text-green-700 rounded-[1.5rem] flex items-center justify-center font-bold text-3xl shadow-inner">
+                  {selectedCropGuide.icon}
+                </div>
+                <div>
+                  <h3 className="text-3xl font-black outfit text-slate-800 tracking-tight">Crop Cultivation Master Roadmap</h3>
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Select a crop for tree/plant spacing, water volume & step-by-step roadmap</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Crop Selection Buttons */}
+            <div className="flex p-2 bg-slate-100 rounded-[2rem] overflow-x-auto no-scrollbar gap-2">
+              {CROP_GUIDE_DATA.map(c => (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCropId(c.id)}
+                  className={`px-6 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all flex items-center gap-3 whitespace-nowrap ${
+                    selectedCropId === c.id ? 'bg-green-700 text-white shadow-xl scale-105' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                  }`}
+                >
+                  <span>{c.icon}</span> {c.name.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+
+            {/* Agronomy Specs Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-green-50/60 p-6 rounded-[2rem] border border-green-100/60 space-y-2">
+                <div className="flex items-center gap-2 text-green-700 font-black text-[10px] uppercase tracking-widest">
+                  <Sprout size={16} /> Tree / Plant Spacing
+                </div>
+                <p className="text-slate-800 font-bold text-base leading-snug">{selectedCropGuide.spacing}</p>
+              </div>
+
+              <div className="bg-blue-50/60 p-6 rounded-[2rem] border border-blue-100/60 space-y-2">
+                <div className="flex items-center gap-2 text-blue-700 font-black text-[10px] uppercase tracking-widest">
+                  <Droplets size={16} /> Water Needed & Vol.
+                </div>
+                <p className="text-slate-800 font-bold text-base leading-snug">{selectedCropGuide.waterRequirement}</p>
+                <p className="text-slate-500 text-xs font-medium">{selectedCropGuide.waterFrequency}</p>
+              </div>
+
+              <div className="bg-amber-50/60 p-6 rounded-[2rem] border border-amber-100/60 space-y-2">
+                <div className="flex items-center gap-2 text-amber-700 font-black text-[10px] uppercase tracking-widest">
+                  <Thermometer size={16} /> Soil & pH Baseline
+                </div>
+                <p className="text-slate-800 font-bold text-base leading-snug">{selectedCropGuide.soilPh}</p>
+                <p className="text-slate-500 text-xs font-medium">NPK Ratio: {selectedCropGuide.npkRatio}</p>
+              </div>
+
+              <div className="bg-purple-50/60 p-6 rounded-[2rem] border border-purple-100/60 space-y-2">
+                <div className="flex items-center gap-2 text-purple-700 font-black text-[10px] uppercase tracking-widest">
+                  <Clock size={16} /> Maturity Harvest Cycle
+                </div>
+                <p className="text-slate-800 font-bold text-base leading-snug">{selectedCropGuide.maturity}</p>
+                <p className="text-slate-500 text-xs font-medium">{selectedCropGuide.category}</p>
+              </div>
+            </div>
+
+            {/* Step-by-Step Roadmap */}
+            <div className="space-y-4 pt-4 border-t border-slate-100">
+              <h4 className="text-xl font-black outfit text-slate-800 tracking-tight flex items-center gap-3">
+                <Compass className="text-green-600" /> Complete Step-by-Step Cultivation Roadmap
+              </h4>
+
+              <div className="space-y-4">
+                {selectedCropGuide.steps.map((st) => (
+                  <div key={st.step} className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex gap-6 items-start hover:bg-green-50/30 transition-all">
+                    <div className="w-12 h-12 bg-green-700 text-white rounded-2xl flex items-center justify-center font-black outfit text-xl shrink-0 shadow-lg">
+                      {st.step}
+                    </div>
+                    <div className="space-y-1">
+                      <h5 className="text-lg font-black text-slate-800 outfit tracking-tight">{st.title}</h5>
+                      <p className="text-slate-600 text-sm font-medium leading-relaxed">{st.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* AI Assistant - Dynamic Interaction */}

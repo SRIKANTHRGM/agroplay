@@ -95,10 +95,10 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
         <div className="max-w-6xl mx-auto space-y-12 page-transition pb-24">
             <div className="text-center space-y-4">
                 <div className="inline-flex items-center gap-2 px-6 py-2 bg-blue-100 text-blue-700 rounded-full font-black text-[10px] tracking-widest uppercase border border-blue-200 shadow-sm">
-                    <ShieldCheck size={14} className="animate-pulse" /> {t('preventive_ai.shield_intelligence')}
+                    <ShieldCheck size={14} className="animate-pulse" /> {t('preventive_ai.shield_intelligence', 'PREVENTIVE INTELLIGENCE')}
                 </div>
-                <h2 className="text-5xl font-black text-white outfit tracking-tighter">{t('preventive_ai.title')}</h2>
-                <p className="text-slate-300 max-w-2xl mx-auto text-xl font-medium">{t('preventive_ai.subtitle')}</p>
+                <h2 className="text-5xl font-black text-slate-800 outfit tracking-tighter">{t('preventive_ai.title', 'Disease Pro-Shield AI')}</h2>
+                <p className="text-slate-600 max-w-2xl mx-auto text-xl font-medium">{t('preventive_ai.subtitle', 'Proactive crop protection system. Predict risks and implement defenses before diseases strike.')}</p>
             </div>
 
             {!plan ? (
@@ -108,7 +108,7 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                         <div className="lg:col-span-7 space-y-10">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.crop_specimen')}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.crop_specimen', 'Crop Specimen')}</label>
                                     <div className="relative group">
                                         <Leaf className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={24} />
                                         <input
@@ -116,13 +116,13 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                             value={params.cropName}
                                             onChange={(e) => setParams({ ...params, cropName: e.target.value })}
                                             className="w-full pl-16 pr-8 py-6 bg-slate-50 border-none rounded-[2rem] focus:ring-4 focus:ring-blue-500/10 transition-all font-black outfit text-xl shadow-inner placeholder:text-slate-300 text-slate-900"
-                                            placeholder={t('preventive_ai.crop_placeholder')}
+                                            placeholder={t('preventive_ai.crop_placeholder', 'e.g. Tomato, Rice, Wheat')}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.growth_stage')}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.growth_stage', 'Growth Stage')}</label>
                                     <div className="relative group">
                                         <Activity className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={24} />
                                         <select
@@ -137,7 +137,7 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.deployment_zone')}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.deployment_zone', 'Deployment Zone')}</label>
                                     <div className="relative group">
                                         <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={24} />
                                         <input
@@ -145,13 +145,13 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                             value={params.location}
                                             onChange={(e) => setParams({ ...params, location: e.target.value })}
                                             className="w-full pl-16 pr-8 py-6 bg-slate-50 border-none rounded-[2rem] focus:ring-4 focus:ring-blue-500/10 transition-all font-black outfit text-xl shadow-inner placeholder:text-slate-300 text-slate-900"
-                                            placeholder={t('preventive_ai.location_placeholder')}
+                                            placeholder={t('preventive_ai.location_placeholder', 'e.g. Ludhiana, PB')}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.weather_snapshot')}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.weather_snapshot', 'Weather Snapshot')}</label>
                                     <div className="relative group">
                                         <CloudSun className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={24} />
                                         <input
@@ -159,20 +159,20 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                             value={params.weatherConditions}
                                             onChange={(e) => setParams({ ...params, weatherConditions: e.target.value })}
                                             className="w-full pl-16 pr-8 py-6 bg-slate-50 border-none rounded-[2rem] focus:ring-4 focus:ring-blue-500/10 transition-all font-black outfit text-xl shadow-inner placeholder:text-slate-300 text-slate-900"
-                                            placeholder={t('preventive_ai.weather_placeholder')}
+                                            placeholder={t('preventive_ai.weather_placeholder', 'Temp 28°C, Humidity 75%, Rain')}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-4 md:col-span-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.disease_history')}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">{t('preventive_ai.disease_history', 'Disease History & Environment (Optional)')}</label>
                                     <div className="relative group">
                                         <AlertTriangle className="absolute left-6 top-8 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={24} />
                                         <textarea
                                             value={params.previousDiseaseHistory}
                                             onChange={(e) => setParams({ ...params, previousDiseaseHistory: e.target.value })}
                                             className="w-full pl-16 pr-8 py-6 bg-slate-50 border-none rounded-[2rem] focus:ring-4 focus:ring-blue-500/10 transition-all font-black outfit text-xl shadow-inner placeholder:text-slate-300 text-slate-900 min-h-[120px]"
-                                            placeholder={t('preventive_ai.history_placeholder')}
+                                            placeholder={t('preventive_ai.history_placeholder', 'Any previous disease outbreaks or specific soil concerns?')}
                                         />
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
 
                             <button onClick={handleGenerate} disabled={loading} className="w-full bg-slate-900 text-white py-8 rounded-[2.5rem] font-black text-2xl flex items-center justify-center gap-6 shadow-[0_25px_50px_rgba(30,58,138,0.3)] hover:bg-slate-800 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 mt-4">
                                 {loading ? <Loader2 className="animate-spin" size={32} /> : <ShieldCheck size={32} fill="currentColor" />}
-                                {loading ? t('preventive_ai.loading_btn') : t('preventive_ai.start_btn')}
+                                {loading ? t('preventive_ai.loading_btn', 'ANALYZING THREATS...') : t('preventive_ai.start_btn', 'ACTIVATE PRO-SHIELD')}
                             </button>
                         </div>
 
@@ -191,16 +191,16 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                 <Zap size={64} strokeWidth={1} fill="currentColor" />
                             </div>
                             <div className="space-y-4">
-                                <p className="text-3xl font-black text-slate-800 outfit tracking-tighter uppercase">{t('preventive_ai.predictive_edge')}</p>
+                                <p className="text-3xl font-black text-slate-800 outfit tracking-tighter uppercase">{t('preventive_ai.predictive_edge', 'Predictive Edge')}</p>
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-3 text-slate-400 text-[10px] font-black uppercase tracking-widest">
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_8px_#3b82f6]" /> {t('preventive_ai.ai_model')}
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_8px_#3b82f6]" /> {t('preventive_ai.ai_model', 'AI Model: AgroShield v3.6')}
                                     </div>
                                     <div className="flex items-center gap-3 text-slate-400 text-[10px] font-black uppercase tracking-widest">
-                                        <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]" /> {t('preventive_ai.accuracy')}
+                                        <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]" /> {t('preventive_ai.accuracy', 'Bio-Metric Accuracy: 96%')}
                                     </div>
                                     <div className="flex items-center gap-3 text-slate-400 text-[10px] font-black uppercase tracking-widest">
-                                        <div className="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_8px_#f59e0b]" /> {t('preventive_ai.risk_analysis')}
+                                        <div className="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_8px_#f59e0b]" /> {t('preventive_ai.risk_analysis', 'Regional Risk Analysis')}
                                     </div>
                                 </div>
                             </div>
@@ -216,8 +216,8 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                     <ShieldCheck size={40} />
                                 </div>
                                 <div>
-                                    <h3 className="text-4xl font-black outfit tracking-tighter text-slate-800">{t('preventive_ai.blueprint')}</h3>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">{t('preventive_ai.threat_level', { crop: params.cropName.toUpperCase() })}</p>
+                                    <h3 className="text-4xl font-black outfit tracking-tighter text-slate-800">{t('preventive_ai.blueprint', 'Prevention Blueprint')}</h3>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">{t('preventive_ai.threat_level', `THREAT LEVEL: CALCULATED FOR ${(params.cropName || 'CROP').toUpperCase()}`)}</p>
                                 </div>
                             </div>
                             <div className="flex flex-wrap items-center gap-4">
@@ -229,7 +229,7 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                 </div>
                                 <button onClick={handleTranslate} disabled={translating} className="bg-slate-900 text-white px-10 py-5 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center gap-3 shadow-xl">
                                     {translating ? <Loader2 className="animate-spin" size={16} /> : <Languages size={16} />}
-                                    {translating ? t('preventive_ai.localizing') : t('preventive_ai.apply_translation')}
+                                    {translating ? t('preventive_ai.localizing', 'LOCALIZING...') : t('preventive_ai.apply_translation', 'APPLY TRANSLATION')}
                                 </button>
                             </div>
                         </div>
@@ -250,19 +250,19 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
 
                         <div className="p-12 md:p-24 prose prose-xl prose-slate max-w-none">
                             {renderedLines.map((line, i) => {
-                                const t = line.trim();
-                                if (!t) return <div key={i} className="h-6" />;
-                                if (t.startsWith('###')) return (
+                                const lineStr = line.trim();
+                                if (!lineStr) return <div key={i} className="h-6" />;
+                                if (lineStr.startsWith('###')) return (
                                     <h3 key={i} className="text-4xl font-black text-slate-900 outfit mt-16 mb-10 border-l-8 border-blue-500 pl-8 leading-none uppercase tracking-tighter">
-                                        {t.replace('###', '').trim()}
+                                        {lineStr.replace('###', '').trim()}
                                     </h3>
                                 );
-                                if (t.startsWith('-')) return (
+                                if (lineStr.startsWith('-')) return (
                                     <div key={i} className="flex gap-6 mb-8 items-start animate-in slide-in-from-left-4" style={{ animationDelay: `${i * 50}ms` }}>
                                         <div className="w-4 h-4 bg-blue-500 rounded-lg mt-2 flex-shrink-0 shadow-[0_0_15px_#3b82f6] rotate-45" />
                                         <div className="text-slate-800 m-0 leading-relaxed font-medium text-lg">
-                                            {t.includes('**') ? (() => {
-                                                const match = t.match(/\*\*(.*?)\*\*(.*)/);
+                                            {lineStr.includes('**') ? (() => {
+                                                const match = lineStr.match(/\*\*(.*?)\*\*(.*)/);
                                                 if (match) {
                                                     return (
                                                         <>
@@ -271,12 +271,12 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                                         </>
                                                     );
                                                 }
-                                                return t.replace('-', '').trim();
-                                            })() : t.replace('-', '').trim()}
+                                                return lineStr.replace('-', '').trim();
+                                            })() : lineStr.replace('-', '').trim()}
                                         </div>
                                     </div>
                                 );
-                                return <p key={i} className="text-slate-800 text-2xl font-medium leading-relaxed mb-10">{t}</p>;
+                                return <p key={i} className="text-slate-800 text-2xl font-medium leading-relaxed mb-10">{lineStr}</p>;
                             })}
                         </div>
 
@@ -286,19 +286,19 @@ const PreventiveAI: React.FC<Props> = ({ user }) => {
                                     <Star size={36} fill="currentColor" />
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-slate-900 font-black outfit text-2xl tracking-tight">{t('preventive_ai.excellence_title')}</p>
-                                    <p className="text-slate-700 font-medium">{t('preventive_ai.excellence_desc')}</p>
+                                    <p className="text-slate-900 font-black outfit text-2xl tracking-tight">{t('preventive_ai.excellence_title', 'Prevention Excellence')}</p>
+                                    <p className="text-slate-700 font-medium">{t('preventive_ai.excellence_desc', 'Your prevention blueprint has been architected with 98% health integrity.')}</p>
                                 </div>
                             </div>
                             <button className="w-full md:w-auto px-16 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-[1.8rem] font-black text-lg hover:shadow-2xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 shadow-xl">
-                                <Download size={24} /> {t('preventive_ai.export_pdf')}
+                                <Download size={24} /> {t('preventive_ai.export_pdf', 'EXPORT PDF PROTOCOL')}
                             </button>
                         </div>
                     </div>
 
                     <div className="flex justify-center pt-10">
                         <button onClick={() => setPlan(null)} className="flex items-center gap-3 px-10 py-5 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
-                            <RefreshCw size={18} /> {t('preventive_ai.reset')}
+                            <RefreshCw size={18} /> {t('preventive_ai.reset', 'Reset Bio-Analytics')}
                         </button>
                     </div>
                 </div>

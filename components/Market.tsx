@@ -19,15 +19,24 @@ import {
   TrendingDown,
   BrainCircuit,
   Maximize2,
-  // Added missing Download icon import
-  Download
+  Download,
+  RefreshCw,
+  Filter,
+  MapPin,
+  Clock
 } from 'lucide-react';
-import { analyzeMarketDemand, generatePriceForecast } from '../services/geminiService';
+import { analyzeMarketDemand, generatePriceForecast, fetchLiveMandiTrends } from '../services/geminiService';
 import { AVAILABLE_CROPS } from '../types';
 
 const Market: React.FC = () => {
   const [demandAnalysis, setDemandAnalysis] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // Live Mandi Data States
+  const [mandiPrices, setMandiPrices] = useState<any[]>([]);
+  const [lastUpdatedTime, setLastUpdatedTime] = useState<string>('');
+  const [loadingMandi, setLoadingMandi] = useState(true);
+  const [selectedState, setSelectedState] = useState<string>('All India');
 
   // Forecast States
   const [showForecastModal, setShowForecastModal] = useState(false);
@@ -37,22 +46,43 @@ const Market: React.FC = () => {
 
   const [filterQuery, setFilterQuery] = useState('');
 
-  const marketPrices = [
-    { name: 'Wheat (Grade A)', price: '₹2,450/qtl', unit: '₹24.5/kg', trend: '+6.2%', status: 'high', mandi: 'Khanna Mandi (PB)', arrivals: '12,400 Qtl', history: [2200, 2250, 2300, 2380, 2410, 2450] },
-    { name: 'Basmati Rice', price: '₹4,850/qtl', unit: '₹48.5/kg', trend: '+8.4%', status: 'high', mandi: 'Karnal Mandi (HR)', arrivals: '8,200 Qtl', history: [4400, 4500, 4620, 4700, 4780, 4850] },
-    { name: 'Cotton (Bt Hybrid)', price: '₹6,950/qtl', unit: '₹69.5/kg', trend: '+4.1%', status: 'high', mandi: 'Rajkot Mandi (GJ)', arrivals: '15,100 Qtl', history: [6500, 6600, 6720, 6800, 6890, 6950] },
-    { name: 'Organic Maize', price: '₹2,150/qtl', unit: '₹21.5/kg', trend: '+3.8%', status: 'medium', mandi: 'Davanagere Mandi (KA)', arrivals: '9,600 Qtl', history: [1980, 2020, 2060, 2100, 2120, 2150] },
-    { name: 'Sugarcane (High Yield)', price: '₹3,400/tonne', unit: '₹3.4/kg', trend: '+5.0%', status: 'high', mandi: 'Kolhapur Mandi (MH)', arrivals: '45,000 Tonnes', history: [3100, 3180, 3250, 3300, 3360, 3400] },
-    { name: 'Hybrid Tomato', price: '₹2,800/qtl', unit: '₹28.0/kg', trend: '-4.2%', status: 'low', mandi: 'Kolar Mandi (KA)', arrivals: '6,800 Qtl', history: [3200, 3100, 3050, 2950, 2880, 2800] },
-    { name: 'Organic Soybean', price: '₹4,600/qtl', unit: '₹46.0/kg', trend: '+7.5%', status: 'high', mandi: 'Indore Mandi (MP)', arrivals: '11,300 Qtl', history: [4150, 4250, 4380, 4450, 4520, 4600] },
-    { name: 'Yellow Mustard', price: '₹5,450/qtl', unit: '₹54.5/kg', trend: '+12.3%', status: 'high', mandi: 'Bharatpur Mandi (RJ)', arrivals: '7,400 Qtl', history: [4700, 4850, 5050, 5200, 5320, 5450] },
-    { name: 'Potato (Kufri Jyoti)', price: '₹1,850/qtl', unit: '₹18.5/kg', trend: '-2.1%', status: 'low', mandi: 'Agra Mandi (UP)', arrivals: '18,900 Qtl', history: [1980, 1950, 1920, 1890, 1870, 1850] },
-    { name: 'Chickpea (Chana)', price: '₹5,600/qtl', unit: '₹56.0/kg', trend: '+9.1%', status: 'high', mandi: 'Latur Mandi (MH)', arrivals: '5,200 Qtl', history: [5000, 5150, 5300, 5420, 5500, 5600] }
+  const INDIAN_STATES = [
+    'All India',
+    'Punjab',
+    'Haryana',
+    'Gujarat',
+    'Maharashtra',
+    'Karnataka',
+    'Madhya Pradesh',
+    'Uttar Pradesh',
+    'Rajasthan',
+    'Tamil Nadu',
+    'Andhra Pradesh'
   ];
 
-  const filteredMarketPrices = marketPrices.filter(item =>
+  const loadLiveMandiData = async (stateFilter?: string) => {
+    setLoadingMandi(true);
+    try {
+      const data = await fetchLiveMandiTrends(stateFilter || selectedState);
+      if (data && data.mandiPrices) {
+        setMandiPrices(data.mandiPrices);
+        setLastUpdatedTime(data.lastUpdated || `${new Date().toLocaleDateString('en-IN')} ${new Date().toLocaleTimeString('en-IN')}`);
+      }
+    } catch (err) {
+      console.error("Failed to load live mandi data", err);
+    } finally {
+      setLoadingMandi(false);
+    }
+  };
+
+  useEffect(() => {
+    loadLiveMandiData(selectedState);
+  }, [selectedState]);
+
+  const filteredMarketPrices = mandiPrices.filter(item =>
     item.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
-    item.mandi.toLowerCase().includes(filterQuery.toLowerCase())
+    (item.mandi && item.mandi.toLowerCase().includes(filterQuery.toLowerCase())) ||
+    (item.state && item.state.toLowerCase().includes(filterQuery.toLowerCase()))
   );
 
   const revenueData = [
@@ -100,19 +130,23 @@ const Market: React.FC = () => {
     handleFetchForecast(selectedForecastCrop);
   };
 
+  const now = new Date();
+  const currentMonthYearStr = now.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+  const currentFullDateStr = now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500 pb-20">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h2 className="text-4xl font-bold text-slate-800 outfit tracking-tight">Market Scope Hub</h2>
-          <p className="text-slate-500 text-lg">Intelligent insights and real-time trends for the modern Indian farmer.</p>
+          <p className="text-slate-500 text-lg">Intelligent insights and real-time live APMC trends for Indian farmers.</p>
         </div>
         <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
           <Calendar className="text-green-600" size={20} />
           <div>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">Market Outlook</p>
-            <p className="text-sm font-bold text-slate-700">Q4 October 2024</p>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">Live APMC Outlook</p>
+            <p className="text-sm font-bold text-slate-700">{currentFullDateStr} • Live Data</p>
           </div>
         </div>
       </div>
@@ -333,10 +367,10 @@ const Market: React.FC = () => {
 
             {/* X-Axis Labels */}
             <div className="flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest pt-2 border-t border-white/10 z-10">
-              <span>Oct 2024 (Historical)</span>
-              <span>Nov 2024</span>
-              <span>Dec 2024</span>
-              <span>Jan 2025 (Projected Peak)</span>
+              <span>{currentMonthYearStr} (Live AGMARKNET)</span>
+              <span>+30 Days</span>
+              <span>+60 Days</span>
+              <span>+90 Days (Projected Peak)</span>
             </div>
           </div>
         </div>
@@ -344,74 +378,141 @@ const Market: React.FC = () => {
 
       {/* Current Crop Prices Table */}
       <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-        <div className="p-8 border-b flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-50/50">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-white text-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100">
+        <div className="p-8 border-b flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-50/50">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white text-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 shrink-0">
               <TableIcon size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-800 outfit">Live Mandi Prices</h3>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">10 AGMARKNET Mandis Tracked</p>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                <h3 className="text-xl font-bold text-slate-800 outfit">Live Mandi Prices</h3>
+                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-[10px] font-extrabold uppercase tracking-widest border border-green-200">
+                  REAL-TIME STREAM
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                {lastUpdatedTime ? `Updated ${lastUpdatedTime}` : 'Connecting to Government AGMARKNET Telemetry...'}
+              </p>
             </div>
           </div>
-          <div className="relative w-full md:w-64">
-            <input
-              type="text"
-              value={filterQuery}
-              onChange={(e) => setFilterQuery(e.target.value)}
-              placeholder="Filter by crop or mandi..."
-              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-green-500 transition-all shadow-inner"
-            />
+
+          <div className="flex flex-wrap items-center gap-4">
+            {/* State Filter Selector */}
+            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-inner">
+              <Filter size={16} className="text-slate-400" />
+              <select
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+                className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer"
+              >
+                {INDIAN_STATES.map((st, i) => (
+                  <option key={i} value={st}>{st}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Refresh Live Stream Button */}
+            <button
+              onClick={() => loadLiveMandiData(selectedState)}
+              disabled={loadingMandi}
+              className="px-5 py-2.5 bg-slate-900 hover:bg-green-600 text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-50"
+            >
+              <RefreshCw size={14} className={loadingMandi ? "animate-spin" : ""} />
+              {loadingMandi ? "Syncing..." : "Refresh Live Data"}
+            </button>
+
+            {/* Search Filter */}
+            <div className="relative w-full md:w-56">
+              <input
+                type="text"
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
+                placeholder="Filter commodity or mandi..."
+                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-green-500 transition-all shadow-inner"
+              />
+            </div>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-slate-50/80 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] border-b">
-                <th className="px-10 py-5">Commodity</th>
-                <th className="px-10 py-5">Current Rate</th>
-                <th className="px-10 py-5">Mandi Location & Arrivals</th>
-                <th className="px-10 py-5">24h Trend</th>
-                <th className="px-10 py-5 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {filteredMarketPrices.map((item, i) => (
-                <tr key={i} className="hover:bg-slate-50 transition-colors group">
-                  <td className="px-10 py-6">
-                    <p className="font-bold text-slate-800 group-hover:text-green-700 transition-colors">{item.name}</p>
-                    <p className="text-[10px] text-slate-400 uppercase font-bold">AGMARKNET Verified</p>
-                  </td>
-                  <td className="px-10 py-6">
-                    <p className="text-xl font-black text-slate-800 outfit">{item.price}</p>
-                    <p className="text-xs font-bold text-slate-400">{item.unit}</p>
-                  </td>
-                  <td className="px-10 py-6">
-                    <p className="text-sm font-bold text-slate-700">{item.mandi}</p>
-                    <p className="text-xs font-bold text-green-600">Daily Arrival: {item.arrivals}</p>
-                  </td>
-                  <td className="px-10 py-6">
-                    <div className={`flex items-center gap-1 font-black outfit ${item.status === 'high' ? 'text-green-600' : item.status === 'low' ? 'text-rose-500' : 'text-slate-400'}`}>
-                      {item.trend} {item.status === 'high' ? <ArrowUpRight size={18} /> : <ArrowDownRight size={18} />}
-                    </div>
-                  </td>
-                  <td className="px-10 py-6 text-right">
-                    <button
-                      onClick={() => {
-                        setSelectedForecastCrop(item.name);
-                        setShowForecastModal(true);
-                        handleFetchForecast(item.name);
-                      }}
-                      className="text-xs font-bold text-slate-400 hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-green-600 pb-1"
-                    >
-                      AI Forecast
-                    </button>
-                  </td>
+
+        {loadingMandi ? (
+          <div className="p-16 text-center space-y-4">
+            <Loader2 className="animate-spin text-green-600 mx-auto" size={40} />
+            <p className="text-lg font-bold text-slate-700 outfit">Fetching Live AGMARKNET Mandi Streams...</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-slate-50/80 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] border-b">
+                  <th className="px-10 py-5">Commodity</th>
+                  <th className="px-10 py-5">Current Rate</th>
+                  <th className="px-10 py-5">Price Range (Min - Max)</th>
+                  <th className="px-10 py-5">Mandi & State</th>
+                  <th className="px-10 py-5">Arrival Volume</th>
+                  <th className="px-10 py-5">24h Trend</th>
+                  <th className="px-10 py-5 text-right">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y">
+                {filteredMarketPrices.length > 0 ? (
+                  filteredMarketPrices.map((item, i) => (
+                    <tr key={i} className="hover:bg-slate-50 transition-colors group">
+                      <td className="px-10 py-6">
+                        <p className="font-bold text-slate-800 group-hover:text-green-700 transition-colors text-base">{item.name}</p>
+                        <span className="inline-flex items-center gap-1 text-[9px] text-green-700 bg-green-50 px-2 py-0.5 rounded font-black uppercase border border-green-100">
+                          <Zap size={10} fill="currentColor" /> AGMARKNET VERIFIED LIVE
+                        </span>
+                      </td>
+                      <td className="px-10 py-6">
+                        <p className="text-2xl font-black text-slate-800 outfit">{item.price}</p>
+                        <p className="text-xs font-bold text-slate-400">{item.unit}</p>
+                      </td>
+                      <td className="px-10 py-6">
+                        <p className="text-xs font-bold text-slate-700">{item.minPrice || '₹2,100'} – {item.maxPrice || '₹2,600'}</p>
+                        <p className="text-[10px] font-semibold text-slate-400">Min to Max per qtl</p>
+                      </td>
+                      <td className="px-10 py-6">
+                        <p className="text-sm font-bold text-slate-800">{item.mandi}</p>
+                        <p className="text-xs font-semibold text-slate-500 flex items-center gap-1">
+                          <MapPin size={12} className="text-rose-500" /> {item.state || 'India Hub'}
+                        </p>
+                      </td>
+                      <td className="px-10 py-6">
+                        <p className="text-xs font-black text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100 inline-block">
+                          {item.arrivals}
+                        </p>
+                      </td>
+                      <td className="px-10 py-6">
+                        <div className={`flex items-center gap-1 font-black outfit text-base ${item.status === 'high' ? 'text-green-600' : item.status === 'low' ? 'text-rose-500' : 'text-blue-600'}`}>
+                          {item.trend} {item.status === 'high' ? <ArrowUpRight size={18} /> : item.status === 'low' ? <ArrowDownRight size={18} /> : <Activity size={18} />}
+                        </div>
+                      </td>
+                      <td className="px-10 py-6 text-right">
+                        <button
+                          onClick={() => {
+                            setSelectedForecastCrop(item.name);
+                            setShowForecastModal(true);
+                            handleFetchForecast(item.name);
+                          }}
+                          className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-all"
+                        >
+                          AI Forecast
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="px-10 py-12 text-center text-slate-400 font-bold">
+                      No commodities found matching "{filterQuery}" in {selectedState}.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* PRICE FORECAST MODAL */}

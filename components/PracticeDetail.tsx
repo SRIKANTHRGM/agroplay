@@ -54,7 +54,7 @@ const PracticeDetail: React.FC = () => {
 
       {/* Hero */}
       <div className="relative h-96 rounded-[3rem] overflow-hidden shadow-2xl">
-        <img src={practice.image} className="w-full h-full object-cover" alt={practice.title} />
+        <img src={practice.image} referrerPolicy="no-referrer" className="w-full h-full object-cover" alt={practice.title} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute bottom-10 left-10 text-white space-y-2">
           <div className="px-3 py-1 bg-green-600 rounded-full w-fit text-[10px] font-bold uppercase tracking-widest">

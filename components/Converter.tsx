@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, RefreshCw, ChevronRight, CheckCircle2, Star, Loader2, Sparkles, AlertCircle, ShoppingBag, Package, ArrowRight, PlayCircle, X, Info, Layers } from 'lucide-react';
-import { UserProfile, MOCK_SURPLUS, CONVERSION_RECIPES, SurplusCrop, ConversionRecipe } from '../types';
+import { UserProfile, MOCK_SURPLUS, CONVERSION_RECIPES, SurplusCrop, ConversionRecipe, getCropFallbackImage } from '../types';
 
 interface Props {
   user: UserProfile;
@@ -119,7 +119,13 @@ const Converter: React.FC<Props> = ({ user, setUser }) => {
                 }`}
               >
                 <div className="w-20 h-20 rounded-[1.8rem] overflow-hidden flex-shrink-0 shadow-2xl border-4 border-white/20">
-                  <img src={crop.image} className="w-full h-full object-cover" alt={crop.name} />
+                  <img 
+                    src={crop.image || getCropFallbackImage(crop.name)} 
+                    referrerPolicy="no-referrer"
+                    onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(crop.name); }}
+                    className="w-full h-full object-cover" 
+                    alt={crop.name} 
+                  />
                 </div>
                 <div className="flex-1 space-y-1">
                   <p className="font-black text-2xl leading-none outfit">{crop.name}</p>

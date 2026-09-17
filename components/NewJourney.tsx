@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, Sprout, Loader2, X, Star, Zap, Sparkles, BrainCircuit, Droplets, Wind, Calendar } from 'lucide-react';
-import { Crop, CULTIVATION_LIBRARY, UserCultivationJourney, UserProfile } from '../types';
+import { Crop, CULTIVATION_LIBRARY, UserCultivationJourney, UserProfile, getCropFallbackImage } from '../types';
 import { generateJourneySummary, generateCropImage, generateCropMetadata } from '../services/geminiService';
 
 interface Props {
@@ -118,9 +118,17 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
                     <button
                       key={crop.id}
                       onClick={() => checkAndStartJourney(crop)}
-                      className="group relative aspect-[3/4] rounded-[3rem] overflow-hidden shadow-xl border-4 border-white hover:border-green-400 transition-all duration-700 hover:-translate-y-3"
+                      className="group relative aspect-[3/4] rounded-[3rem] overflow-hidden shadow-xl border-4 border-white hover:border-green-400 transition-all duration-700 hover:-translate-y-3 bg-slate-100"
                     >
-                      <img src={crop.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" alt={crop.name} />
+                      <img 
+                        src={crop.image || getCropFallbackImage(crop.name)} 
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = getCropFallbackImage(crop.name);
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" 
+                        alt={crop.name} 
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-90" />
                       
                       <div className="absolute top-5 right-5">
@@ -149,8 +157,16 @@ const NewJourney: React.FC<Props> = ({ user, setUser }) => {
       {isConfirmOpen && selectedCrop && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-300">
           <div className="bg-white w-full max-w-2xl rounded-[4rem] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-500 relative border-8 border-white">
-            <div className="relative h-64 overflow-hidden">
-              <img src={selectedCrop.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt={selectedCrop.name} />
+            <div className="relative h-64 overflow-hidden bg-slate-100">
+              <img 
+                src={selectedCrop.image || getCropFallbackImage(selectedCrop.name)} 
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = getCropFallbackImage(selectedCrop.name);
+                }}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform" 
+                alt={selectedCrop.name} 
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
               <button 
                 onClick={() => setIsConfirmOpen(false)} 

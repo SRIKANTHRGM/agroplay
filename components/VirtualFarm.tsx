@@ -35,7 +35,7 @@ import {
   Orbit
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Crop, CropPlot, AVAILABLE_CROPS } from '../types';
+import { Crop, CropPlot, AVAILABLE_CROPS, getCropFallbackImage } from '../types';
 import { generateCropImage } from '../services/geminiService';
 
 const GENERATION_PHASES = [
@@ -302,6 +302,7 @@ const VirtualFarm: React.FC = () => {
       <div className="relative h-80 rounded-[4rem] overflow-hidden shadow-2xl group border-8 border-white">
         <img 
           src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1200" 
+          referrerPolicy="no-referrer"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[4s]" 
           alt="Farm" 
         />
@@ -373,9 +374,15 @@ const VirtualFarm: React.FC = () => {
                         ) : (
                           <>
                             <img 
-                              src={plot.imageUrl || plot.crop.image} 
+                              src={plot.imageUrl || (plot.crop ? (plot.crop.image || getCropFallbackImage(plot.crop.name)) : '')} 
+                              referrerPolicy="no-referrer"
+                              onError={(e) => {
+                                if (plot.crop) {
+                                  (e.target as HTMLImageElement).src = getCropFallbackImage(plot.crop.name);
+                                }
+                              }}
                               className="w-full h-full object-cover transition-all duration-[800ms] group-hover:scale-110 group-hover:brightness-110" 
-                              alt="" 
+                              alt={plot.crop?.name || 'Crop'} 
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
                           </>
@@ -497,7 +504,15 @@ const VirtualFarm: React.FC = () => {
                     <div className="flex items-center justify-between w-full">
                       <div className="w-20 h-20 rounded-[1.8rem] overflow-hidden shadow-md bg-slate-100 flex-shrink-0 group-hover:scale-105 transition-transform duration-500">
                         {crop.image ? (
-                          <img src={crop.image} alt={crop.name} className="w-full h-full object-cover" />
+                          <img 
+                            src={crop.image || getCropFallbackImage(crop.name)} 
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = getCropFallbackImage(crop.name);
+                            }}
+                            alt={crop.name} 
+                            className="w-full h-full object-cover" 
+                          />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-green-600">
                             <Leaf size={32} />
@@ -532,9 +547,15 @@ const VirtualFarm: React.FC = () => {
           <div className="bg-white w-full max-w-5xl rounded-[4rem] shadow-[0_60px_120px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in zoom-in-90 slide-in-from-bottom-20 duration-[700ms] transition-all ease-[cubic-bezier(0.34,1.76,0.64,1)] border border-white/20">
             <div className="w-full md:w-2/5 relative h-96 md:h-auto overflow-hidden group/modalimg">
               <img 
-                src={plots[selectedPlotIndex].imageUrl || plots[selectedPlotIndex].crop!.image} 
+                src={plots[selectedPlotIndex].imageUrl || (plots[selectedPlotIndex].crop ? (plots[selectedPlotIndex].crop!.image || getCropFallbackImage(plots[selectedPlotIndex].crop!.name)) : '')} 
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  if (plots[selectedPlotIndex]?.crop) {
+                    (e.target as HTMLImageElement).src = getCropFallbackImage(plots[selectedPlotIndex].crop!.name);
+                  }
+                }}
                 className="w-full h-full object-cover transition-all duration-[1200ms] group-hover/modalimg:scale-105" 
-                alt={plots[selectedPlotIndex].crop!.name} 
+                alt={plots[selectedPlotIndex].crop?.name || 'Crop'} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent pointer-events-none" />
               <div className="absolute top-8 left-8 space-y-3">

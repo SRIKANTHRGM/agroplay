@@ -274,6 +274,35 @@ export interface MarketItem {
   requiredBadges?: number;
 }
 
+export const CROP_FALLBACK_IMAGES: Record<string, string> = {
+  'Wheat (Grade A)': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80',
+  'Basmati Rice': 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?auto=format&fit=crop&w=800&q=80',
+  'Cotton (Bt Hybrid)': 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=800&q=80',
+  'Organic Maize (Corn)': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
+  'Organic Maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
+  'Sugarcane (High Yield)': 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&w=800&q=80',
+  'Sugarcane': 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&w=800&q=80',
+  'Hybrid Tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
+  'Tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
+  'Organic Soybean': 'https://images.unsplash.com/photo-1599599810694-b5b37304c041?auto=format&fit=crop&w=800&q=80',
+  'Yellow Mustard': 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80',
+  'Potato (Kufri Jyoti)': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80',
+  'Potato': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80',
+  'Chickpea (Desi Chana)': 'https://images.unsplash.com/photo-1515543904379-3d757abe9962?auto=format&fit=crop&w=800&q=80',
+  'Coconut': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80'
+};
+
+export const getCropFallbackImage = (cropName: string): string => {
+  if (!cropName) return 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80';
+  const nameLower = cropName.toLowerCase();
+  for (const [key, url] of Object.entries(CROP_FALLBACK_IMAGES)) {
+    if (key.toLowerCase() === nameLower || nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
+      return url;
+    }
+  }
+  return 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=800&q=80';
+};
+
 export const CULTIVATION_LIBRARY: Crop[] = [
   {
     id: 'c1',

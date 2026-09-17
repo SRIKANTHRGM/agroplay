@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, ShoppingBag, Star, Zap, Search, ChevronRight, X, AlertCircle, CheckCircle2, Package, Tag, CreditCard, Bird, Waves, Egg } from 'lucide-react';
-import { UserProfile, MarketItem, Order } from '../types';
+import { UserProfile, MarketItem, Order, getCropFallbackImage } from '../types';
 
 const MARKET_ITEMS: MarketItem[] = [
   // SEEDS
@@ -337,7 +337,13 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
               {specialOffers.map(item => (
                 <div key={item.id} className="bg-slate-900 text-white rounded-[3rem] p-8 border border-slate-800 shadow-2xl flex flex-col sm:flex-row items-center gap-8 relative overflow-hidden group">
                    <div className="w-full sm:w-48 h-44 rounded-[2rem] overflow-hidden flex-shrink-0 relative">
-                      <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
+                       <img 
+                         src={item.image || getCropFallbackImage(item.name)} 
+                         referrerPolicy="no-referrer"
+                         onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(item.name); }}
+                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                         alt={item.name} 
+                       />
                       <div className="absolute top-3 left-3 bg-amber-500 text-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">Special Reward</div>
                    </div>
                    <div className="space-y-4 flex-1">
@@ -375,7 +381,13 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
           {filteredItems.map(item => (
             <div key={item.id} className="group bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
               <div className="h-56 relative cursor-pointer overflow-hidden bg-slate-100" onClick={() => setSelectedItem(item)}>
-                <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
+                <img 
+                  src={item.image || getCropFallbackImage(item.name)} 
+                  referrerPolicy="no-referrer"
+                  onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(item.name); }}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  alt={item.name} 
+                />
                 <div className="absolute top-4 left-4">
                    <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-slate-800 uppercase tracking-widest border border-slate-200 shadow-sm">
                       {item.category}
@@ -418,7 +430,13 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md animate-in fade-in duration-200">
           <div className="bg-white w-full max-w-4xl rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in zoom-in-95 duration-300 border border-white/20 max-h-[90vh]">
             <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-slate-900">
-               <img src={selectedItem.image} className="w-full h-full object-cover" alt={selectedItem.name} />
+               <img 
+                 src={selectedItem.image || getCropFallbackImage(selectedItem.name)} 
+                 referrerPolicy="no-referrer"
+                 onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(selectedItem.name); }}
+                 className="w-full h-full object-cover" 
+                 alt={selectedItem.name} 
+               />
                <div className="absolute top-6 left-6">
                   <span className="px-4 py-1.5 bg-black/60 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
                      {selectedItem.category}

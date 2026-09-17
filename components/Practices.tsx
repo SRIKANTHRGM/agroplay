@@ -108,7 +108,7 @@ const Practices: React.FC = () => {
             className="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all group flex flex-col"
           >
             <div className="h-48 relative overflow-hidden">
-              <img src={practice.image} alt={practice.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <img src={practice.image} referrerPolicy="no-referrer" alt={practice.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold text-green-700 uppercase tracking-widest border border-green-100">
                 {practice.category}
               </div>

@@ -275,32 +275,55 @@ export interface MarketItem {
 }
 
 export const CROP_FALLBACK_IMAGES: Record<string, string> = {
-  'Wheat (Grade A)': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80',
-  'Basmati Rice': 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?auto=format&fit=crop&w=800&q=80',
-  'Cotton (Bt Hybrid)': 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=800&q=80',
-  'Organic Maize (Corn)': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
-  'Organic Maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
-  'Sugarcane (High Yield)': 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&w=800&q=80',
-  'Sugarcane': 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&w=800&q=80',
-  'Hybrid Tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
-  'Tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
-  'Organic Soybean': 'https://images.unsplash.com/photo-1599599810694-b5b37304c041?auto=format&fit=crop&w=800&q=80',
-  'Yellow Mustard': 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80',
-  'Potato (Kufri Jyoti)': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80',
-  'Potato': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80',
-  'Chickpea (Desi Chana)': 'https://images.unsplash.com/photo-1515543904379-3d757abe9962?auto=format&fit=crop&w=800&q=80',
-  'Coconut': 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80'
+  'Wheat (Grade A)': '/crops/wheat.jpg',
+  'Wheat': '/crops/wheat.jpg',
+  'Basmati Rice': '/crops/rice.jpg',
+  'Rice': '/crops/rice.jpg',
+  'Paddy': '/crops/rice.jpg',
+  'Cotton (Bt Hybrid)': '/crops/cotton.jpg',
+  'Cotton': '/crops/cotton.jpg',
+  'Organic Maize (Corn)': '/crops/maize.jpg',
+  'Organic Maize': '/crops/maize.jpg',
+  'Maize': '/crops/maize.jpg',
+  'Corn': '/crops/maize.jpg',
+  'Sugarcane (High Yield)': '/crops/sugarcane.jpg',
+  'Sugarcane': '/crops/sugarcane.jpg',
+  'Hybrid Tomato': '/crops/tomato.jpg',
+  'Tomato': '/crops/tomato.jpg',
+  'Organic Soybean': '/crops/soybean.jpg',
+  'Soybean': '/crops/soybean.jpg',
+  'Yellow Mustard': '/crops/mustard.jpg',
+  'Mustard': '/crops/mustard.jpg',
+  'Potato (Kufri Jyoti)': '/crops/potato.jpg',
+  'Potato': '/crops/potato.jpg',
+  'Chickpea (Desi Chana)': '/crops/chickpea.jpg',
+  'Chickpea (Chana)': '/crops/chickpea.jpg',
+  'Chickpea': '/crops/chickpea.jpg',
+  'Chana': '/crops/chickpea.jpg',
+  'Coconut': '/crops/wheat.jpg',
+  'Mango': '/crops/tomato.jpg'
 };
 
 export const getCropFallbackImage = (cropName: string): string => {
-  if (!cropName) return 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80';
+  if (!cropName) return '/crops/wheat.jpg';
   const nameLower = cropName.toLowerCase();
   for (const [key, url] of Object.entries(CROP_FALLBACK_IMAGES)) {
     if (key.toLowerCase() === nameLower || nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
       return url;
     }
   }
-  return 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=800&q=80';
+  if (nameLower.includes('wheat')) return '/crops/wheat.jpg';
+  if (nameLower.includes('rice') || nameLower.includes('paddy') || nameLower.includes('basmati')) return '/crops/rice.jpg';
+  if (nameLower.includes('cotton')) return '/crops/cotton.jpg';
+  if (nameLower.includes('maize') || nameLower.includes('corn')) return '/crops/maize.jpg';
+  if (nameLower.includes('sugarcane') || nameLower.includes('cane')) return '/crops/sugarcane.jpg';
+  if (nameLower.includes('tomato')) return '/crops/tomato.jpg';
+  if (nameLower.includes('soy') || nameLower.includes('soybean')) return '/crops/soybean.jpg';
+  if (nameLower.includes('mustard')) return '/crops/mustard.jpg';
+  if (nameLower.includes('potato')) return '/crops/potato.jpg';
+  if (nameLower.includes('chickpea') || nameLower.includes('chana')) return '/crops/chickpea.jpg';
+
+  return '/crops/wheat.jpg';
 };
 
 export const CULTIVATION_LIBRARY: Crop[] = [
@@ -308,7 +331,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c1',
     name: 'Wheat (Grade A)',
     category: 'Grains',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/wheat.jpg',
     funFact: 'Wheat is the global staple that defined modern agriculture.',
     subsidies: ['PM-Kisan', 'MSP Support', 'NFSM Wheat Subsidy'],
     season: 'Rabi',
@@ -344,7 +367,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c2',
     name: 'Basmati Rice',
     category: 'Grains',
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/rice.jpg',
     funFact: 'The long grains and unique aroma are global exports.',
     subsidies: ['Export Incentive', 'PM Krishi Sinchayee', 'APEDA Basmati Grant'],
     season: 'Kharif',
@@ -380,7 +403,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c3',
     name: 'Cotton (Bt Hybrid)',
     category: 'Commercial',
-    image: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/cotton.jpg',
     funFact: 'Known as White Gold, cotton supports over 250 million livelihoods globally.',
     subsidies: ['CCI MSP Guarantee', 'Subsidized Seed Packets', 'Technology Mission on Cotton'],
     season: 'Kharif',
@@ -416,7 +439,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c4',
     name: 'Organic Maize (Corn)',
     category: 'Grains',
-    image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/maize.jpg',
     funFact: 'Maize utilizes solar energy rapidly due to its efficient C4 photosynthetic path.',
     subsidies: ['NFSM Maize Scheme', 'Micro-Irrigation Subsidy', 'Organic Certification Support'],
     season: 'Kharif',
@@ -452,7 +475,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c5',
     name: 'Sugarcane (High Yield)',
     category: 'Cash Crop',
-    image: 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/sugarcane.jpg',
     funFact: 'Sugarcane converts sunlight into biomass with extraordinary photosynthetic conversion efficiency.',
     subsidies: ['FRP Price Support', 'Drip System Subsidy', 'Sugar Mill Transportation Rebate'],
     season: 'Kharif',
@@ -488,7 +511,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c6',
     name: 'Hybrid Tomato',
     category: 'Vegetables',
-    image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/tomato.jpg',
     funFact: 'Rich in Lycopene, tomatoes are among the top high-value crops in precision greenhouses.',
     subsidies: ['MIDH Horticulture Mission', 'Mulching Sheet Grant', 'Drip & Polyhouse Subsidy'],
     season: 'Zaid',
@@ -524,7 +547,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c7',
     name: 'Organic Soybean',
     category: 'Oilseeds',
-    image: 'https://images.unsplash.com/photo-1599599810694-b5b37304c041?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/soybean.jpg',
     funFact: 'Soybeans fix their own atmospheric nitrogen through natural root nodule bacteria.',
     subsidies: ['National Oilseeds Mission', 'Bio-Input Subsidy', 'MP Soybean Board Grant'],
     season: 'Kharif',
@@ -560,7 +583,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c8',
     name: 'Yellow Mustard',
     category: 'Oilseeds',
-    image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/mustard.jpg',
     funFact: 'Bright yellow mustard blooms attract honeybees, driving natural ecosystem pollination.',
     subsidies: ['Oilseed Development Scheme', 'PMFBY Coverage', 'National Mission on Edible Oils'],
     season: 'Rabi',
@@ -596,7 +619,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c9',
     name: 'Potato (Kufri Jyoti)',
     category: 'Tubers',
-    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/potato.jpg',
     funFact: 'Potatoes yield more food energy per liter of water than almost any other major staple crop.',
     subsidies: ['Cold Storage Grant', 'Seed Potato Subsidy', 'Horticulture Mechanization Scheme'],
     season: 'Rabi',
@@ -632,7 +655,7 @@ export const CULTIVATION_LIBRARY: Crop[] = [
     id: 'c10',
     name: 'Chickpea (Chana)',
     category: 'Pulses',
-    image: 'https://images.unsplash.com/photo-1515543904379-3d757abe9962?auto=format&fit=crop&q=80&w=800',
+    image: '/crops/chickpea.jpg',
     funFact: 'Chickpea roots release natural organic acids that unlock trapped soil phosphorus.',
     subsidies: ['NFSM Pulses Grant', 'MSP Support', 'Pulses Seed Village Scheme'],
     season: 'Rabi',
@@ -669,16 +692,16 @@ export const CULTIVATION_LIBRARY: Crop[] = [
 export const AVAILABLE_CROPS = CULTIVATION_LIBRARY;
 
 export const MOCK_SURPLUS: SurplusCrop[] = [
-  { id: 's1', name: 'Tomato', quantity: 50, unit: 'kg', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=400' },
-  { id: 's2', name: 'Coconut', quantity: 200, unit: 'units', image: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=400' },
-  { id: 's3', name: 'Wheat (Grade A)', quantity: 150, unit: 'kg', image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=400' },
-  { id: 's4', name: 'Basmati Rice', quantity: 120, unit: 'kg', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=400' },
-  { id: 's5', name: 'Cotton (Bt Hybrid)', quantity: 80, unit: 'kg', image: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&q=80&w=400' },
-  { id: 's6', name: 'Organic Maize', quantity: 300, unit: 'kg', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=400' },
-  { id: 's7', name: 'Sugarcane', quantity: 500, unit: 'kg', image: 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&q=80&w=400' },
-  { id: 's8', name: 'Organic Soybean', quantity: 100, unit: 'kg', image: 'https://images.unsplash.com/photo-1599599810694-b5b37304c041?auto=format&fit=crop&q=80&w=400' },
-  { id: 's9', name: 'Yellow Mustard', quantity: 90, unit: 'kg', image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&q=80&w=400' },
-  { id: 's10', name: 'Potato', quantity: 250, unit: 'kg', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=400' }
+  { id: 's1', name: 'Tomato', quantity: 50, unit: 'kg', image: '/crops/tomato.jpg' },
+  { id: 's2', name: 'Coconut', quantity: 200, unit: 'units', image: '/crops/wheat.jpg' },
+  { id: 's3', name: 'Wheat (Grade A)', quantity: 150, unit: 'kg', image: '/crops/wheat.jpg' },
+  { id: 's4', name: 'Basmati Rice', quantity: 120, unit: 'kg', image: '/crops/rice.jpg' },
+  { id: 's5', name: 'Cotton (Bt Hybrid)', quantity: 80, unit: 'kg', image: '/crops/cotton.jpg' },
+  { id: 's6', name: 'Organic Maize', quantity: 300, unit: 'kg', image: '/crops/maize.jpg' },
+  { id: 's7', name: 'Sugarcane', quantity: 500, unit: 'kg', image: '/crops/sugarcane.jpg' },
+  { id: 's8', name: 'Organic Soybean', quantity: 100, unit: 'kg', image: '/crops/soybean.jpg' },
+  { id: 's9', name: 'Yellow Mustard', quantity: 90, unit: 'kg', image: '/crops/mustard.jpg' },
+  { id: 's10', name: 'Potato', quantity: 250, unit: 'kg', image: '/crops/potato.jpg' }
 ];
 
 export const CONVERSION_RECIPES: Record<string, ConversionRecipe[]> = {

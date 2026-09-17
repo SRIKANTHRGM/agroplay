@@ -11,7 +11,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 1450,
     pointsPrice: 500,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/wheat.jpg'
   },
   {
     id: 'm-seed-2',
@@ -20,7 +20,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 2800,
     pointsPrice: 850,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/rice.jpg'
   },
   {
     id: 'm-seed-3',
@@ -29,7 +29,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 950,
     pointsPrice: 400,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/cotton.jpg'
   },
   {
     id: 'm-seed-4',
@@ -38,7 +38,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 750,
     pointsPrice: 350,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/mustard.jpg'
   },
   {
     id: 'm-seed-5',
@@ -47,7 +47,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 1800,
     pointsPrice: 600,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/tomato.jpg'
   },
   {
     id: 'm-seed-6',
@@ -56,7 +56,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 2100,
     pointsPrice: 700,
     category: 'Seeds',
-    image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&q=80&w=800'
+    image: '/crops/soybean.jpg'
   },
 
   // TOOLS & EQUIPMENT

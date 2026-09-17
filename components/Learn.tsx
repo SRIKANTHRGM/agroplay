@@ -63,17 +63,42 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
 
   useEffect(() => {
     const saved = localStorage.getItem(`km_journeys_${user.uid}`);
-    if (saved) {
-      const data: UserCultivationJourney[] = JSON.parse(saved);
-      setJourneys(data);
+    let data: UserCultivationJourney[] = saved ? JSON.parse(saved) : [];
+    setJourneys(data);
+    
+    if (journeyId) {
+      const decodedId = decodeURIComponent(journeyId);
+      let found = data.find(j => j.id === journeyId || j.cropId === journeyId || j.cropName === decodedId || j.cropName === journeyId);
       
-      if (journeyId) {
-        const found = data.find(j => j.id === journeyId);
-        if (found) {
-          setActiveJourney(found);
-          setSelectedStepIndex(found.currentStepIndex);
+      if (!found) {
+        const crop = CULTIVATION_LIBRARY.find(c => c.id === journeyId || c.name === decodedId || c.name === journeyId);
+        if (crop) {
+          found = {
+            id: `j-${Date.now()}`,
+            cropId: crop.id,
+            cropName: crop.name,
+            startDate: new Date().toISOString(),
+            status: 'active',
+            currentStepIndex: 0,
+            steps: crop.workflow?.map(step => ({
+              stepId: step.id,
+              verified: false
+            })) || [],
+            healthScore: 100
+          };
+          data = [found, ...data];
+          localStorage.setItem(`km_journeys_${user.uid}`, JSON.stringify(data));
+          setJourneys(data);
         }
       }
+      
+      if (found) {
+        setActiveJourney(found);
+        setSelectedStepIndex(found.currentStepIndex || 0);
+      }
+    } else if (data.length > 0) {
+      setActiveJourney(data[0]);
+      setSelectedStepIndex(data[0].currentStepIndex || 0);
     }
   }, [journeyId, user.uid]);
 
@@ -92,8 +117,7 @@ const Learn: React.FC<Props> = ({ user, setUser }) => {
     if (!step) return;
 
     try {
-      const base64 = proofImage.split(',')[1];
-      const result = await verifyTaskCompletion(step.title, step.description, base64);
+      const result = await verifyTaskCompletion(step.title, step.description, proofImage);
       setAiFeedback(result);
       
       if (result.verified) {

@@ -5,7 +5,7 @@ import {
     FlaskConical, AlertTriangle, Fingerprint,
     ThermometerSnowflake, Sprout, ArrowRight,
     RefreshCw, Info, Zap, ShieldCheck, Sparkles,
-    Upload, Image as ImageIcon, Check
+    Upload, Image as ImageIcon, Check, Camera, Loader2
 } from 'lucide-react';
 
 interface Props {

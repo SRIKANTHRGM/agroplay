@@ -492,15 +492,32 @@ const VirtualFarm: React.FC = () => {
                   <button
                     key={crop.id}
                     onClick={() => handlePlantCrop(crop)}
-                    className="p-10 rounded-[3rem] border border-slate-100 bg-white text-left hover:bg-green-50 hover:border-green-400 transition-all group flex flex-col gap-6 shadow-sm hover:shadow-2xl hover:-translate-y-2 duration-500"
+                    className="p-8 rounded-[3rem] border border-slate-100 bg-white text-left hover:bg-green-50/60 hover:border-green-400 transition-all group flex flex-col gap-5 shadow-sm hover:shadow-2xl hover:-translate-y-2 duration-500 overflow-hidden relative"
                   >
-                    <div className="w-20 h-20 bg-slate-50 rounded-[1.8rem] shadow-inner flex items-center justify-center text-slate-300 group-hover:text-green-600 transition-all group-hover:scale-110">
-                      <Leaf size={40} />
+                    <div className="flex items-center justify-between w-full">
+                      <div className="w-20 h-20 rounded-[1.8rem] overflow-hidden shadow-md bg-slate-100 flex-shrink-0 group-hover:scale-105 transition-transform duration-500">
+                        {crop.image ? (
+                          <img src={crop.image} alt={crop.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-green-600">
+                            <Leaf size={32} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-end gap-1.5">
+                        <span className="px-3 py-1 bg-green-100/80 text-green-800 rounded-full text-[10px] font-black uppercase tracking-wider">
+                          {crop.season}
+                        </span>
+                        <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
+                          <Droplets size={10} /> {crop.waterRequirement}
+                        </span>
+                      </div>
                     </div>
-                    <div className="space-y-3">
-                      <p className="font-black text-slate-800 text-3xl group-hover:text-green-700 transition-colors outfit tracking-tighter leading-none">{crop.name}</p>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{crop.category}</p>
-                      <p className="text-sm text-slate-500 leading-relaxed line-clamp-3 font-medium">"{crop.funFact}"</p>
+
+                    <div className="space-y-2">
+                      <p className="font-black text-slate-800 text-2xl group-hover:text-green-700 transition-colors outfit tracking-tighter leading-tight">{crop.name}</p>
+                      <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{crop.category}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-3 font-medium italic">"{crop.funFact}"</p>
                     </div>
                   </button>
                 ))}

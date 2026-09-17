@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { UserProfile, CropPlot, Group } from '../types';
 import { 
   Trophy, 
@@ -32,7 +32,10 @@ import {
   Scan,
   ShieldCheck,
   Sprout,
-  Compass
+  Compass,
+  Trash2,
+  User,
+  Volume2
 } from 'lucide-react';
 import { chatFast, predictHarvestYield } from '../services/geminiService';
 import { Link, useNavigate } from 'react-router-dom';
@@ -274,11 +277,26 @@ const CROP_GUIDE_DATA = [
   }
 ];
 
+interface ChatMessage {
+  id: string;
+  sender: 'user' | 'bot';
+  text: string;
+  timestamp: string;
+}
+
 const Dashboard: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const [msgInput, setMsgInput] = useState('');
-  const [chatResponse, setChatResponse] = useState<string | null>(null);
   const [loadingChat, setLoadingChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      sender: 'bot',
+      text: "🌱 Welcome! I am your AgroPlay AI Assistant powered by Gemini. Ask me anything about crop planning, soil preparation, pest solutions, fertilizer ratios, or market trends!",
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }
+  ]);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
   const [activePlot, setActivePlot] = useState<CropPlot | null>(null);
   const [statCounters, setStatCounters] = useState({ temp: 0, moisture: 0, humidity: 0 });
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
@@ -308,6 +326,12 @@ const Dashboard: React.FC<Props> = ({ user }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [chatMessages, loadingChat]);
+
   const handleGetPrediction = async (cropName: string) => {
     setLoadingPrediction(true);
     try {
@@ -320,15 +344,39 @@ const Dashboard: React.FC<Props> = ({ user }) => {
     }
   };
 
-  const handleFastChat = async () => {
-    if (!msgInput.trim()) return;
+  const handleFastChat = async (promptOverride?: string) => {
+    const textToSend = promptOverride !== undefined ? promptOverride : msgInput;
+    if (!textToSend.trim() || loadingChat) return;
+
+    const userMsg: ChatMessage = {
+      id: Date.now().toString(),
+      sender: 'user',
+      text: textToSend.trim(),
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    setChatMessages(prev => [...prev, userMsg]);
+    setMsgInput('');
     setLoadingChat(true);
+
     try {
-      const res = await chatFast(msgInput);
-      setChatResponse(res);
-      setMsgInput('');
+      const resText = await chatFast(textToSend);
+      const botMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        sender: 'bot',
+        text: resText || "I'm analyzing your request. For optimal crop performance, maintain balanced moisture and bio-fertilizer schedules.",
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setChatMessages(prev => [...prev, botMsg]);
     } catch (e) {
       console.error(e);
+      const errorMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        sender: 'bot',
+        text: "KisaanMitra Intel: Unable to process request. Please check network connectivity or Gemini API config.",
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setChatMessages(prev => [...prev, errorMsg]);
     } finally {
       setLoadingChat(false);
     }
@@ -629,64 +677,140 @@ const Dashboard: React.FC<Props> = ({ user }) => {
             </div>
           </div>
 
-          {/* AI Assistant - Dynamic Interaction */}
-          <div className="bg-white rounded-[3.5rem] p-10 border border-slate-100 shadow-xl space-y-8 group transition-all duration-500 hover:shadow-2xl">
-            <div className="flex items-center justify-between">
+          {/* AI Assistant - Interactive GPT Bot */}
+          <div className="bg-white rounded-[3.5rem] p-8 md:p-10 border border-slate-100 shadow-xl space-y-6 group transition-all duration-500 hover:shadow-2xl">
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div className="flex items-center gap-4">
-                 <div className="w-16 h-16 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center shadow-inner group-hover:rotate-[15deg] transition-transform">
-                   <Bot size={32} />
+                 <div className="w-14 h-14 bg-gradient-to-tr from-green-600 to-emerald-400 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-200 flex-shrink-0">
+                   <Bot size={30} />
                  </div>
                  <div>
-                    <h3 className="text-3xl font-black outfit tracking-tight">AgroPlay AI Assistant</h3>
-                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em]">Low-Latency Farm Intelligence</p>
+                    <h3 className="text-2xl md:text-3xl font-black outfit tracking-tight text-slate-800">AgroPlay AI Assistant</h3>
+                    <p className="text-[10px] text-green-600 font-black uppercase tracking-[0.3em] flex items-center gap-1.5 mt-0.5">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-ping" /> INTERACTIVE GPT BOT • GEMINI 3.6
+                    </p>
                  </div>
               </div>
-              <div className="hidden sm:flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setChatMessages([
+                    {
+                      id: Date.now().toString(),
+                      sender: 'bot',
+                      text: "🌱 Conversation reset! What would you like to know today about your crops, soil, or market trends?",
+                      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    }
+                  ])}
+                  className="p-3 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all"
+                  title="Clear Chat History"
+                >
+                  <Trash2 size={18} />
+                </button>
+
                 <button 
                   onClick={() => setIsVoiceOpen(true)}
-                  className="flex items-center gap-2 px-6 py-3 bg-amber-50 text-amber-700 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-amber-100 hover:bg-amber-100 transition-all shadow-sm active:scale-95"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-[10px] font-black uppercase tracking-widest border border-amber-200 hover:bg-amber-100 transition-all shadow-sm active:scale-95"
                 >
                   <Mic size={14} fill="currentColor" /> LIVE VOICE CHAT
                 </button>
-                <div className="flex items-center gap-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-blue-100">
-                  <Sparkles size={14} className="animate-pulse" /> FAST LITE 2.5
-                </div>
               </div>
             </div>
             
-            <div className={`p-10 rounded-[2.5rem] min-h-[160px] flex items-center justify-center transition-all duration-700 ${chatResponse ? 'bg-slate-50 border border-slate-100 animate-in zoom-in-95' : 'bg-slate-50/40 border border-dashed border-slate-200'}`}>
-               {loadingChat ? (
-                 <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="animate-spin text-green-600" size={40} />
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Crunching Agronomy Data...</p>
-                 </div>
-               ) : (
-                 chatResponse ? (
-                   <p className="text-xl text-slate-700 leading-relaxed font-medium italic text-center">"{chatResponse}"</p>
-                 ) : (
-                   <p className="text-sm text-slate-400 font-bold uppercase tracking-widest italic opacity-60 text-center px-10">Ask about planting dates, pest control, or market trends...</p>
-                 )
-               )}
+            {/* Quick Suggestion Chips */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 shrink-0 mr-1">
+                <Sparkles size={12} className="text-amber-500" /> Quick Prompts:
+              </span>
+              {[
+                { label: '🌾 Soil Prep for Wheat', prompt: 'How do I prepare soil for wheat cultivation?' },
+                { label: '🐛 Aphid Pest Remedy', prompt: 'What is the organic remedy for aphid infestation?' },
+                { label: '💰 Mandi Price Trends', prompt: 'What are the current mandi price trends for crops?' },
+                { label: '💧 Drip Fertigation', prompt: 'Explain drip fertigation schedule for tomatoes.' }
+              ].map((chip, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleFastChat(chip.prompt)}
+                  disabled={loadingChat}
+                  className="px-3.5 py-1.5 bg-slate-100 hover:bg-green-100 hover:text-green-800 text-slate-600 rounded-full text-xs font-bold whitespace-nowrap transition-all border border-slate-200 hover:border-green-300 disabled:opacity-50 cursor-pointer"
+                >
+                  {chip.label}
+                </button>
+              ))}
             </div>
 
+            {/* Chat Messages History Container */}
+            <div 
+              ref={chatScrollRef}
+              className="bg-slate-50/80 rounded-[2.5rem] p-6 border border-slate-200/80 max-h-[380px] overflow-y-auto space-y-4 custom-scrollbar shadow-inner"
+            >
+              {chatMessages.map((msg) => (
+                <div 
+                  key={msg.id}
+                  className={`flex items-start gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in duration-300`}
+                >
+                  {msg.sender === 'bot' && (
+                    <div className="w-9 h-9 bg-green-600 text-white rounded-xl flex items-center justify-center font-bold text-xs shrink-0 shadow-md">
+                      <Bot size={18} />
+                    </div>
+                  )}
+
+                  <div className={`max-w-[82%] rounded-2xl p-4 shadow-sm relative ${
+                    msg.sender === 'user'
+                      ? 'bg-green-600 text-white rounded-tr-none font-medium'
+                      : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-none font-medium'
+                  }`}>
+                    <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                    <div className={`flex items-center justify-end gap-2 mt-2 pt-1 border-t ${msg.sender === 'user' ? 'border-green-500/40 text-green-100' : 'border-slate-100 text-slate-400'} text-[9px] font-bold`}>
+                      <span>{msg.timestamp}</span>
+                    </div>
+                  </div>
+
+                  {msg.sender === 'user' && (
+                    <div className="w-9 h-9 bg-slate-800 text-white rounded-xl flex items-center justify-center font-bold text-xs shrink-0 shadow-md">
+                      <User size={18} />
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {loadingChat && (
+                <div className="flex items-start gap-3 justify-start animate-pulse">
+                  <div className="w-9 h-9 bg-green-600 text-white rounded-xl flex items-center justify-center shrink-0">
+                    <Bot size={18} />
+                  </div>
+                  <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 shadow-sm flex items-center gap-3">
+                    <Loader2 className="animate-spin text-green-600" size={18} />
+                    <span className="text-xs font-bold text-slate-500">AgroPlay AI is thinking...</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Box */}
             <div className="relative group">
               <input 
                 type="text" 
                 value={msgInput}
                 onChange={e => setMsgInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleFastChat()}
-                placeholder="How do I prepare soil for wheat?"
-                className="w-full bg-slate-50 border-none rounded-[2rem] pl-10 pr-40 py-8 outline-none focus:ring-4 focus:ring-green-500/10 transition-all font-medium outfit text-xl shadow-inner placeholder:text-slate-300"
+                placeholder="Ask AgroPlay AI anything about farming..."
+                className="w-full bg-slate-50 border border-slate-200/80 rounded-[2rem] pl-6 pr-36 py-5 outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all font-semibold outfit text-lg text-slate-800 shadow-inner placeholder:text-slate-400"
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-3">
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                 <button 
                   onClick={() => setIsVoiceOpen(true)}
-                  className="w-16 h-16 bg-amber-500 text-white rounded-2xl flex items-center justify-center hover:bg-amber-600 transition-all shadow-xl hover:scale-110 active:scale-90"
+                  className="w-12 h-12 bg-amber-500 hover:bg-amber-600 text-white rounded-xl flex items-center justify-center transition-all shadow-md active:scale-95"
+                  title="Voice Assistant"
                 >
-                  <Mic size={28} />
+                  <Mic size={20} />
                 </button>
-                <button onClick={handleFastChat} className="w-16 h-16 bg-green-600 text-white rounded-2xl flex items-center justify-center hover:bg-green-700 transition-all shadow-xl hover:scale-110 active:scale-90">
-                  <Send size={28} />
+                <button 
+                  onClick={() => handleFastChat()} 
+                  disabled={!msgInput.trim() || loadingChat}
+                  className="w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl flex items-center justify-center transition-all shadow-md active:scale-95 disabled:opacity-50"
+                  title="Send Message"
+                >
+                  <Send size={20} />
                 </button>
               </div>
             </div>

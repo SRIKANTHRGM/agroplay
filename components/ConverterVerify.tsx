@@ -56,11 +56,10 @@ const ConverterVerify: React.FC = () => {
     if (!image || !crop || !recipe) return;
     setVerifying(true);
     try {
-      const base64 = image.split(',')[1];
       const result = await verifyTaskCompletion(
         `Convert surplus ${crop.name} into ${recipe.productName}`,
         `Show the surplus ${crop.name} harvest you intend to preserve.`,
-        base64
+        image
       );
       setVerificationResult(result);
       if (result.verified) {

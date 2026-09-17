@@ -12,6 +12,8 @@ import {
   Bell,
   Search,
   ChevronRight,
+  ChevronLeft,
+  PanelLeft,
   Menu,
   X,
   Sprout,
@@ -87,6 +89,7 @@ const App: React.FC = () => {
   };
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const SidebarLink = ({ to, icon: Icon, children }: React.PropsWithChildren<{ to: string, icon: any }>) => {
@@ -95,18 +98,36 @@ const App: React.FC = () => {
                      (to === '/practices' && location.pathname.startsWith('/practices/')) ||
                      (to === '/converter' && location.pathname.startsWith('/converter')) ||
                      (to === '/learn' && location.pathname.startsWith('/learn'));
+    const textLabel = typeof children === 'string' ? children : '';
+
     return (
       <Link 
         to={to} 
-        onClick={() => setIsSidebarOpen(false)}
-        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+        title={textLabel}
+        onClick={() => {
+          setIsSidebarOpen(false);
+          if (!isExpanded) setIsExpanded(true);
+        }}
+        className={`flex items-center gap-4 rounded-2xl transition-all duration-200 group relative ${
+          isExpanded ? 'px-4 py-3 justify-start' : 'p-3 justify-center w-14 h-14 mx-auto'
+        } ${
           isActive 
-            ? 'bg-green-600 text-white shadow-lg shadow-green-100' 
+            ? 'bg-green-600 text-white shadow-lg shadow-green-200' 
             : 'text-slate-600 hover:bg-green-50 hover:text-green-700'
         }`}
       >
-        <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
-        <span className="font-semibold text-xs tracking-tight">{children}</span>
+        <Icon size={28} strokeWidth={isActive ? 2.5 : 2} className="flex-shrink-0 transition-transform group-hover:scale-110" />
+        {isExpanded && (
+          <span className="font-bold text-sm tracking-tight whitespace-nowrap transition-opacity duration-200">
+            {children}
+          </span>
+        )}
+
+        {!isExpanded && (
+          <div className="absolute left-full ml-4 px-3.5 py-2 bg-slate-900 text-white text-xs font-semibold rounded-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap shadow-2xl">
+            {children}
+          </div>
+        )}
       </Link>
     );
   };
@@ -127,30 +148,57 @@ const App: React.FC = () => {
     <HashRouter>
       <div className="flex h-screen bg-slate-50 overflow-hidden font-inter text-slate-900">
         <aside className={`
-          fixed inset-y-0 left-0 z-40 w-72 bg-white border-r transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static flex-shrink-0
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          fixed inset-y-0 left-0 z-40 bg-white border-r transform transition-all duration-300 ease-in-out md:translate-x-0 md:static flex-shrink-0
+          ${isExpanded ? 'w-72' : 'w-24'}
+          ${isSidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full md:translate-x-0'}
         `}>
-          <div className="p-6 h-full flex flex-col overflow-y-auto custom-scrollbar">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-100">
-                <Leaf className="text-white" size={24} />
+          <div className={`h-full flex flex-col overflow-y-auto custom-scrollbar ${isExpanded ? 'p-6' : 'p-4'}`}>
+            <div className={`flex items-center ${isExpanded ? 'justify-between' : 'justify-center'} mb-8`}>
+              <div 
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="flex items-center gap-3 cursor-pointer group"
+                title={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
+              >
+                <div className="w-14 h-14 bg-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-200 group-hover:scale-105 transition-transform flex-shrink-0">
+                  <Leaf className="text-white" size={32} />
+                </div>
+                {isExpanded && (
+                  <div className="flex flex-col leading-none">
+                    <span className="font-black text-xl text-slate-800 outfit tracking-tighter">AgroPlay</span>
+                    <span className="text-[7px] font-black text-green-600 uppercase tracking-[0.2em] mt-1">Smart Farming Node</span>
+                  </div>
+                )}
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-black text-xl text-slate-800 outfit tracking-tighter">AgroPlay</span>
-                <span className="text-[7px] font-black text-green-600 uppercase tracking-[0.2em] mt-1">Smart Farming Node</span>
-              </div>
+
+              {isExpanded && (
+                <button 
+                  onClick={() => setIsExpanded(false)} 
+                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors hidden md:block"
+                  title="Collapse Sidebar"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+              )}
             </div>
 
-            <nav className="space-y-6 flex-1">
+            <nav className="space-y-4 flex-1">
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Core Command</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Core Command</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/" icon={LayoutDashboard}>Dashboard</SidebarLink>
                 <SidebarLink to="/farm" icon={Sprout}>Virtual Acreage</SidebarLink>
                 <SidebarLink to="/new-journey" icon={Compass}>New Cultivation</SidebarLink>
               </div>
 
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Intelligence & Tools</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Intelligence & Tools</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/ai-lab" icon={FlaskConical}>AI Research Lab</SidebarLink>
                 <SidebarLink to="/diagnosis" icon={Scan}>Plant Health Scanner</SidebarLink>
                 <SidebarLink to="/preventive-ai" icon={ShieldCheck}>Disease Prevention</SidebarLink>
@@ -158,20 +206,32 @@ const App: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Commerce Hub</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Commerce Hub</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/marketplace" icon={ShoppingCart}>Global Market</SidebarLink>
                 <SidebarLink to="/converter" icon={Box}>Value Addition Hub</SidebarLink>
                 <SidebarLink to="/market" icon={TrendingUp}>Mandi Trends</SidebarLink>
               </div>
 
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Academy</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Academy</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/practices" icon={GraduationCap}>Practice Library</SidebarLink>
                 <SidebarLink to="/learn" icon={BookOpen}>Active Journeys</SidebarLink>
               </div>
 
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Social Nexus</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Social Nexus</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/forum" icon={MessageSquare}>Discussion Forum</SidebarLink>
                 <SidebarLink to="/groups" icon={Users}>Interest Alliances</SidebarLink>
                 <SidebarLink to="/leaderboard" icon={Trophy}>Global Rank</SidebarLink>
@@ -179,36 +239,53 @@ const App: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Protection</div>
+                {isExpanded ? (
+                  <div className="px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Protection</div>
+                ) : (
+                  <div className="my-2 border-t border-slate-100" />
+                )}
                 <SidebarLink to="/subsidies" icon={Landmark}>Grants & Subsidies</SidebarLink>
                 <SidebarLink to="/insurance" icon={ShieldCheck}>Insurance Portfolio</SidebarLink>
               </div>
             </nav>
 
-            <div className="mt-8 pt-6 border-t space-y-4">
+            <div className={`mt-8 pt-6 border-t ${isExpanded ? 'space-y-4' : 'space-y-3 flex flex-col items-center'}`}>
               {user && (
-                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 shadow-inner">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-amber-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-amber-100">
-                      <Award size={20} />
+                isExpanded ? (
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 shadow-inner">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-amber-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-amber-100 flex-shrink-0">
+                        <Award size={22} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Total Mastery</p>
+                        <p className="text-lg font-black text-slate-800 outfit leading-none">{user.points} XP</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Total Mastery</p>
-                      <p className="text-lg font-black text-slate-800 outfit leading-none">{user.points} XP</p>
+                    <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                      <div className="bg-amber-500 h-full transition-all duration-1000" style={{ width: `${progressPercent}%` }} />
                     </div>
+                    <p className="text-[9px] font-bold text-slate-400 mt-2 text-center uppercase tracking-widest">Level {currentLevel} {user.role}</p>
                   </div>
-                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-amber-500 h-full transition-all duration-1000" style={{ width: `${progressPercent}%` }} />
+                ) : (
+                  <div 
+                    title={`Total Mastery: ${user.points} XP (Level ${currentLevel})`}
+                    className="w-14 h-14 bg-amber-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-amber-100 cursor-pointer hover:scale-105 transition-transform"
+                    onClick={() => setIsExpanded(true)}
+                  >
+                    <Award size={28} />
                   </div>
-                  <p className="text-[9px] font-bold text-slate-400 mt-2 text-center uppercase tracking-widest">Level {currentLevel} {user.role}</p>
-                </div>
+                )
               )}
               
               <button 
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all font-black text-xs tracking-widest"
+                title="Terminate Session"
+                className={`flex items-center justify-center gap-3 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-2xl transition-all font-black text-xs tracking-widest ${
+                  isExpanded ? 'w-full px-4 py-3' : 'w-14 h-14 p-0'
+                }`}
               >
-                <LogOut size={16} /> TERMINATE SESSION
+                <LogOut size={28} /> {isExpanded && 'TERMINATE SESSION'}
               </button>
             </div>
           </div>
@@ -228,11 +305,20 @@ const App: React.FC = () => {
           </header>
 
           <header className="hidden md:flex bg-white border-b px-8 py-4 items-center justify-between z-10">
-            <div>
-              <h1 className="text-xl font-black text-slate-800 outfit tracking-tight">Welcome, {user?.name?.split(' ')[0] ?? 'Farmer'}</h1>
-              <div className="flex items-center gap-2 mt-0.5">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">SECURE LINK • {user?.location?.toUpperCase()} NODE</p>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setIsExpanded(!isExpanded)} 
+                className="p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 rounded-xl transition-all"
+                title={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
+              >
+                <PanelLeft size={22} />
+              </button>
+              <div>
+                <h1 className="text-xl font-black text-slate-800 outfit tracking-tight">Welcome, {user?.name?.split(' ')[0] ?? 'Farmer'}</h1>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">SECURE LINK • {user?.location?.toUpperCase()} NODE</p>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-6">

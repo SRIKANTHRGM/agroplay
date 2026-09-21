@@ -67,6 +67,20 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Serve frontend static build if dist directory exists
+const path = require('path');
+const fs = require('fs');
+const distPath = path.join(__dirname, '../dist');
+if (fs.existsSync(distPath)) {
+    app.use(express.static(distPath));
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api') || req.path.startsWith('/api-docs')) {
+            return next();
+        }
+        res.sendFile(path.join(distPath, 'index.html'));
+    });
+}
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).json({

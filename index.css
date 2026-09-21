@@ -295,3 +295,74 @@ h4,
         background-position: 0% 50%
     }
 }
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS: PHONES, TABLETS (TABS), & LAPTOPS / DESKTOPS
+   ========================================================================== */
+
+/* 1. MOBILE / PHONES (< 640px) */
+@media (max-width: 639px) {
+    .responsive-padding {
+        padding: 1rem !important;
+    }
+
+    .responsive-card-p {
+        padding: 1.25rem !important;
+        border-radius: 1.75rem !important;
+    }
+
+    .responsive-heading {
+        font-size: 1.5rem !important;
+        line-height: 1.25 !important;
+    }
+
+    .responsive-subheading {
+        font-size: 0.875rem !important;
+    }
+
+    .responsive-modal {
+        margin: 0.75rem !important;
+        border-radius: 2rem !important;
+        max-height: 90vh !important;
+    }
+}
+
+/* 2. TABLETS / TABS (640px to 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .responsive-padding {
+        padding: 1.5rem !important;
+    }
+
+    .responsive-card-p {
+        padding: 1.75rem !important;
+        border-radius: 2rem !important;
+    }
+
+    .responsive-heading {
+        font-size: 2rem !important;
+    }
+
+    .responsive-modal {
+        margin: 2rem auto !important;
+        max-width: 90vw !important;
+        border-radius: 2.5rem !important;
+    }
+}
+
+/* 3. LAPTOPS & DESKTOPS (1024px+) */
+@media (min-width: 1024px) {
+    .responsive-padding {
+        padding: 2rem !important;
+    }
+
+    .responsive-card-p {
+        padding: 2rem !important;
+        border-radius: 2.5rem !important;
+    }
+
+    .responsive-container {
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

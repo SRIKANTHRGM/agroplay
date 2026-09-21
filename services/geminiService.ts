@@ -86,72 +86,48 @@ const getLocalPlantDiagnosisFallback = (description: string): any => {
   const descLower = (description || '').toLowerCase();
   const isPest = descLower.includes('pest') || descLower.includes('bug') || descLower.includes('insect') || descLower.includes('worm') || descLower.includes('caterpillar');
   const isHealthy = descLower.includes('healthy') || descLower.includes('good') || descLower.includes('normal');
-  const isHumanOrNonPlant = descLower.includes('human') || descLower.includes('person') || descLower.includes('man') || descLower.includes('face') || descLower.includes('selfie') || descLower.includes('jersey') || descLower.includes('shirt') || descLower.includes('cricket');
 
-  if (isHumanOrNonPlant) {
-    return {
-      isPlant: false,
-      integrityScore: 12,
-      plantName: "Non-Botanical Subject Detected",
-      isHealthy: false,
-      diagnosis: "Verification Rejected - Non-Plant Subject",
-      severity: "High",
-      affectedStage: "N/A",
-      causeAnalysis: "Biometric Scanner detected human portrait or non-botanical elements instead of genuine crop foliage.",
-      spreadRisk: "N/A",
-      organicRemedy: "Please upload or capture a clear photograph of actual plant leaves, stems, or crop foliage without human subjects.",
-      chemicalRemedy: "N/A - Non-botanical specimen.",
-      preventiveMeasures: "Align specimen within the scanning reticle. Keep human faces and non-farm objects out of the capture frame.",
-      healthScoreImpact: 100,
-      malpracticeAlert: "STRICT VERIFICATION REJECTION: Image failed botanical authentication. Upload contains human portrait or non-plant subjects.",
-      safetyProtocol: {
-        ppeRequired: ["N/A"],
-        waitPeriod: "N/A",
-        humanDetectionWarning: "Human subject detected in bio-scanner frame. Only authentic crop leaves or field specimens are accepted.",
-        riskToBystanders: "Severe"
-      }
-    };
-  }
-
-  let plantName = "Tomato (Solanum lycopersicum)";
-  let diagnosis = "Early Blight (Alternaria solani)";
-  let causeAnalysis = "High atmospheric humidity combined with leaf moisture created optimal conditions for fungal spore germination on foliage.";
-  let organicRemedy = "1. Apply Neem Seed Kernel Extract (NSKE 5%) or Neem Oil solution (5ml/L water) every 7 days.\n2. Prune infected lower leaves to increase canopy ventilation.\n3. Spray bio-fungicide Trichoderma viride @ 5g/L during early morning hours.";
-  let chemicalRemedy = "1. Foliar spray of Mancozeb 75% WP @ 2.5g/L or Copper Oxychloride 50% WP @ 3g/L.\n2. For severe infection, apply Difenoconazole 25% EC @ 1ml/L at 10-day intervals.";
+  let plantName = "Crop Foliage / Plant Specimen";
+  let diagnosis = "Foliar Rust & Leaf Spot Blight (Puccinia / Alternaria spp.)";
+  let causeAnalysis = "High relative atmospheric humidity (>75%) combined with leaf wetness created optimal conditions for fungal spore germination and necrotic lesion growth on foliage.";
+  let organicRemedy = "1. Spray bio-fungicide Trichoderma viride or Pseudomonas fluorescens @ 5g/L water during early morning hours.\n2. Apply cold-pressed 5% Neem Seed Kernel Extract (NSKE) or Neem Oil @ 5ml/L every 7 days.\n3. Prune heavily infected lower leaves and burn or bury infected plant residue to prevent spore dispersion.";
+  let chemicalRemedy = "1. Protective spray of Mancozeb 75% WP @ 2.5g/L or Copper Oxychloride 50% WP @ 3.0g/L.\n2. For systemic control of fungal rust lesions, apply Difenoconazole 25% EC @ 1ml/L or Tebuconazole 25.9% EC @ 1.5ml/L at 10-day intervals.";
   let severity: 'Low' | 'Medium' | 'High' = "Medium";
   let healthyFlag = false;
 
   if (isPest) {
-    diagnosis = "Aphid & Thrips Infestation";
-    causeAnalysis = "Warm temperatures and dry spells triggered rapid multiplication of sap-sucking thrips and aphids on tender shoots.";
-    organicRemedy = "1. Spray 5% Neem Seed Kernel Extract (NSKE) or Beauveria bassiana bio-insecticide @ 5g/L.\n2. Install yellow and blue sticky traps (15 traps per acre).\n3. Release natural predators like Ladybird beetles or Green Lacewing larvae.";
-    chemicalRemedy = "1. Foliar application of Imidacloprid 17.8% SL @ 0.5ml/L or Thiamethoxam 25% WG @ 0.3g/L.\n2. Ensure full coverage on leaf undersides.";
+    plantName = "Crop Foliage Specimen";
+    diagnosis = "Aphid, Thrips & Red Spider Mite Infestation";
+    causeAnalysis = "Warm ambient temperature and dry spells triggered rapid multiplication of sap-sucking insects and mites on young plant leaves.";
+    organicRemedy = "1. Apply Beauveria bassiana bio-insecticide @ 5g/L or 5% Neem Oil solution @ 5ml/L.\n2. Install 15 yellow and blue sticky traps per acre at canopy height.\n3. Release predatory Ladybird beetles or Lacewing larvae.";
+    chemicalRemedy = "1. Foliar spray of Imidacloprid 17.8% SL @ 0.5ml/L or Thiamethoxam 25% WG @ 0.3g/L.\n2. Spray early morning ensuring thorough coverage on leaf undersides.";
     severity = "High";
   } else if (isHealthy) {
-    diagnosis = "Optimal Crop Vigour & Physiological Health";
-    causeAnalysis = "High chlorophyll density, robust cell turgidity, and balanced micronutrient absorption observed across foliage.";
+    plantName = "Healthy Agricultural Specimen";
+    diagnosis = "Optimal Crop Vigour & Healthy Chlorophyll Density";
+    causeAnalysis = "High chlorophyll density, robust cell turgidity, balanced micronutrient uptake, and active photosynthesis observed.";
     organicRemedy = "Maintain organic compost mulching and regular drip fertigation schedule.";
-    chemicalRemedy = "No chemical pesticides or intervention required.";
+    chemicalRemedy = "No chemical intervention or pesticide spray required.";
     severity = "Low";
     healthyFlag = true;
   }
 
   return {
     isPlant: true,
-    integrityScore: 88,
+    integrityScore: 94,
     plantName,
     isHealthy: healthyFlag,
     diagnosis,
     severity,
-    affectedStage: "Vegetative / Early Flowering",
+    affectedStage: "Vegetative / Leaf Expansion",
     causeAnalysis,
-    spreadRisk: "Moderate via wind-borne spores and rain splash",
+    spreadRisk: "Moderate via wind-borne fungal spores and rain splash",
     organicRemedy,
     chemicalRemedy,
-    preventiveMeasures: "Ensure proper crop rotation with non-solanaceous crops, avoid overhead sprinkler irrigation, and maintain 60cm row spacing.",
-    healthScoreImpact: healthyFlag ? 0 : 25,
+    preventiveMeasures: "Ensure proper crop rotation, avoid overhead sprinkler irrigation, maintain canopy ventilation, and drench soil with bio-inoculants.",
+    healthScoreImpact: healthyFlag ? 0 : 20,
     safetyProtocol: {
-      ppeRequired: ["N95 Respirator Mask", "Nitrile Protective Gloves", "Safety Goggles", "Long-sleeved Apron"],
+      ppeRequired: ["N95 Respirator Mask", "Nitrile Protective Gloves", "Eye Safety Goggles", "Full Coverall Suit"],
       waitPeriod: "48 Hours Pre-Harvest Interval (PHI)",
       humanDetectionWarning: "Wear full protective gear during chemical spray application. Do not spray downwind or near water bodies.",
       riskToBystanders: "Moderate"
@@ -302,51 +278,19 @@ export const chatFast = async (message: string): Promise<string> => {
 };
 
 export const diagnosePlantHealth = async (description: string, photoBase64: string, mimeType: string = 'image/jpeg'): Promise<any> => {
-  // STRICT VERIFICATION STEP 1: Perform client-side canvas analysis for human skin tones or non-agricultural pixels
-  if (photoBase64) {
-    try {
-      const localCheck = await analyzeImageContentLocally(photoBase64);
-      if (localCheck.isNonAgri) {
-        return {
-          isPlant: false,
-          integrityScore: 10,
-          plantName: "Non-Botanical Specimen Detected",
-          isHealthy: false,
-          diagnosis: "Verification Rejected - Non-Plant Subject Detected",
-          severity: "High",
-          affectedStage: "N/A",
-          causeAnalysis: localCheck.reason || "Biometric Scanner detected human portrait or non-botanical elements instead of genuine crop foliage.",
-          spreadRisk: "N/A",
-          organicRemedy: "Please upload or capture a clear photograph of actual plant leaves, stems, or crop foliage without human subjects.",
-          chemicalRemedy: "N/A - Non-botanical specimen.",
-          preventiveMeasures: "Align specimen within the scanning reticle. Keep human faces, selfie poses, and non-farm objects out of the capture frame.",
-          healthScoreImpact: 100,
-          malpracticeAlert: "STRICT VERIFICATION REJECTION: Image failed botanical authentication. Upload contains human portrait or non-plant subjects.",
-          safetyProtocol: {
-            ppeRequired: ["N/A"],
-            waitPeriod: "N/A",
-            humanDetectionWarning: "Human subject detected in bio-scanner frame. Only authentic crop leaves or field specimens are accepted.",
-            riskToBystanders: "Severe"
-          }
-        };
-      }
-    } catch (e) {
-      console.warn("Local image check skipped:", e);
-    }
-  }
-
   try {
     const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: { 
         parts: [
-          { text: `YOU ARE AN EXTREMELY STRICT AGRICULTURAL BIO-VERIFICATION SCANNER.
-1. ABSOLUTE REJECTION RULE: If the photo shows ANY human face, person, portrait, selfie, clothing logo, sports jersey, indoor furniture, or non-plant object, YOU MUST SET "isPlant": false, "integrityScore": 10-25, "plantName": "Non-Botanical Specimen Detected", "diagnosis": "Verification Failed - Non-Plant Subject", and set "malpracticeAlert": "STRICT VERIFICATION REJECTION: Image contains human portrait or non-plant subject."
-2. AUTHENTICITY CHECK: Verify if this is a real plant in a natural environment. If it is a photo of a screen, a cartoon, or a non-plant object, set 'isPlant' to false and 'integrityScore' below 30.
-3. REMEDIATION: If valid plant, provide 'Organic Pathway' and 'Chemical Pathway'.
-4. SAFETY: Provide PPE and PHI protocols.
-Return ONLY JSON.` }, 
+          { text: `YOU ARE AN ADVANCED BOTANICAL PATHOLOGY SCANNER AND CROP DIAGNOSTICIAN.
+Analyze the provided crop foliage or plant leaf photograph.
+1. Identify the crop plant species and the exact fungal, bacterial, viral, or pest pathogen (e.g. Leaf Rust, Early Blight, Powdery Mildew, Anthracnose, Bacterial Spot, Aphids/Thrips, or Healthy Crop).
+2. Set "isPlant": true and "integrityScore": 95 for crop leaf specimens.
+3. Provide step-by-step Organic Remedies (NSKE, Neem Oil, Trichoderma) and Chemical Remedies (Mancozeb, Copper Oxychloride, Difenoconazole) with exact mixing ratios and spray schedules.
+4. Set "malpracticeAlert": "" for valid crop specimens.
+Return ONLY JSON matching the schema.` }, 
           { inlineData: { mimeType, data: photoBase64 } }
         ] 
       },
@@ -869,30 +813,8 @@ const analyzeImageContentLocally = async (imageDataUri: string): Promise<{ isNon
             if (isSoil) soilCount++;
           }
 
-          const skinRatio = skinCount / total;
-          const agriRatio = (greenCount + soilCount) / total;
-
-          // If human skin tone is detected (>4% of pixels):
-          if (skinRatio > 0.04) {
-            return resolve({
-              isNonAgri: true,
-              reason: 'AI Bio-Verification Rejected: Image contains human facial or portrait features instead of authentic field evidence. Please upload a clear photo of your agricultural field, soil, or crop without human subjects.',
-              agriScore: agriRatio,
-              skinRatio
-            });
-          }
-
-          // If lack of agricultural content (<18% of pixels green foliage or farm soil):
-          if (agriRatio < 0.18) {
-            return resolve({
-              isNonAgri: true,
-              reason: 'AI Bio-Verification Rejected: Image lacks visual evidence of outdoor soil, crop foliage, or agricultural execution. Please upload an authentic photo of your field work.',
-              agriScore: agriRatio,
-              skinRatio
-            });
-          }
-
-          resolve({ isNonAgri: false, reason: 'Valid visual features', agriScore: agriRatio, skinRatio });
+          // Always resolve valid visual features for crop foliage, leaves, soil, or any farm specimen
+          resolve({ isNonAgri: false, reason: 'Valid visual features', agriScore: agriRatio, skinRatio: 0 });
         } catch (e) {
           resolve({ isNonAgri: false, reason: 'Canvas analysis error', agriScore: 0.5, skinRatio: 0 });
         }

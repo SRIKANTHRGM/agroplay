@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#14532d" />
+    </linearGradient>
+    <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fef3c7" />
+      <stop offset="50%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Fertilizer Sack -->
+  <polygon points="250,130 550,130 580,480 220,480" fill="url(#bagGrad)" stroke="#78350f" stroke-width="6" />
+
+  <!-- Sewn Top Stitching -->
+  <rect x="230" y="100" width="340" height="35" rx="6" fill="#78350f" />
+  <line x1="240" y1="117" x2="560" y2="117" stroke="#fef3c7" stroke-width="4" stroke-dasharray="10 8" />
+
+  <!-- Center Organic Seal Badge -->
+  <circle cx="400" cy="270" r="75" fill="#15803d" stroke="#fef3c7" stroke-width="4" />
+  
+  <!-- Worm Graphic Vector -->
+  <path d="M 360 270 Q 380 240, 400 270 T 440 270" fill="none" stroke="#f43f5e" stroke-width="12" stroke-linecap="round" />
+  <circle cx="360" cy="270" r="7" fill="#f43f5e" />
+
+  <!-- Text Specs -->
+  <text x="400" y="380" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="22" fill="#78350f" text-anchor="middle">VERMICOMPOST</text>
+  <text x="400" y="410" font-family="Outfit, Arial, sans-serif" font-weight="bold" font-size="14" fill="#15803d" text-anchor="middle">100% ORGANIC EARTHWORM HUMUS</text>
+  <text x="400" y="445" font-family="monospace" font-weight="black" font-size="22" fill="#78350f" text-anchor="middle">NET WEIGHT: 50 KG</text>
+
+  <!-- Spilled Dark Compost Soil Base -->
+  <ellipse cx="400" cy="495" rx="220" ry="25" fill="#271103" />
+
+  <!-- Label Badge -->
+  <rect x="150" y="520" width="500" height="48" rx="16" fill="#0f172a" stroke="#d97706" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">ORGANIC EARTHWORM VERMICOMPOST (50KG BAG)</text>
+</svg>

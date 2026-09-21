@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="soilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <linearGradient id="probeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#022c22" />
+      <stop offset="100%" stop-color="#065f46" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Soil Layer -->
+  <path d="M 0 420 Q 200 400, 400 420 T 800 410 L 800 600 L 0 600 Z" fill="url(#soilGrad)" />
+  <circle cx="150" cy="480" r="4" fill="#a16207" opacity="0.6"/>
+  <circle cx="350" cy="520" r="6" fill="#a16207" opacity="0.6"/>
+  <circle cx="650" cy="470" r="5" fill="#a16207" opacity="0.6"/>
+
+  <!-- Steel Probes -->
+  <rect x="365" y="300" width="14" height="200" rx="7" fill="url(#probeGrad)" />
+  <rect x="421" y="300" width="14" height="200" rx="7" fill="url(#probeGrad)" />
+
+  <!-- Main Device Body -->
+  <rect x="310" y="80" width="180" height="250" rx="28" fill="#1e293b" stroke="#334155" stroke-width="6" />
+  <rect x="325" y="95" width="150" height="220" rx="20" fill="#0f172a" />
+
+  <!-- Digital Screen -->
+  <rect x="335" y="110" width="130" height="110" rx="12" fill="url(#screenGrad)" stroke="#10b981" stroke-width="3" filter="url(#glow)" />
+  
+  <text x="400" y="138" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="14" fill="#34d399" text-anchor="middle" letter-spacing="2">SOIL MULTI-PROBE</text>
+  
+  <text x="350" y="168" font-family="monospace" font-weight="bold" font-size="16" fill="#6ee7b7">pH: 6.8</text>
+  <text x="350" y="190" font-family="monospace" font-weight="bold" font-size="16" fill="#38bdf8">Moist: 42%</text>
+  <text x="350" y="210" font-family="monospace" font-weight="bold" font-size="14" fill="#fde047">NPK: OPTIMAL</text>
+
+  <!-- Control Buttons -->
+  <circle cx="365" cy="260" r="16" fill="#10b981" />
+  <circle cx="400" cy="260" r="16" fill="#3b82f6" />
+  <circle cx="435" cy="260" r="16" fill="#f59e0b" />
+
+  <!-- Status Light -->
+  <circle cx="400" cy="295" r="6" fill="#10b981" filter="url(#glow)" />
+
+  <!-- Label Badge -->
+  <rect x="250" y="520" width="300" height="48" rx="16" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">DIGITAL NPK &amp; pH PROBE MONITOR</text>
+</svg>

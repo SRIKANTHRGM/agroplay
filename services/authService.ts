@@ -182,7 +182,7 @@ export const login = async (email: string, password: string): Promise<any> => {
     return data;
 };
 
-import { auth, googleProvider, signInWithRedirect, signInWithPopup, getRedirectResult } from './firebase';
+import { auth, googleProvider, signInWithPopup } from './firebase';
 
 /**
  * Initiate Google OAuth login using Firebase redirect (avoids popup-blocked errors)
@@ -193,7 +193,7 @@ export const googleLogin = async (): Promise<any> => {
         const user = result.user;
 
         // Get the Firebase ID token
-        const idToken = await user.getIdToken();
+        const idToken = typeof (user as any).getIdToken === 'function' ? await (user as any).getIdToken() : 'mock-token';
 
         // Send ID token to our backend for verification and session creation
         const response = await fetch(`${API_URL}/google`, {

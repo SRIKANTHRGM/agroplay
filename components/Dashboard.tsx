@@ -386,6 +386,30 @@ const Dashboard: React.FC<Props> = ({ user }) => {
     <div className="space-y-10 page-transition pb-20">
       <VoiceAssistant isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} />
       
+      {/* Personalized Farm Banner Link */}
+      <div className="bg-gradient-to-r from-green-900 via-slate-900 to-slate-800 text-white p-4 rounded-3xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-green-500/30">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-green-500/20 text-green-400 rounded-2xl flex items-center justify-center border border-green-500/30 flex-shrink-0">
+            <Sprout size={22} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-sm outfit text-green-400">Network & Global Analytics Dashboard</span>
+              <span className="bg-slate-700 text-slate-200 text-[10px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">NETWORK VIEW</span>
+            </div>
+            <p className="text-xs text-slate-300">Overview of community data, AI guides, mandi trends, and global network statistics.</p>
+          </div>
+        </div>
+        <Link 
+          to="/" 
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-5 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-lg shadow-green-900/50 whitespace-nowrap"
+        >
+          <Sprout size={16} />
+          <span>Go to My Personal Farm</span>
+          <ChevronRight size={16} />
+        </Link>
+      </div>
+      
       {/* Real-time Environmental Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[

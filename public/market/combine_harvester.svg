@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#eab308" />
+      <stop offset="50%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Harvest Wheat Field Ground -->
+  <rect x="0" y="440" width="800" height="160" fill="#a16207" />
+
+  <!-- Combine Harvester Main Cabin & Grain Body -->
+  <polygon points="260,180 500,180 560,340 240,340" fill="url(#bodyGrad)" stroke="#854d0e" stroke-width="6" />
+
+  <!-- Driver Glass Cabin -->
+  <polygon points="440,190 530,190 550,270 440,270" fill="url(#glassGrad)" stroke="#1e293b" stroke-width="4" opacity="0.9" />
+
+  <!-- Front Rotating Reel / Header Cutter -->
+  <circle cx="620" cy="390" r="50" fill="none" stroke="#e2e8f0" stroke-width="8" stroke-dasharray="14 10" />
+  <rect x="540" y="380" width="140" height="20" fill="#cbd5e1" />
+
+  <!-- Giant Rear & Front Tires -->
+  <!-- Front Big Tire -->
+  <circle cx="480" cy="420" r="60" fill="#0f172a" stroke="#334155" stroke-width="12" />
+  <circle cx="480" cy="420" r="35" fill="#ca8a04" />
+
+  <!-- Back Support Tire -->
+  <circle cx="280" cy="430" r="45" fill="#0f172a" stroke="#334155" stroke-width="10" />
+  <circle cx="280" cy="430" r="25" fill="#ca8a04" />
+
+  <!-- Unloading Pipe Auger -->
+  <path d="M 320 220 L 160 140" stroke="#ca8a04" stroke-width="18" stroke-linecap="round" />
+  <circle cx="150" cy="135" r="14" fill="#0f172a" />
+
+  <!-- Label Badge -->
+  <rect x="180" y="520" width="440" height="48" rx="16" fill="#0f172a" stroke="#eab308" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">MASTER COMBINE HARVESTER 3000</text>
+</svg>

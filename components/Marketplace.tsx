@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, ShoppingBag, Star, Zap, Search, ChevronRight, X, AlertCircle, CheckCircle2, Package, Tag, CreditCard, Bird, Waves, Egg } from 'lucide-react';
-import { UserProfile, MarketItem, Order, getCropFallbackImage } from '../types';
+import { UserProfile, MarketItem, Order, getCropFallbackImage, getMarketItemFallbackImage } from '../types';
 
 const MARKET_ITEMS: MarketItem[] = [
   // SEEDS
@@ -67,7 +67,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 18500,
     pointsPrice: 2200,
     category: 'Tools',
-    image: 'https://images.unsplash.com/photo-1563514220741-03080103b7a3?auto=format&fit=crop&q=80&w=800'
+    image: '/market/drip_kit.jpg'
   },
   {
     id: 'm-tool-2',
@@ -76,7 +76,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 3200,
     pointsPrice: 900,
     category: 'Tools',
-    image: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&q=80&w=800'
+    image: '/market/solar_trap.jpg'
   },
   {
     id: 'm-tool-3',
@@ -85,7 +85,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 4500,
     pointsPrice: 1200,
     category: 'Tools',
-    image: 'https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=800'
+    image: '/market/sprayer.jpg'
   },
   {
     id: 'm-tool-4',
@@ -94,7 +94,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 6800,
     pointsPrice: 1500,
     category: 'Tools',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800'
+    image: '/market/npk_meter.svg'
   },
 
   // MACHINERY
@@ -105,7 +105,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 95000,
     pointsPrice: 6500,
     category: 'Machinery',
-    image: 'https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&q=80&w=800'
+    image: '/market/power_tiller.svg'
   },
   {
     id: 'm-mach-2',
@@ -114,7 +114,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 75000,
     pointsPrice: 5000,
     category: 'Machinery',
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=800'
+    image: '/market/coconut_dehusker.svg'
   },
   {
     id: 'm-mach-3',
@@ -123,7 +123,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 180000,
     pointsPrice: 9500,
     category: 'Machinery',
-    image: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800'
+    image: '/market/cold_storage.svg'
   },
   {
     id: 'm-mach-4',
@@ -132,7 +132,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 135000,
     pointsPrice: 8000,
     category: 'Machinery',
-    image: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&q=80&w=800'
+    image: '/market/solar_pump.svg'
   },
 
   // BIO-INPUTS
@@ -143,7 +143,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 1200,
     pointsPrice: 450,
     category: 'Bio-Inputs',
-    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=800'
+    image: '/market/trichoderma.svg'
   },
   {
     id: 'm-bio-2',
@@ -152,7 +152,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 2400,
     pointsPrice: 750,
     category: 'Bio-Inputs',
-    image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800'
+    image: '/market/neem_oil.svg'
   },
   {
     id: 'm-bio-3',
@@ -161,7 +161,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 1850,
     pointsPrice: 600,
     category: 'Bio-Inputs',
-    image: 'https://images.unsplash.com/photo-1585314062637-251f28b7fa4a?auto=format&fit=crop&q=80&w=800'
+    image: '/market/trichoderma.svg'
   },
   {
     id: 'm-bio-4',
@@ -170,7 +170,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 850,
     pointsPrice: 300,
     category: 'Bio-Inputs',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=80&w=800'
+    image: '/market/vermicompost.svg'
   },
 
   // LIVESTOCK & POULTRY
@@ -181,7 +181,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 45000,
     pointsPrice: 3500,
     category: 'Livestock',
-    image: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&q=80&w=800'
+    image: '/market/egg_incubator.svg'
   },
   {
     id: 'm-live-2',
@@ -190,7 +190,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 32000,
     pointsPrice: 2800,
     category: 'Livestock',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800'
+    image: '/market/aerator.svg'
   },
 
   // SPECIALS
@@ -201,7 +201,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 0,
     pointsPrice: 5000,
     category: 'Specials',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800',
+    image: '/market/combine_harvester.svg',
     requiredPoints: 1000,
     requiredBadges: 2
   },
@@ -212,7 +212,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 0,
     pointsPrice: 7500,
     category: 'Specials',
-    image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=800',
+    image: '/market/drone.svg',
     requiredPoints: 1500,
     requiredBadges: 3
   }
@@ -338,9 +338,9 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
                 <div key={item.id} className="bg-slate-900 text-white rounded-[3rem] p-8 border border-slate-800 shadow-2xl flex flex-col sm:flex-row items-center gap-8 relative overflow-hidden group">
                    <div className="w-full sm:w-48 h-44 rounded-[2rem] overflow-hidden flex-shrink-0 relative">
                        <img 
-                         src={item.image || getCropFallbackImage(item.name)} 
+                         src={item.image || getMarketItemFallbackImage(item.name, item.category)} 
                          referrerPolicy="no-referrer"
-                         onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(item.name); }}
+                         onError={(e) => { (e.target as HTMLImageElement).src = getMarketItemFallbackImage(item.name, item.category); }}
                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                          alt={item.name} 
                        />
@@ -382,9 +382,9 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
             <div key={item.id} className="group bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
               <div className="h-56 relative cursor-pointer overflow-hidden bg-slate-100" onClick={() => setSelectedItem(item)}>
                 <img 
-                  src={item.image || getCropFallbackImage(item.name)} 
+                  src={item.image || getMarketItemFallbackImage(item.name, item.category)} 
                   referrerPolicy="no-referrer"
-                  onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(item.name); }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = getMarketItemFallbackImage(item.name, item.category); }}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   alt={item.name} 
                 />
@@ -431,9 +431,9 @@ const Marketplace: React.FC<Props> = ({ user, setUser }) => {
           <div className="bg-white w-full max-w-4xl rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in zoom-in-95 duration-300 border border-white/20 max-h-[90vh]">
             <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-slate-900">
                <img 
-                 src={selectedItem.image || getCropFallbackImage(selectedItem.name)} 
+                 src={selectedItem.image || getMarketItemFallbackImage(selectedItem.name, selectedItem.category)} 
                  referrerPolicy="no-referrer"
-                 onError={(e) => { (e.target as HTMLImageElement).src = getCropFallbackImage(selectedItem.name); }}
+                 onError={(e) => { (e.target as HTMLImageElement).src = getMarketItemFallbackImage(selectedItem.name, selectedItem.category); }}
                  className="w-full h-full object-cover" 
                  alt={selectedItem.name} 
                />

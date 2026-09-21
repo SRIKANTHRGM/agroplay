@@ -1,4 +1,18 @@
 
+export interface CultivatedCropItem {
+  id: string;
+  name: string;
+  icon: string;
+  acreage: string;
+  sowingDate: string;
+  stage: string;
+  stageProgress: number; // 0-100%
+  healthScore: number; // 0-100
+  expectedHarvest: string;
+  diseaseRisk: 'Low' | 'Medium' | 'High';
+  notes?: string;
+}
+
 export interface UserProfile {
   uid: string;
   name: string;
@@ -18,6 +32,20 @@ export interface UserProfile {
   onboardingComplete: boolean;
   avatar?: string;
   createdAt?: string;
+  farmPhoto?: string;
+  farmName?: string;
+  cultivatedCrops?: CultivatedCropItem[];
+  latitude?: number;
+  longitude?: number;
+  waterScheduleConfig?: {
+    cropName: string;
+    acreage: number;
+    waterFrequency: string;
+    litersPerPlant: number;
+    phoneNumber: string;
+    smsNotificationsEnabled: boolean;
+    whatsappNotificationsEnabled: boolean;
+  };
 }
 
 export interface CultivationStep {
@@ -260,6 +288,8 @@ export interface Practice {
   description: string;
   image: string;
   content: string;
+  readTime?: string;
+  difficulty?: string;
 }
 
 export interface MarketItem {
@@ -324,6 +354,29 @@ export const getCropFallbackImage = (cropName: string): string => {
   if (nameLower.includes('chickpea') || nameLower.includes('chana')) return '/crops/chickpea.jpg';
 
   return '/crops/wheat.jpg';
+};
+
+export const getMarketItemFallbackImage = (itemName: string, category?: string): string => {
+  if (!itemName) return '/crops/wheat.jpg';
+  const nameLower = itemName.toLowerCase();
+
+  if (nameLower.includes('drip') || nameLower.includes('irrigation')) return '/market/drip_kit.jpg';
+  if (nameLower.includes('solar insect') || nameLower.includes('pest trap')) return '/market/solar_trap.jpg';
+  if (nameLower.includes('sprayer') || nameLower.includes('knapsack') || nameLower.includes('boom')) return '/market/sprayer.jpg';
+  if (nameLower.includes('npk') || nameLower.includes('probe') || nameLower.includes('monitor')) return '/market/npk_meter.svg';
+  if (nameLower.includes('tiller') || nameLower.includes('rotavator')) return '/market/power_tiller.svg';
+  if (nameLower.includes('coconut') || nameLower.includes('de-husker')) return '/market/coconut_dehusker.svg';
+  if (nameLower.includes('cold storage') || nameLower.includes('chamber')) return '/market/cold_storage.svg';
+  if (nameLower.includes('pump') || nameLower.includes('submersible')) return '/market/solar_pump.svg';
+  if (nameLower.includes('trichoderma') || nameLower.includes('fungicide')) return '/market/trichoderma.svg';
+  if (nameLower.includes('neem') || nameLower.includes('pesticide')) return '/market/neem_oil.svg';
+  if (nameLower.includes('vermicompost') || nameLower.includes('compost')) return '/market/vermicompost.svg';
+  if (nameLower.includes('incubator') || nameLower.includes('egg')) return '/market/egg_incubator.svg';
+  if (nameLower.includes('aerator') || nameLower.includes('aquaculture')) return '/market/aerator.svg';
+  if (nameLower.includes('harvester') || nameLower.includes('combine')) return '/market/combine_harvester.svg';
+  if (nameLower.includes('drone') || nameLower.includes('scanner')) return '/market/drone.svg';
+
+  return getCropFallbackImage(itemName);
 };
 
 export const CULTIVATION_LIBRARY: Crop[] = [

@@ -32,9 +32,11 @@ import {
   LogOut,
   Scan,
   Activity,
-  UserCircle
+  UserCircle,
+  BarChart3
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
+import PersonalizedDashboard from './components/PersonalizedDashboard';
 import Forum from './components/Forum';
 import Groups from './components/Groups';
 import Leaderboard from './components/Leaderboard';
@@ -54,7 +56,6 @@ import Converter from './components/Converter';
 import ConverterVerify from './components/ConverterVerify';
 import Subsidies from './components/Subsidies';
 import Insurance from './components/Insurance';
-import AILab from './components/AILab';
 import PreventiveAI from './components/PreventiveAI';
 import Auth from './components/Auth';
 import Onboarding from './components/Onboarding';
@@ -188,9 +189,10 @@ const App: React.FC = () => {
                 ) : (
                   <div className="my-2 border-t border-slate-100" />
                 )}
-                <SidebarLink to="/" icon={LayoutDashboard}>Dashboard</SidebarLink>
-                <SidebarLink to="/farm" icon={Sprout}>Virtual Acreage</SidebarLink>
-                <SidebarLink to="/new-journey" icon={Compass}>New Cultivation</SidebarLink>
+                <SidebarLink to="/" icon={Sprout}>My Personal Farm</SidebarLink>
+                <SidebarLink to="/network-dashboard" icon={BarChart3}>Network Overview</SidebarLink>
+                <SidebarLink to="/farm" icon={Compass}>Virtual Acreage</SidebarLink>
+                <SidebarLink to="/new-journey" icon={Activity}>New Cultivation</SidebarLink>
               </div>
 
               <div className="space-y-1">
@@ -199,7 +201,6 @@ const App: React.FC = () => {
                 ) : (
                   <div className="my-2 border-t border-slate-100" />
                 )}
-                <SidebarLink to="/ai-lab" icon={FlaskConical}>AI Research Lab</SidebarLink>
                 <SidebarLink to="/diagnosis" icon={Scan}>Plant Health Scanner</SidebarLink>
                 <SidebarLink to="/preventive-ai" icon={ShieldCheck}>Disease Prevention</SidebarLink>
                 <SidebarLink to="/planner" icon={Activity}>Strategic Planner</SidebarLink>
@@ -343,9 +344,10 @@ const App: React.FC = () => {
           <main className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
               <Routes>
-                <Route path="/" element={<Dashboard user={user!} />} />
+                <Route path="/" element={<PersonalizedDashboard user={user!} setUser={setUser as any} />} />
+                <Route path="/my-farm" element={<PersonalizedDashboard user={user!} setUser={setUser as any} />} />
+                <Route path="/network-dashboard" element={<Dashboard user={user!} />} />
                 <Route path="/farm" element={<VirtualFarm />} />
-                <Route path="/ai-lab" element={<AILab />} />
                 <Route path="/marketplace" element={<Marketplace user={user!} setUser={setUser as any} />} />
                 <Route path="/converter" element={<Converter user={user!} setUser={setUser as any} />} />
                 <Route path="/converter/verify" element={<ConverterVerify />} />

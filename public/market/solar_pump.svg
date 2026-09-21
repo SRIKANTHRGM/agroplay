@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#065f46" />
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Soil Background -->
+  <path d="M 0 420 Q 300 400, 800 430 L 800 600 L 0 600 Z" fill="#1e293b" />
+
+  <!-- Solar Panel Array Stand -->
+  <polygon points="120,160 380,140 420,240 140,270" fill="url(#panelGrad)" stroke="#60a5fa" stroke-width="4" />
+  <line x1="250" y1="150" x2="280" y2="250" stroke="#60a5fa" stroke-width="2" />
+  <line x1="130" y1="215" x2="400" y2="190" stroke="#60a5fa" stroke-width="2" />
+  
+  <!-- Steel Pole Structure -->
+  <line x1="260" y1="250" x2="260" y2="440" stroke="#94a3b8" stroke-width="14" stroke-linecap="round" />
+
+  <!-- Controller Unit Box -->
+  <rect x="220" y="320" width="80" height="90" rx="10" fill="#0f172a" stroke="#22c55e" stroke-width="3" />
+  <circle cx="260" cy="350" r="10" fill="#22c55e" />
+  <text x="260" y="380" font-family="monospace" font-size="10" fill="#22c55e" text-anchor="middle">5 HP MPPT</text>
+
+  <!-- Water Pipe Output Stream -->
+  <path d="M 460 440 L 460 310 Q 460 270, 520 270 Q 580 270, 620 320 Q 660 370, 700 420" fill="none" stroke="url(#waterGrad)" stroke-width="28" stroke-linecap="round" />
+
+  <!-- Water Splash Effect -->
+  <ellipse cx="700" cy="450" rx="60" ry="20" fill="#38bdf8" opacity="0.6" />
+  <circle cx="680" cy="420" r="6" fill="#7dd3fc" />
+  <circle cx="720" cy="410" r="8" fill="#7dd3fc" />
+
+  <!-- Water Channel Basin -->
+  <path d="M 550 440 Q 680 430, 800 450 L 800 600 L 520 600 Z" fill="url(#waterGrad)" opacity="0.8" />
+
+  <!-- Label Badge -->
+  <rect x="150" y="520" width="500" height="48" rx="16" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">5 HP SOLAR SUBMERSIBLE WATER PUMP SET</text>
+</svg>

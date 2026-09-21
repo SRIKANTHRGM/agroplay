@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#7c2d12" />
+    </linearGradient>
+    <linearGradient id="machineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+    <linearGradient id="coconutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Floor Ground -->
+  <rect x="0" y="460" width="800" height="140" fill="#334155" />
+
+  <!-- Hydraulic Frame -->
+  <rect x="250" y="120" width="300" height="340" rx="16" fill="#1e293b" stroke="url(#machineGrad)" stroke-width="8" />
+  
+  <!-- Hydraulic Piston Cylinder -->
+  <rect x="375" y="140" width="50" height="140" rx="10" fill="url(#steelGrad)" stroke="#3b82f6" stroke-width="4" />
+  <rect x="390" y="240" width="20" height="110" fill="url(#steelGrad)" />
+
+  <!-- Pressure Gauge -->
+  <circle cx="340" cy="180" r="24" fill="#0f172a" stroke="#60a5fa" stroke-width="3" />
+  <path d="M 340 180 L 352 170" stroke="#ef4444" stroke-width="3" stroke-linecap="round" />
+  <text x="340" y="194" font-family="monospace" font-size="9" fill="#60a5fa" text-anchor="middle">BAR</text>
+
+  <!-- Dehusking Jaw Blades -->
+  <polygon points="350,350 400,320 400,380" fill="url(#steelGrad)" stroke="#1e293b" stroke-width="2" />
+  <polygon points="450,350 400,320 400,380" fill="url(#steelGrad)" stroke="#1e293b" stroke-width="2" />
+
+  <!-- Coconuts (Husked & Dehusking) -->
+  <!-- Whole Coconut in Press -->
+  <ellipse cx="400" cy="380" rx="45" ry="35" fill="url(#coconutGrad)" stroke="#92400e" stroke-width="4" />
+  
+  <!-- Husks Dropping -->
+  <path d="M 320 420 Q 300 450, 270 460" fill="none" stroke="#a16207" stroke-width="8" stroke-linecap="round" />
+  <path d="M 480 420 Q 500 450, 530 460" fill="none" stroke="#a16207" stroke-width="8" stroke-linecap="round" />
+
+  <!-- De-husked Brown Coconuts Stack -->
+  <circle cx="200" cy="460" r="28" fill="url(#coconutGrad)" />
+  <circle cx="230" cy="480" r="26" fill="url(#coconutGrad)" />
+  <circle cx="580" cy="470" r="30" fill="url(#coconutGrad)" />
+
+  <!-- Machine Controls & Safety Lever -->
+  <rect x="520" y="220" width="30" height="80" rx="8" fill="#0f172a" />
+  <circle cx="535" cy="240" r="10" fill="#22c55e" />
+  <circle cx="535" cy="270" r="10" fill="#ef4444" />
+
+  <!-- Label Badge -->
+  <rect x="160" y="520" width="480" height="48" rx="16" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">HYDRAULIC COCONUT DE-HUSKER &amp; COPRA PRESS</text>
+</svg>

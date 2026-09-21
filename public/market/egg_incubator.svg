@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#701a75" />
+    </linearGradient>
+    <linearGradient id="casingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="50%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+    <filter id="warmGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Incubator Main Machine Body -->
+  <rect x="180" y="120" width="440" height="340" rx="28" fill="url(#casingGrad)" stroke="#475569" stroke-width="6" />
+
+  <!-- Glass View Window with Warm LED Glow -->
+  <rect x="220" y="210" width="360" height="220" rx="16" fill="#1e1b4b" stroke="#f59e0b" stroke-width="4" />
+  <rect x="230" y="220" width="340" height="200" rx="12" fill="#d97706" opacity="0.3" filter="url(#warmGlow)" />
+
+  <!-- Egg Trays inside -->
+  <!-- Tray 1 -->
+  <ellipse cx="280" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="330" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="380" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="430" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="480" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="520" cy="270" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+
+  <!-- Tray 2 -->
+  <ellipse cx="280" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="330" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="380" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="430" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="480" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <ellipse cx="520" cy="350" rx="14" ry="20" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+
+  <!-- Digital Control Panel Top Header -->
+  <rect x="220" y="140" width="360" height="55" rx="12" fill="#0f172a" stroke="#6366f1" stroke-width="2" />
+  <text x="300" y="174" font-family="monospace" font-weight="bold" font-size="20" fill="#ef4444">37.5°C</text>
+  <text x="400" y="174" font-family="monospace" font-weight="bold" font-size="20" fill="#3b82f6">65% RH</text>
+  <text x="500" y="174" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="12" fill="#22c55e">AUTO TURN: ON</text>
+
+  <!-- Label Badge -->
+  <rect x="150" y="520" width="500" height="48" rx="16" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
+  <text x="400" y="550" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">AUTOMATIC EGG INCUBATOR PRO (500 EGGS)</text>
+</svg>

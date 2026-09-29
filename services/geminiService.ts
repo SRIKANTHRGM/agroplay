@@ -82,7 +82,32 @@ export async function decodeAudioData(
 }
 
 // --- LOCAL FALLBACK BUILDERS ---
-const getLocalPlantDiagnosisFallback = (description: string): any => {
+const getLocalPlantDiagnosisFallback = (description: string, localAnalysis?: any): any => {
+  if (localAnalysis && localAnalysis.isNonAgri) {
+    return {
+      isPlant: false,
+      integrityScore: 10,
+      malpracticeAlert: localAnalysis.reason || "Uploaded photo is not a valid plant or crop specimen. Please upload a clear photo of a plant leaf or crop affected by disease.",
+      plantName: "Non-Botanical Object",
+      isHealthy: false,
+      diagnosis: "Invalid Specimen / Non-Plant Image",
+      severity: "High",
+      affectedStage: "N/A",
+      causeAnalysis: "Visual analysis detected non-agricultural subject or human portrait elements instead of a crop plant specimen.",
+      spreadRisk: "N/A",
+      organicRemedy: "No remedy available for non-plant photos. Please upload an authentic crop or plant photo.",
+      chemicalRemedy: "No chemical application permitted.",
+      preventiveMeasures: "Ensure you photograph a real plant, crop leaf, or farm specimen in good lighting.",
+      healthScoreImpact: 0,
+      safetyProtocol: {
+        ppeRequired: [],
+        waitPeriod: "N/A",
+        humanDetectionWarning: "Non-plant photo uploaded. Only plant disease specimens are analyzed.",
+        riskToBystanders: "Low"
+      }
+    };
+  }
+
   const descLower = (description || '').toLowerCase();
   const isPest = descLower.includes('pest') || descLower.includes('bug') || descLower.includes('insect') || descLower.includes('worm') || descLower.includes('caterpillar');
   const isHealthy = descLower.includes('healthy') || descLower.includes('good') || descLower.includes('normal');
@@ -278,6 +303,14 @@ export const chatFast = async (message: string): Promise<string> => {
 };
 
 export const diagnosePlantHealth = async (description: string, photoBase64: string, mimeType: string = 'image/jpeg'): Promise<any> => {
+  const dataUri = `data:${mimeType};base64,${photoBase64}`;
+  const localAnalysis = await analyzeImageContentLocally(dataUri);
+
+  // If local pre-screening confirms a non-agricultural / human portrait image, reject early
+  if (localAnalysis.isNonAgri) {
+    return getLocalPlantDiagnosisFallback(description, localAnalysis);
+  }
+
   try {
     const ai = getAi();
     const response = await ai.models.generateContent({
@@ -285,11 +318,23 @@ export const diagnosePlantHealth = async (description: string, photoBase64: stri
       contents: { 
         parts: [
           { text: `YOU ARE AN ADVANCED BOTANICAL PATHOLOGY SCANNER AND CROP DIAGNOSTICIAN.
-Analyze the provided crop foliage or plant leaf photograph.
-1. Identify the crop plant species and the exact fungal, bacterial, viral, or pest pathogen (e.g. Leaf Rust, Early Blight, Powdery Mildew, Anthracnose, Bacterial Spot, Aphids/Thrips, or Healthy Crop).
-2. Set "isPlant": true and "integrityScore": 95 for crop leaf specimens.
-3. Provide step-by-step Organic Remedies (NSKE, Neem Oil, Trichoderma) and Chemical Remedies (Mancozeb, Copper Oxychloride, Difenoconazole) with exact mixing ratios and spray schedules.
-4. Set "malpracticeAlert": "" for valid crop specimens.
+CRITICAL VALIDATION INSTRUCTIONS:
+1. FIRST, verify if the provided image contains a plant, crop leaf, foliage, fruit, flower, or agricultural plant specimen.
+2. IF THE IMAGE IS NOT A PLANT OR CROP SPECIMEN (e.g. human face, portrait, selfie, person, animal, car, building, furniture, indoor room, digital screen, document, shoe, clothing, or non-botanical object):
+   - YOU MUST SET "isPlant": false
+   - Set "integrityScore": 10
+   - Set "plantName": "Non-Botanical Specimen"
+   - Set "diagnosis": "Invalid Specimen / Non-Plant Image"
+   - Set "isHealthy": false
+   - Set "malpracticeAlert": "Authentication Failed: Uploaded image is not a plant or crop specimen. Please upload a clear photo of a plant leaf or crop affected by disease."
+3. IF THE IMAGE IS A VALID PLANT OR CROP SPECIMEN:
+   - Set "isPlant": true
+   - Set "integrityScore": 85-100 based on image clarity
+   - Set "plantName": exact crop or plant species (e.g. Tomato, Cotton, Rice, Wheat, Chili, etc.)
+   - Set "isHealthy": true if plant has no disease or pests, false if diseased or pest infested
+   - Set "diagnosis": exact fungal, bacterial, viral, or pest pathogen name (e.g. "Leaf Rust", "Early Blight", "Powdery Mildew", "Anthracnose", "Aphid Infestation") or "Healthy Crop Specimen"
+   - Set "malpracticeAlert": ""
+   - Provide detailed Organic Remedies (NSKE, Neem Oil, Trichoderma) and Chemical Remedies with exact mixing ratios and spray schedules.
 Return ONLY JSON matching the schema.` }, 
           { inlineData: { mimeType, data: photoBase64 } }
         ] 
@@ -301,7 +346,7 @@ Return ONLY JSON matching the schema.` },
           properties: {
             isPlant: { type: Type.BOOLEAN },
             integrityScore: { type: Type.NUMBER, description: "0-100 score of image authenticity" },
-            malpracticeAlert: { type: Type.STRING, description: "Warning if malpractice is detected" },
+            malpracticeAlert: { type: Type.STRING, description: "Warning if non-plant or malpractice is detected" },
             plantName: { type: Type.STRING },
             isHealthy: { type: Type.BOOLEAN },
             diagnosis: { type: Type.STRING },
@@ -331,13 +376,37 @@ Return ONLY JSON matching the schema.` },
     if (response && response.text) {
       const parsed = JSON.parse(response.text);
       if (parsed && typeof parsed.isPlant === 'boolean') {
+        if (parsed.isPlant && localAnalysis.skinRatio > 0.08) {
+          return {
+            isPlant: false,
+            integrityScore: 15,
+            malpracticeAlert: "Authentication Failed: Visual analysis detected human facial/portrait elements instead of a plant disease specimen.",
+            plantName: "Human Subject / Non-Botanical",
+            isHealthy: false,
+            diagnosis: "Invalid Specimen / Human Portrait",
+            severity: "High",
+            affectedStage: "N/A",
+            causeAnalysis: "Human face/skin tones detected instead of plant leaf foliage.",
+            spreadRisk: "N/A",
+            organicRemedy: "Please upload a photo of a plant leaf or crop.",
+            chemicalRemedy: "No chemical intervention permitted.",
+            preventiveMeasures: "Photograph a plant leaf or crop affected by disease.",
+            healthScoreImpact: 0,
+            safetyProtocol: {
+              ppeRequired: [],
+              waitPeriod: "N/A",
+              humanDetectionWarning: "Human face or body part detected.",
+              riskToBystanders: "Low"
+            }
+          };
+        }
         return parsed;
       }
     }
   } catch (error: any) {
     console.warn("Gemini Plant Diagnosis API error - using local agricultural fallback:", error?.message);
   }
-  return getLocalPlantDiagnosisFallback(description);
+  return getLocalPlantDiagnosisFallback(description, localAnalysis);
 };
 
 export const fetchLiveMandiTrends = async (stateFilter?: string, cropFilter?: string): Promise<any> => {
@@ -787,6 +856,7 @@ const analyzeImageContentLocally = async (imageDataUri: string): Promise<{ isNon
           let skinCount = 0;
           let greenCount = 0;
           let soilCount = 0;
+          let yellowCount = 0;
           const total = 60 * 60;
 
           for (let i = 0; i < data.length; i += 4) {
@@ -803,18 +873,35 @@ const analyzeImageContentLocally = async (imageDataUri: string): Promise<{ isNon
             const isSkin = isSkinYCbCr || isSkinRGB;
 
             // Green vegetation / foliage
-            const isGreen = (g > 35 && g > r * 1.05 && g > b * 1.05 && (g - Math.min(r, b)) > 10);
+            const isGreen = (g > 35 && g > r * 1.02 && g > b * 1.02 && (g - Math.min(r, b)) > 8);
 
             // Soil / Earth brown
-            const isSoil = (r > 40 && r < 200 && g > 25 && g < 160 && b < 130 && r >= g && g >= b && (r - b) > 12);
+            const isSoil = (r > 40 && r < 200 && g > 25 && g < 160 && b < 130 && r >= g && g >= b && (r - b) > 10);
+
+            // Dry crop / yellow leaf / straw
+            const isYellow = (r > 100 && g > 85 && b < 110 && r > b + 20 && g > b + 10);
 
             if (isSkin) skinCount++;
             if (isGreen) greenCount++;
             if (isSoil) soilCount++;
+            if (isYellow) yellowCount++;
           }
 
-          // Always resolve valid visual features for crop foliage, leaves, soil, or any farm specimen
-          resolve({ isNonAgri: false, reason: 'Valid visual features', agriScore: agriRatio, skinRatio: 0 });
+          const skinRatio = skinCount / total;
+          const greenRatio = greenCount / total;
+          const soilRatio = soilCount / total;
+          const yellowRatio = yellowCount / total;
+          const agriRatio = greenRatio + soilRatio + yellowRatio;
+
+          const isNonAgri = skinRatio > 0.12 || agriRatio < 0.06;
+          let reason = "Valid agricultural visual features detected.";
+          if (skinRatio > 0.12) {
+            reason = "Human portrait or skin tones detected instead of plant specimen.";
+          } else if (agriRatio < 0.06) {
+            reason = "No plant foliage, crop leaf, or agricultural soil detected in photo.";
+          }
+
+          resolve({ isNonAgri, reason, agriScore: agriRatio, skinRatio });
         } catch (e) {
           resolve({ isNonAgri: false, reason: 'Canvas analysis error', agriScore: 0.5, skinRatio: 0 });
         }

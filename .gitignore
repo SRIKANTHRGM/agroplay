@@ -27,3 +27,9 @@ test_*.mjs
 *.db
 build_*.txt
 tsc_errors.txt
+
+# Environment variables - NEVER commit these
+.env
+.env.local
+.env.*.local
+server/.env
